@@ -2,7 +2,7 @@
 
 小規模店舗の商品別売上を管理する `sales-manager-dashboard` を、Next.js、Python、LocalStack、AWSで開発します。開発過程はQiita Advent Calendar 2026向けの全25本の記事として記録します。
 
-現在は開発ルールと計画を整える初期設定段階です。**Day 1の実装・記事作成は未着手**で、起動可能なアプリケーションはまだありません。
+現在はDay 0として開発準備をまとめる段階です。**Day 1の実装・記事作成は未着手**で、起動可能なアプリケーションはまだありません。
 
 ## 目指す機能
 
@@ -53,6 +53,7 @@ AdventCalendar_2026/
     ├── README.md            # 概要と進め方
     └── docs/
         ├── ARTICLE_PLAN.md  # 全25記事のタイトル・概要案
+        ├── DAY0_SETUP.md    # Qiita投稿対象外の開発準備まとめ
         ├── GITHUB_SETUP.md  # 自分のGitHubアカウントとの連携手順
         ├── ROADMAP.md       # Day 1〜25の開発・記事計画
         └── PROGRESS.md      # 実装・記事・レビュー・公開の実績
@@ -70,6 +71,12 @@ cd sales-manager-dashboard
 
 今後は必要なDayで `apps/web/`（Next.js）、`apps/api/`（Python）、`infra/`（LocalStack・IaC）、`qiita/`（Qiita記事）などを追加する予定です。これらはまだ作成していません。
 
+## Day 0：開発前の準備
+
+これまでの配置・Git・運用ルール・業務前提の整理とGitHub連携の進め方は [DAY0_SETUP.md](docs/DAY0_SETUP.md) にまとめています。**Day 0はQiitaへ投稿せず、全25記事にも含めません。** Day 1〜25の公開予定日は維持します。
+
+Day 0資料は `feature/day00` でレビュー待ちにします。承認後にmainへマージし、ユーザーのDay 1開始指示を受けてから次へ進みます。GitHubの接続完了はDay 1開始の必須条件ではありません。
+
 ## 開発とレビュー
 
 開発は毎日行う必要はなく、ユーザーの都合に合わせて進めます。1回の作業では原則一つのDayを扱い、公開日程とは分けて管理します。
@@ -84,7 +91,7 @@ cd sales-manager-dashboard
 
 各Dayの完了報告には、実装内容、変更ファイル、テスト・動作確認結果、記事保存先、レビュー確認項目、未解決事項、次のDayへ進める状態かどうかを記載します。
 
-Gitリポジトリのルートは `sales-manager-dashboard/` です。既存のmainと初期コミットを引き継いでおり、Gitの再初期化や履歴の作り直しは行っていません。Dayごとの開発は専用featureブランチで行います。Day 1のブランチはまだ作成していません。
+Gitリポジトリのルートは `sales-manager-dashboard/` です。既存のmainと初期コミットを引き継いでおり、Gitの再初期化や履歴の作り直しは行っていません。現在は `feature/day00` で準備資料を管理しています。Day 1のブランチはまだ作成していません。
 
 GitHubのリポジトリ名も `sales-manager-dashboard` とします。現在はローカルのGitで管理しており、リモート作成・認証・pushは未実施です。GitHubへの接続は事前の必須条件ではありません。後から自分のGitHubアカウントに接続する手順は [GITHUB_SETUP.md](docs/GITHUB_SETUP.md) を参照してください。リモートの作成・pushはユーザーの指示・許可の範囲で行います。
 
