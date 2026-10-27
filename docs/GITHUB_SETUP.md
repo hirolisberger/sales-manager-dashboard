@@ -3,12 +3,34 @@
 ## 現在の状態
 
 - `AdventCalendar_2026/sales-manager-dashboard/` をプロジェクトとGitのルートとし、mainと既存のコミット履歴を引き継いでいる。
-- ローカルのコミットには、すでに設定されているGitの作者名・メールアドレスを使用する。
-- ユーザーが [DF-HW/sales-manager-dashboard](https://github.com/DF-HW/sales-manager-dashboard) を作成し、originの登録とmainの初回pushを完了した。ローカルのmainと `origin/main` は `4492b07` で一致している。
+- ユーザーの明示的な依頼により、ローカルの既存6コミットのAuthorとCommitterを、指定の作者名 `DF-HW` と指定メールへ修正済み。今後のコミットにもこのリポジトリのローカル設定を使用する。グローバル設定は変更していない。
+- ユーザーが [DF-HW/sales-manager-dashboard](https://github.com/DF-HW/sales-manager-dashboard) を作成し、originの登録とmainの初回pushを完了した。初回push時は `4492b07` で一致していたが、作者修正後のローカルmainは `3acbc5c`。`origin/main` は修正前のままで、GitHubへの作者修正の反映は未実施。
+- 今後は個人アカウントで開発を継続する方針。ユーザーによれば個人側のリポジトリは未作成で、接続先URLとユーザー名は未確定。現在のoriginを個人側の接続先と推測しない。
 - GitHub向けのcredential helperは `osxkeychain`。パスワード入力なしでpushが成功し、保存済みの認証情報が使われた可能性が高い。認証情報そのものは読み出しておらず、新しく作成したトークンが使われたかは未確認。
 - GitHub CLI（`gh`）は現環境で見つからなかったため、この手順ではブラウザーとGitを使う。
 - Day 1の開始時に `feature/day01` を作成する。GitHubの接続はDay 1開始の必須条件ではない。
-- 現在の作業ブランチは `feature/day00`。Day 0の準備全体は [DAY0_SETUP.md](DAY0_SETUP.md) にまとめる。Day 0はQiita投稿対象外であり、レビュー承認前にmainへマージしない。
+- 現在の作業ブランチは `feature/day00`。準備記録は [DAY0_SETUP.md](DAY0_SETUP.md)、Qiita向けの公開本文は [Day 0記事](../qiita/day00-project-setup-and-github.md) にまとめる。Day 0も公開を想定して記事を作成するが、投稿操作は未実施。レビュー承認前にmainへマージしない。
+
+## 個人アカウントで継続するための次の対応
+
+ローカルのコード、未コミットのDay 0記事、既存のGit履歴は引き続き利用できる。対応が必要なのは、公開先と認証・作者情報の確認である。GitHubへのログイン、originの所有者、コミットに記録される作者名・メールアドレスは、それぞれ別の設定として確認する。
+
+1. 個人用のGitHubアカウントにログインし、所有者がそのアカウントであることを確認して、`sales-manager-dashboard` を空のリポジトリとして作成する。README、`.gitignore`、ライセンスの自動追加は選ばない。公開前の確認中はPrivateで用意し、記事から一般の読者に共有する段階でPublicにする方法も選べる。
+2. 作者名・メールの公開範囲を決める。通常メールを公開したくない場合は個人アカウントのSettings → Emailsでnoreplyアドレスを確認し、このリポジトリのローカル設定に使用する。既存コミットの作者情報は設定変更だけでは変わらず、新しいリポジトリにも引き継がれる。
+3. HTTPS用のPATを使う場合は、Resource ownerとアクセス対象が新しい個人アカウントのリポジトリに合うことを確認する。既存のPATが新しい所有者にも使用できるとは限らない。
+4. 下記の `YOUR_PERSONAL_GITHUB_USERNAME` を実際の個人アカウント名に置き換え、プロジェクトルートで接続先を変更する。originは登録済みなので、変更には `set-url` を使用する。
+
+   ```sh
+   git remote set-url origin https://github.com/YOUR_PERSONAL_GITHUB_USERNAME/sales-manager-dashboard.git
+   git remote -v
+   git push -u origin main
+   ```
+
+5. `git remote -v` とGitHub上の所有者・ファイルを確認し、結果を `docs/PROGRESS.md` に記録する。macOSのキーチェーンが以前の認証情報を使用する場合があるため、権限エラーが出た場合は接続先と認証アカウントを確認する。
+
+この切り替えは未実施。既存のGitHubリポジトリの削除・移管・公開範囲変更も行っていない。originのURL変更だけでは、既存接続先にある履歴や作者情報は消えない。[GitHub公式のリモート管理手順](https://docs.github.com/en/get-started/git-basics/managing-remote-repositories#changing-a-remote-repositorys-url) と [コミットメール設定](https://docs.github.com/en/account-and-profile/how-tos/email-preferences/setting-your-commit-email-address) に基づく。
+
+以下は、これまでの接続作業の記録と一般的な初期設定手順である。
 
 ## 1. GitHubに空のリポジトリを作成する
 
@@ -64,4 +86,16 @@ git config user.email
 
 GitHubはコミットのメールアドレスを使って作者をアカウントに紐づける。GitHubのアカウントに登録・確認したメールアドレス、またはGitHubが提供する自分のnoreplyアドレスを使う。設定を変更した場合は以降のコミットに適用され、過去のコミットは自動で変わらない。[GitHub公式のコミットメール設定](https://docs.github.com/en/account-and-profile/how-tos/email-preferences/setting-your-commit-email-address) を参照。
 
-既存の作者設定がGitHubアカウントに登録されているかは未確認であり、今回グローバル設定や過去の履歴は変更しない。
+GitHub上で指定のアカウントへ紐づくには、今回指定されたメールがそのアカウントに登録・確認済みである必要がある。その登録状態は未確認。Gitの作者情報とGitHubへのログイン認証は別の設定であり、作者の修正だけで認証アカウントやoriginのURLは変わらない。
+
+## 公開記事とリポジトリの確認結果
+
+記事の操作例では、個人名・メールアドレス・PC名・ローカルパスを仮表記にする。個人側の公開用リポジトリが未作成のため、記事から既存接続先への実リンクを外し、個人側のURL確定後に追記する。
+
+既存履歴を確認したところ、公開済みmainの2コミットには修正前の個人用作者情報が含まれていた。実際の値は記事に再掲しない。ユーザーの修正依頼を受けて、ローカルのmainと `feature/day00` に含まれる6コミットを修正した。各コミットのファイルツリー・メッセージ・日時は同一で、作者情報と、それに伴うコミットID・親IDが変更されている。
+
+修正前の履歴、未コミットの9ファイル、差分、Git設定とindexは `.git/author-fix-20261027-mcr3oekv/` にバックアップ済み。このローカルバックアップには旧作者情報が含まれるが、通常のGitコミット・pushの対象にはならない。
+
+新規コミットの作者情報は今回の指定で確定したため、noreplyアドレスの確認待ちは解除する。指定のメールの実値は記事のコード例には記載しない。
+
+GitHubのmainを修正するには、公開済みの2コミットを修正後の履歴へ更新する必要がある。リモート反映はまだ行っていない。実行する場合は対象をmainだけに限定し、リモートのmainが確認済みの旧コミットと一致する場合だけ更新する `--force-with-lease` を使う。Day 0のレビュー前の内容はmainへマージしない。

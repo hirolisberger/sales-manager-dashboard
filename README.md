@@ -1,6 +1,6 @@
 # sales-manager-dashboard / 売上管理システム
 
-小規模店舗の商品別売上を管理する `sales-manager-dashboard` を、Next.js、Python、LocalStack、AWSで開発します。開発過程はQiita Advent Calendar 2026向けの全25本の記事として記録します。
+小規模店舗の商品別売上を管理する `sales-manager-dashboard` を、Next.js、Python、LocalStack、AWSで開発します。開発過程はQiita Advent Calendar 2026向けの本編25記事と、追加のDay 0準備編として記録します。
 
 現在はDay 0として開発準備をまとめる段階です。**Day 1の実装・記事作成は未着手**で、起動可能なアプリケーションはまだありません。
 
@@ -51,12 +51,14 @@ AdventCalendar_2026/
     ├── .gitignore           # 生成物・秘密情報の除外
     ├── AGENTS.md            # 開発・記事・レビュー・Git・公開のルール
     ├── README.md            # 概要と進め方
-    └── docs/
-        ├── ARTICLE_PLAN.md  # 全25記事のタイトル・概要案
-        ├── DAY0_SETUP.md    # Qiita投稿対象外の開発準備まとめ
-        ├── GITHUB_SETUP.md  # 自分のGitHubアカウントとの連携手順
-        ├── ROADMAP.md       # Day 1〜25の開発・記事計画
-        └── PROGRESS.md      # 実装・記事・レビュー・公開の実績
+    ├── docs/
+    │   ├── ARTICLE_PLAN.md  # 本編25記事とDay 0の計画
+    │   ├── DAY0_SETUP.md    # 開発準備の記録
+    │   ├── GITHUB_SETUP.md  # 自分のGitHubアカウントとの連携手順
+    │   ├── ROADMAP.md       # Day 1〜25の開発・記事計画
+    │   └── PROGRESS.md      # 実装・記事・レビュー・公開の実績
+    └── qiita/
+        └── day00-project-setup-and-github.md # Qiita向けDay 0記事
 ```
 
 `AdventCalendar_2026/` の直下にある `sales-manager-dashboard/` が、プロジェクトとGitのルートです。これまでの成果物と `.git` をすべてこの中に移動しました。今後作成するソースコード、記事、設定、ドキュメントもこの中に配置します。
@@ -69,13 +71,13 @@ cd sales-manager-dashboard
 
 以降のパスは、特記がない限りプロジェクトルートからの相対パスです。開発コマンドとGit操作もプロジェクトルートで実行します。
 
-今後は必要なDayで `apps/web/`（Next.js）、`apps/api/`（Python）、`infra/`（LocalStack・IaC）、`qiita/`（Qiita記事）などを追加する予定です。これらはまだ作成していません。
+記事本文は `qiita/` に配置しています。今後は必要なDayで `apps/web/`（Next.js）、`apps/api/`（Python）、`infra/`（LocalStack・IaC）などを追加する予定です。アプリケーションとインフラのディレクトリはまだ作成していません。
 
 ## Day 0：開発前の準備
 
-これまでの配置・Git・運用ルール・業務前提の整理とGitHub連携の進め方は [DAY0_SETUP.md](docs/DAY0_SETUP.md) にまとめています。**Day 0はQiitaへ投稿せず、全25記事にも含めません。** Day 1〜25の公開予定日は維持します。
+準備の記録は [DAY0_SETUP.md](docs/DAY0_SETUP.md)、公開用の本文は [Day 0記事](qiita/day00-project-setup-and-github.md) にまとめています。ユーザーの方針変更により、Day 0もQiita公開を想定して作成します。本編25記事とは別の準備編とし、公開日は未定です。Day 1〜25の公開予定日は維持します。
 
-Day 0資料は `feature/day00` でレビュー待ちにします。承認後にmainへマージし、ユーザーのDay 1開始指示を受けてから次へ進みます。GitHubの接続完了はDay 1開始の必須条件ではありません。
+Day 0の資料と記事は `feature/day00` でレビュー待ちにします。記事のコマンド例では個人名・メールアドレス・PC名・ローカルパスを仮表記にします。個人アカウント側の公開用リポジトリは未作成のため、記事の実URLは作成後に追記します。承認後にmainへマージし、ユーザーのDay 1開始指示を受けてから次へ進みます。Qiitaへの投稿は別途の明示的な指示が必要です。
 
 ## 開発とレビュー
 
@@ -91,15 +93,15 @@ Day 0資料は `feature/day00` でレビュー待ちにします。承認後にm
 
 各Dayの完了報告には、実装内容、変更ファイル、テスト・動作確認結果、記事保存先、レビュー確認項目、未解決事項、次のDayへ進める状態かどうかを記載します。
 
-Gitリポジトリのルートは `sales-manager-dashboard/` です。既存のmainと初期コミットを引き継いでおり、Gitの再初期化や履歴の作り直しは行っていません。現在は `feature/day00` で準備資料を管理しています。Day 1のブランチはまだ作成していません。
+Gitリポジトリのルートは `sales-manager-dashboard/` です。ユーザーの依頼により、既存6コミットの作者情報を修正しました。各コミットのファイル内容・メッセージ・日時は維持し、コミットIDは変更されています。ローカルmainは `3acbc5c` で、GitHubへの作者修正の反映は未実施です。現在は `feature/day00` で準備資料を管理しています。Day 1のブランチはまだ作成していません。
 
-GitHubのリポジトリは [DF-HW/sales-manager-dashboard](https://github.com/DF-HW/sales-manager-dashboard) です。ユーザーがoriginを登録し、mainの初回pushを完了しました。mainは `origin/main` を追跡しています。Day 0資料はまだレビュー中で、GitHubのmainには反映されていません。接続手順と認証の説明は [GITHUB_SETUP.md](docs/GITHUB_SETUP.md) を参照してください。追加のリモート操作・pushはユーザーの指示・許可の範囲で行います。
+現在のoriginは [DF-HW/sales-manager-dashboard](https://github.com/DF-HW/sales-manager-dashboard) で、この接続先へのmainの初回pushは完了しています。今後は個人アカウントで運用する方針で、個人側のリポジトリは未作成です。ローカルのコードと履歴を維持して接続先を切り替える手順は [GITHUB_SETUP.md](docs/GITHUB_SETUP.md) に記録しています。切り替えと追加pushは未実施です。Day 0資料もレビュー中でmainへ未反映です。
 
 詳しいルールは [AGENTS.md](AGENTS.md)、各Dayの到達点は [ROADMAP.md](docs/ROADMAP.md)、全25記事のタイトル・概要案は [ARTICLE_PLAN.md](docs/ARTICLE_PLAN.md) を参照してください。
 
 ## Qiitaへの公開
 
-**公開予定日は2026年12月1日〜12月25日、毎日1記事に固定**します。Day 1は12月1日、Day 25は12月25日です。日付は日本時間（Asia/Tokyo）で管理し、公開時刻は未設定です。開発・レビューが早く完了しても、予定日前に全体公開しません。
+**本編の公開予定日は2026年12月1日〜12月25日、毎日1記事に固定**します。Day 1は12月1日、Day 25は12月25日です。追加のDay 0は公開日未定として別管理します。日付は日本時間（Asia/Tokyo）で管理し、公開時刻は未設定です。開発・レビューが早く完了しても、予定日前に全体公開しません。
 
 記事はローカルの下書きから作成し、Qiitaを利用する場合も非公開の下書き、または限定共有を基本とします。レビュー承認だけを理由に投稿せず、Qiitaへの投稿・更新・限定共有・予約登録・全体公開は、ユーザーが明示的に許可した範囲でのみ行います。
 
