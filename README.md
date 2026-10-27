@@ -1,6 +1,6 @@
-# 売上管理システム / Qiita Advent Calendar 2026
+# sales-manager-dashboard / 売上管理システム
 
-Next.js、Python、LocalStack、AWSを使用した売上管理システムを、全25日の開発と全25本のQiita記事で作り上げるプロジェクトです。
+小規模店舗の商品別売上を管理する `sales-manager-dashboard` を、Next.js、Python、LocalStack、AWSで開発します。開発過程はQiita Advent Calendar 2026向けの全25本の記事として記録します。
 
 現在は開発ルールと計画を整える初期設定段階です。**Day 1の実装・記事作成は未着手**で、起動可能なアプリケーションはまだありません。
 
@@ -46,23 +46,24 @@ Next.js、Python、LocalStack、AWSを使用した売上管理システムを、
 
 ```text
 AdventCalendar_2026/
-├── .git/              # ローカルのGit管理情報
-├── AGENTS.md          # 開発・記事・レビュー・Git・公開のルール
-├── README.md          # 概要と進め方
-├── .gitignore         # 生成物・秘密情報の除外
-└── docs/
-    ├── ARTICLE_PLAN.md # 全25記事のタイトル・概要案
-    ├── GITHUB_SETUP.md # 自分のGitHubアカウントとの連携手順
-    ├── ROADMAP.md     # Day 1〜25の開発・記事計画
-    └── PROGRESS.md    # 実装・記事・レビュー・公開の実績
+└── sales-manager-dashboard/ # プロジェクト・Gitのルート
+    ├── .git/                # 既存の履歴を引き継いだGit管理情報
+    ├── .gitignore           # 生成物・秘密情報の除外
+    ├── AGENTS.md            # 開発・記事・レビュー・Git・公開のルール
+    ├── README.md            # 概要と進め方
+    └── docs/
+        ├── ARTICLE_PLAN.md  # 全25記事のタイトル・概要案
+        ├── GITHUB_SETUP.md  # 自分のGitHubアカウントとの連携手順
+        ├── ROADMAP.md       # Day 1〜25の開発・記事計画
+        └── PROGRESS.md      # 実装・記事・レビュー・公開の実績
 ```
 
-`AdventCalendar_2026/` がプロジェクトルートです。これまでの成果物をすべてこのディレクトリ内に配置しました。今後作成するソースコード、記事、設定、ドキュメントもこの中に配置します。
+`AdventCalendar_2026/` の直下にある `sales-manager-dashboard/` が、プロジェクトとGitのルートです。これまでの成果物と `.git` をすべてこの中に移動しました。今後作成するソースコード、記事、設定、ドキュメントもこの中に配置します。
 
-親ディレクトリから作業を始める場合は、次のコマンドで移動します。
+親の `AdventCalendar_2026/` から作業を始める場合は、次のコマンドで移動します。
 
 ```sh
-cd AdventCalendar_2026
+cd sales-manager-dashboard
 ```
 
 以降のパスは、特記がない限りプロジェクトルートからの相対パスです。開発コマンドとGit操作もプロジェクトルートで実行します。
@@ -83,9 +84,9 @@ cd AdventCalendar_2026
 
 各Dayの完了報告には、実装内容、変更ファイル、テスト・動作確認結果、記事保存先、レビュー確認項目、未解決事項、次のDayへ進める状態かどうかを記載します。
 
-`AdventCalendar_2026/` をルートとしてGitを初期化済みです。初期ドキュメントとGitHub連携手順をmainの初期コミットで管理し、Dayごとの開発は専用featureブランチで行います。Day 1のブランチはまだ作成していません。
+Gitリポジトリのルートは `sales-manager-dashboard/` です。既存のmainと初期コミットを引き継いでおり、Gitの再初期化や履歴の作り直しは行っていません。Dayごとの開発は専用featureブランチで行います。Day 1のブランチはまだ作成していません。
 
-GitHubのリポジトリは事前作成の必須条件ではありません。現在はローカルのGitで管理しており、リモート作成・認証・pushは未実施です。後から自分のGitHubアカウントに接続する手順は [GITHUB_SETUP.md](docs/GITHUB_SETUP.md) を参照してください。リモートの作成・pushはユーザーの指示・許可の範囲で行います。
+GitHubのリポジトリ名も `sales-manager-dashboard` とします。現在はローカルのGitで管理しており、リモート作成・認証・pushは未実施です。GitHubへの接続は事前の必須条件ではありません。後から自分のGitHubアカウントに接続する手順は [GITHUB_SETUP.md](docs/GITHUB_SETUP.md) を参照してください。リモートの作成・pushはユーザーの指示・許可の範囲で行います。
 
 詳しいルールは [AGENTS.md](AGENTS.md)、各Dayの到達点は [ROADMAP.md](docs/ROADMAP.md)、全25記事のタイトル・概要案は [ARTICLE_PLAN.md](docs/ARTICLE_PLAN.md) を参照してください。
 

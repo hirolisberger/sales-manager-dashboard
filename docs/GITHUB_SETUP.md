@@ -1,8 +1,8 @@
-# 自分のGitHubアカウントとの連携
+# sales-manager-dashboardと自分のGitHubアカウントとの連携
 
 ## 現在の状態
 
-- `AdventCalendar_2026/` でGitを初期化し、mainで初期ドキュメントを管理する。
+- `AdventCalendar_2026/sales-manager-dashboard/` をプロジェクトとGitのルートとし、mainと既存のコミット履歴を引き継いでいる。
 - ローカルのコミットには、すでに設定されているGitの作者名・メールアドレスを使用する。
 - GitHubのリモートリポジトリは未設定。リモート作成、アカウント認証、pushはまだ行っていない。
 - GitHub CLI（`gh`）は現環境で見つからなかったため、この手順ではブラウザーとGitを使う。
@@ -13,7 +13,7 @@
 ブラウザーで自分のGitHubアカウントにログインし、[新規リポジトリ作成画面](https://github.com/new) を開く。
 
 - 所有者は自分のアカウントを指定する。
-- リポジトリ名は、例として `AdventCalendar_2026` を使用できる。
+- リポジトリ名は `sales-manager-dashboard` を使用する。
 - Public / Privateは、ソースコードを全体公開するかどうかに合わせて選ぶ。Qiita記事の公開範囲とは別の設定になる。
 - README、`.gitignore`、ライセンスの自動追加は選ばず、空のリポジトリを作成する。ローカルにある履歴をそのまま送るためである。
 
@@ -31,10 +31,10 @@ PATを使う場合は、[公式のトークン管理手順](https://docs.github.
 
 ## 3. ローカルのGitに接続先を登録してpushする
 
-作業ディレクトリは `AdventCalendar_2026/`。次の `YOUR_GITHUB_USERNAME` を自分のGitHubユーザー名に置き換え、リポジトリ名を変えた場合はURLの末尾も置き換える。GitHubの作成画面に表示されたHTTPS URLを使ってもよい。
+作業ディレクトリは `AdventCalendar_2026/sales-manager-dashboard/`。次の `YOUR_GITHUB_USERNAME` を自分のGitHubユーザー名に置き換える。GitHubの作成画面に表示されたHTTPS URLを使ってもよい。
 
 ```sh
-git remote add origin https://github.com/YOUR_GITHUB_USERNAME/AdventCalendar_2026.git
+git remote add origin https://github.com/YOUR_GITHUB_USERNAME/sales-manager-dashboard.git
 git remote -v
 git push -u origin main
 ```

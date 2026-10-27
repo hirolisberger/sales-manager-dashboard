@@ -8,10 +8,11 @@ Next.js、Python、LocalStack、AWSを使用した売上管理システムを開
 
 ## プロジェクトルートとファイル配置
 
-- この `AGENTS.md` がある `AdventCalendar_2026/` をプロジェクトルートとする。
+- プロジェクト名・リポジトリ名は `sales-manager-dashboard` とする。
+- この `AGENTS.md` がある `AdventCalendar_2026/sales-manager-dashboard/` をプロジェクトルートとする。`AdventCalendar_2026/` は親ディレクトリである。
 - ソースコード、記事、ドキュメント、設定ファイル、今後作成する成果物はすべてプロジェクトルート配下に配置する。親ディレクトリにはプロジェクトのファイルを作成しない。
 - このファイルや他のドキュメントに記載するパスは、特記がない限りプロジェクトルートからの相対パスとする。
-- 開発コマンドとGit操作はプロジェクトルートで実行する。親ディレクトリから作業を始める場合は、先に `cd AdventCalendar_2026` で移動する。
+- 開発コマンドとGit操作はプロジェクトルートで実行する。親の `AdventCalendar_2026/` から作業を始める場合は、先に `cd sales-manager-dashboard` で移動する。
 
 ## 現在の作業範囲
 
@@ -90,7 +91,7 @@ Next.js、Python、LocalStack、AWSを使用した売上管理システムを開
 ## Git運用ルール
 
 - 安定版は `main`、Dayごとの作業は `feature/dayNN` で管理する。例: `feature/day01`。
-- Gitリポジトリを初期化する際は、`AdventCalendar_2026/` をリポジトリのルートにする。
+- Gitリポジトリのルートは `sales-manager-dashboard/` とする。既存の `.git` と履歴を引き継ぎ、親の `AdventCalendar_2026/` にはGitリポジトリを作成しない。
 - Git未初期化の場合、最初のドキュメント一式を初期コミットとしてmainに置いてよい。Dayの実装・記事は必ず専用featureブランチで行う。
 - 各Dayのブランチは、前Dayの承認とマージを反映したmainから作成する。
 - コミットは意味のある単位で作り、例として `feat(day01): ...`、`docs(day01): ...`、`test(day01): ...`、`fix(day01): ...` を使う。
