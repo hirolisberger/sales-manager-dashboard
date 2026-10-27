@@ -2,7 +2,7 @@
 
 ## Day 0の位置づけ
 
-Day 0は、Day 1に入る前に行った準備と、これから自分のGitHubアカウントに接続する手順をまとめた資料です。**Day 0はQiitaへの投稿対象外**とし、Advent Calendarの全25記事には含めません。Day 1〜25の番号と公開予定日はそのまま維持します。
+Day 0は、Day 1に入る前に行った準備と、自分のGitHubアカウントに接続する手順・実行結果をまとめた資料です。**Day 0はQiitaへの投稿対象外**とし、Advent Calendarの全25記事には含めません。Day 1〜25の番号と公開予定日はそのまま維持します。
 
 今回作成するのは準備資料です。アプリケーションの実装、Day 1の設計資料や記事本文の作成は、Day 1の開始指示を受けてから行います。
 
@@ -62,14 +62,14 @@ Gitの初期化と、プロジェクト名・配置の変更は完了してい�
 
 ## GitHubと連携する手順
 
-現時点では、GitHubのリモート作成・接続・pushは未実施です。GitHubへのログイン認証も未確認です。以下はこれから実施する手順であり、接続済みという意味ではありません。
+ユーザーが [DF-HW/sales-manager-dashboard](https://github.com/DF-HW/sales-manager-dashboard) を作成し、originの登録とmainの初回pushを完了しました。以下は、その操作の流れを記録したものです。
 
 1. 自分のGitHubアカウントで、`sales-manager-dashboard` という空のリポジトリを作成します。公開範囲を選び、README・`.gitignore`・ライセンスの自動追加は選びません。
 2. HTTPS用の認証を準備します。認証入力でパスワードを求められた場合はPersonal Access Tokenを使用します。作成方法と権限の設定は [GITHUB_SETUP.md](GITHUB_SETUP.md) にまとめています。
-3. プロジェクトルートで次のコマンドを実行します。`YOUR_GITHUB_USERNAME` は自分のGitHubユーザー名に置き換えてください。
+3. プロジェクトルートで次のコマンドを実行します。このプロジェクトではユーザーが実行済みです。
 
    ```sh
-   git remote add origin https://github.com/YOUR_GITHUB_USERNAME/sales-manager-dashboard.git
+   git remote add origin https://github.com/DF-HW/sales-manager-dashboard.git
    git remote -v
    git push -u origin main
    ```
@@ -77,6 +77,8 @@ Gitの初期化と、プロジェクト名・配置の変更は完了してい�
 4. GitHubのmainに初期ファイルが表示されることを確認します。ローカルでは `git branch -vv` でmainと `origin/main` の対応を確認できます。
 
 この流れは [GitHub公式の既存リポジトリ追加手順](https://docs.github.com/en/migrations/importing-source-code/using-the-command-line-to-import-source-code/adding-locally-hosted-code-to-github) に基づきます。
+
+今回、パスワード入力を求められずにpushが成功しました。Gitの認証設定は `osxkeychain` であり、macOSのキーチェーンに保存済みの認証情報が使われた可能性が高いと考えられます。認証情報の内容や、どのトークンが使われたかは確認していません。確認できた結果は、mainと `origin/main` が `4492b07` で一致し、追跡設定が完了していることです。
 
 現在の作業ブランチは `feature/day00` です。上記のpushが送るのはmainであり、レビュー待ちのDay 0資料は含まれません。Day 0を承認してmainへマージした後、mainを再度pushすると資料も反映されます。レビュー用にDay 0のブランチを共有する場合は、対象ブランチを明示して別途pushします。
 
@@ -92,7 +94,7 @@ GitHub操作をCodexに依頼する場合も、対象リポジトリと許可さ
 | 確認済みの業務前提の記録 | 完了 |
 | Gitの初期化、main、既存コミットの維持 | 完了 |
 | Day 0資料とGitHub連携手順 | 作成済み・レビュー待ち |
-| GitHubリポジトリ作成・接続・push | 未実施。手順を実行するときに対応 |
+| GitHubリポジトリ作成・接続・mainの初回push | ユーザーが実施済み。mainと `origin/main` の一致と追跡設定を確認 |
 | 端数処理・計上日・訂正取消の詳細決定 | Day 1で実施 |
 | Node.js・Pythonなどの採用バージョンと環境構築 | Day 2で整備。現在のインストール状況は未確認 |
 | LocalStackの環境構築 | Day 3で実施 |
@@ -101,6 +103,6 @@ GitHubの接続完了はDay 1開始の必須条件にはしません。必要な
 
 ## 検証とレビューで確認してほしいこと
 
-資料の検証結果とレビュー対象コミットは [PROGRESS.md](PROGRESS.md) を参照してください。GitHubへの実際の認証・pushは未検証です。アプリケーションのテスト環境はDay 2以降に整備します。
+資料の検証結果とレビュー対象コミットは [PROGRESS.md](PROGRESS.md) を参照してください。GitHub連携はユーザーの成功ログとローカルのGit設定・参照から確認済みです。認証情報の内容と使用トークンの識別、ブラウザー上の表示は未確認です。アプリケーションのテスト環境はDay 2以降に整備します。
 
 レビューでは、プロジェクトの配置、業務前提、25記事の進め方、GitHub接続手順、Day 0がQiita投稿対象外であることを確認してください。Day 0はレビュー待ちで停止し、Day 1には自動的に進みません。

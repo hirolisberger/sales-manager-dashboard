@@ -93,7 +93,7 @@ Day 0資料は `feature/day00` でレビュー待ちにします。承認後にm
 
 Gitリポジトリのルートは `sales-manager-dashboard/` です。既存のmainと初期コミットを引き継いでおり、Gitの再初期化や履歴の作り直しは行っていません。現在は `feature/day00` で準備資料を管理しています。Day 1のブランチはまだ作成していません。
 
-GitHubのリポジトリ名も `sales-manager-dashboard` とします。現在はローカルのGitで管理しており、リモート作成・認証・pushは未実施です。GitHubへの接続は事前の必須条件ではありません。後から自分のGitHubアカウントに接続する手順は [GITHUB_SETUP.md](docs/GITHUB_SETUP.md) を参照してください。リモートの作成・pushはユーザーの指示・許可の範囲で行います。
+GitHubのリポジトリは [DF-HW/sales-manager-dashboard](https://github.com/DF-HW/sales-manager-dashboard) です。ユーザーがoriginを登録し、mainの初回pushを完了しました。mainは `origin/main` を追跡しています。Day 0資料はまだレビュー中で、GitHubのmainには反映されていません。接続手順と認証の説明は [GITHUB_SETUP.md](docs/GITHUB_SETUP.md) を参照してください。追加のリモート操作・pushはユーザーの指示・許可の範囲で行います。
 
 詳しいルールは [AGENTS.md](AGENTS.md)、各Dayの到達点は [ROADMAP.md](docs/ROADMAP.md)、全25記事のタイトル・概要案は [ARTICLE_PLAN.md](docs/ARTICLE_PLAN.md) を参照してください。
 

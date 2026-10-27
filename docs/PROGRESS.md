@@ -15,8 +15,8 @@
 | レビュー待ち | Day 0：[DAY0_SETUP.md](DAY0_SETUP.md) と関連ドキュメント |
 | 承認済みDay | なし |
 | mainへマージ済みのDay | なし |
-| Gitリポジトリ | `sales-manager-dashboard`。既存のmainと初期コミットを維持。作業ブランチは `feature/day00`。Day 1のブランチ・リモートは未作成 |
-| GitHub連携 | 未接続。アカウント認証・リモート作成・pushは未実施。手順は [GITHUB_SETUP.md](GITHUB_SETUP.md) を参照 |
+| Gitリポジトリ | `sales-manager-dashboard`。既存のmainと初期コミットを維持。作業ブランチは `feature/day00`。originは設定済み、Day 1のブランチは未作成 |
+| GitHub連携 | ユーザーがorigin登録とmainの初回pushを完了。接続先は [DF-HW/sales-manager-dashboard](https://github.com/DF-HW/sales-manager-dashboard)。mainは `origin/main` を追跡し、両方 `4492b07`。詳細は [GITHUB_SETUP.md](GITHUB_SETUP.md) を参照 |
 | Qiita公開済み | 0 / 25記事 |
 | 公開予定 | 2026-12-01〜2026-12-25、1日1記事に固定、日本時間。時刻未設定 |
 | Qiita投稿・予約登録 | すべて未投稿・未登録。今回のルール変更はQiita操作の許可ではない |
@@ -34,13 +34,14 @@ Day 0はリポジトリ内の準備資料であり、全25記事と12月の公�
 | 作成資料 | [DAY0_SETUP.md](DAY0_SETUP.md) |
 | 変更ファイル | `AGENTS.md`、`README.md`、`docs/ARTICLE_PLAN.md`、`docs/GITHUB_SETUP.md`、`docs/PROGRESS.md`、`docs/ROADMAP.md` |
 | 検証結果 | Python標準ライブラリによる全8ファイルの配置・Markdown書式・34件のローカル文書リンク・全25Dayの未着手状態と固定公開日を確認。Gitルートと既存履歴を確認し、`git diff --check` 成功。AWS/GitHubトークン・秘密鍵の既知パターン検出なし |
-| 未検証 | GitHubの実際のアカウント認証・リモート作成・push。アプリケーションのテスト環境はDay 2以降に整備 |
+| 未検証 | 使用された認証情報・トークンの識別、GitHubのブラウザー上の表示。アプリケーションのテスト環境はDay 2以降に整備 |
 | Qiita投稿 | 対象外。記事ファイル・Qiita URL・公開予定日は設定しない |
-| GitHub連携 | 手順作成済み、接続操作は未実施。接続完了はDay 1開始の必須条件ではない |
-| レビュー対象コミット | `e462e20eab69bf794ea593740ccb5f755cd9bd38`。このハッシュを記録する進捗更新は別コミットとし、資料の変更には含めない |
+| GitHub連携 | ユーザーが接続・mainの初回pushを実施済み。成功ログとorigin・追跡設定・mainの参照を確認。認証helperは `osxkeychain`。Codexからのpushは未実施 |
+| レビュー対象コミット | 接続結果を反映した資料のコミット確定後に記録 |
+| 前回のレビュー対象コミット | `e462e20eab69bf794ea593740ccb5f755cd9bd38`。接続結果の記録前の資料として履歴を残す |
 | レビュー依頼日（JST） | 2026-10-27 |
 | レビュー確認項目 | 配置・業務前提・進め方・GitHub連携手順・Day 0の投稿対象外の扱い |
-| 未解決事項 | 端数処理・計上日・訂正取消の詳細はDay 1で決定。GitHub操作の結果は実行後に記録 |
+| 未解決事項 | 端数処理・計上日・訂正取消の詳細はDay 1で決定。認証情報の識別は作業対象外 |
 | ユーザーの承認・mainへのマージ | 未承認・未マージ |
 | 次のDayへ進める状態 | 進めない。Day 0のレビュー承認・マージとDay 1の開始指示を待つ |
 
@@ -200,3 +201,4 @@ Qiita記事URL（限定共有・予約登録時点でも記録）: 未記録
 | 2026-10-27 | ユーザーの依頼によりプロジェクトルートでGitを初期化。mainの初期コミットにドキュメント・設定7ファイルを登録し、GitHub連携手順を追加。Day 1は未着手、リモート作成・pushは未実施 |
 | 2026-10-27 | プロジェクト名・リポジトリ名を `sales-manager-dashboard` に変更。全7ファイルと `.git` を `AdventCalendar_2026/sales-manager-dashboard/` へ移動し、配置ルールとGitHub接続先の例を更新。既存のmainと初期コミットを維持し、Day 1は未着手のまま |
 | 2026-10-27 | Day 1までの準備を `docs/DAY0_SETUP.md` にまとめ、GitHub連携手順を補足。`feature/day00` で資料を作成してレビュー待ちとし、Day 0はQiita投稿対象外・25記事には含めない扱いを明記。GitHubへの接続・投稿操作、Day 1の作業は未実施 |
+| 2026-10-27 | ユーザーのorigin登録・main初回push成功を記録。mainと `origin/main` が `4492b07` で一致し、追跡設定と認証helper `osxkeychain` を確認。認証情報の内容は読み出さず、使用トークンは未特定。Day 0は引き続きレビュー待ち、Day 1は未着手 |
