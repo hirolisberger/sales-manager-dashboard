@@ -151,7 +151,9 @@ git config --local user.email "YOUR_GITHUB_NOREPLY_EMAIL"
 
 この設定例は、公開向けに手順を整理する際に追加したものです。今回の準備で先に確認しておきたかった点でもあります。設定変更の対象は、以降に作るコミットです。過去のコミットの作者名やメールアドレスは、自動では変わりません。[GitHub公式の説明](https://docs.github.com/en/account-and-profile/how-tos/email-preferences/setting-your-commit-email-address#setting-your-email-address-in-git)
 
-今回も、既存のコミットが意図した作者情報になっていないことが後から分かりました。バックアップを作成してローカルの6コミットを修正し、ファイル内容・メッセージ・日時が同じであることを確認しました。作者情報を直すとコミットIDも変わるため、公開済みのGitHubへの反映は別の操作として管理しています。記事中では実際の作者メールを仮表記にしています。
+今回も、既存のコミットが意図した作者情報になっていないことが後から分かりました。表示する作者名と、GitHub上でコミットを紐づけるアカウントを整理し、そのアカウントのnoreplyを使う方針にしました。バックアップを作成して変更時点のローカル8コミットを修正し、ファイル内容・メッセージ・日時が同じであることを確認しました。コミットIDも変わるため、公開済みのGitHubへの反映は別の操作として管理しています。記事中では実際の作者メールやアカウント名を仮表記にしています。
+
+GitHubのメール設定では「Keep my email addresses private」を有効にし、必要に応じて「Block command line pushes that expose my email」も有効にします。これらの設定は、既存コミットを自動で匿名化する機能ではありません。コマンドラインで使うメールには、別途Gitの設定が必要です。[GitHub公式の非公開メール露出防止設定](https://docs.github.com/en/account-and-profile/how-tos/email-preferences/blocking-command-line-pushes-that-expose-your-personal-email-address)
 
 READMEやルール、計画を用意したら、対象ファイルを指定して初期コミットにまとめます。
 
