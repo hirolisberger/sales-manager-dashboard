@@ -3,8 +3,8 @@
 ## 現在の状態
 
 - `AdventCalendar_2026/sales-manager-dashboard/` をプロジェクトとGitのルートとし、mainと既存のコミット履歴を引き継いでいる。
-- コミットの表示名は `DF-HW`、GitHub上の紐づけ先はユーザーが選択した個人アカウント `hirolisberger`。このアカウントの確認済みnoreplyを使用するローカル設定へ変更し、変更時点の既存8コミットのAuthor/Committerも同じnoreplyへ統一した。グローバル設定は変更していない。
-- ユーザーが [DF-HW/sales-manager-dashboard](https://github.com/DF-HW/sales-manager-dashboard) を作成し、originの登録とmainの初回pushを完了した。初回push時は `4492b07` で一致していたが、noreply修正後のローカルmainは `1ec4ab1`。`origin/main` は修正前のままで、GitHubへの反映は未実施。
+- コミットの作者名とGitHub上の紐づけ先は、ユーザーが選択した個人アカウント `hirolisberger` に統一する。この作者名と当該アカウントの確認済みnoreplyをリポジトリのローカル設定に使用し、作者名を固定する変更時点の既存10コミットのAuthor/Committerも統一した。グローバル設定は変更していない。
+- ユーザーが [DF-HW/sales-manager-dashboard](https://github.com/DF-HW/sales-manager-dashboard) を作成し、originの登録とmainの初回pushを完了した。初回push時は `4492b07` で一致していたが、作者名・noreply修正後のローカルmainは `725a856`。`origin/main` は修正前のままで、GitHubへの反映は未実施。
 - 今後は個人アカウントで開発を継続する方針。コミットの紐づけ先として個人アカウントは選択済みだが、ユーザーによれば個人側のリポジトリは未作成で、公開先URLは未確定。作者の選択だけを理由にoriginを変更しない。
 - GitHub向けのcredential helperは `osxkeychain`。パスワード入力なしでpushが成功し、保存済みの認証情報が使われた可能性が高い。認証情報そのものは読み出しておらず、新しく作成したトークンが使われたかは未確認。
 - GitHub CLI（`gh`）は現環境で見つからなかったため、この手順ではブラウザーとGitを使う。
@@ -13,7 +13,7 @@
 
 ## 個人アカウントで継続するための次の対応
 
-ローカルのコード、未コミットのDay 0記事、既存のGit履歴は引き続き利用できる。対応が必要なのは、公開先と認証・作者情報の確認である。GitHubへのログイン、originの所有者、コミットに記録される作者名・メールアドレスは、それぞれ別の設定として確認する。
+ローカルのコード、作成済みのDay 0記事、既存のGit履歴は引き続き利用できる。対応が必要なのは、公開先と認証・作者情報の確認である。GitHubへのログイン、originの所有者、コミットに記録される作者名・メールアドレスは、それぞれ別の設定として確認する。
 
 1. 個人用のGitHubアカウントにログインし、所有者がそのアカウントであることを確認して、`sales-manager-dashboard` を空のリポジトリとして作成する。README、`.gitignore`、ライセンスの自動追加は選ばない。公開前の確認中はPrivateで用意し、記事から一般の読者に共有する段階でPublicにする方法も選べる。
 2. 作者名・メールの公開範囲を決める。通常メールを公開したくない場合は個人アカウントのSettings → Emailsでnoreplyアドレスを確認し、このリポジトリのローカル設定に使用する。既存コミットの作者情報は設定変更だけでは変わらず、新しいリポジトリにも引き継がれる。
@@ -86,22 +86,24 @@ git config user.email
 
 GitHubはコミットのメールアドレスを使って作者をアカウントに紐づける。GitHubのアカウントに登録・確認したメールアドレス、またはGitHubが提供する自分のnoreplyアドレスを使う。設定を変更した場合は以降のコミットに適用され、過去のコミットは自動で変わらない。[GitHub公式のコミットメール設定](https://docs.github.com/en/account-and-profile/how-tos/email-preferences/setting-your-commit-email-address) を参照。
 
-今回はユーザーが提示したメール設定画面のnoreplyを使用し、紐づけ先として個人アカウントを選択済み。表示名とGitHub上の紐づけ先は別に扱う。Gitの作者情報とGitHubへのログイン認証も別の設定であり、作者の修正だけで認証アカウントやoriginのURLは変わらない。
+今回はユーザーが提示したメール設定画面のnoreplyを使用し、作者名も `hirolisberger` に固定した。作者名とGitHub上の紐づけ先は別の設定だが、今回は同じ表記を選択している。Gitの作者情報とGitHubへのログイン認証も別の設定であり、作者の修正だけで認証アカウントやoriginのURLは変わらない。
 
 ## メールアドレスの非公開設定
 
 GitHubのSettings → Emailsで「Keep my email addresses private」と「Block command line pushes that expose my email」を有効にする。Primary / Backup emailは通知や復旧先の設定として扱う。ブラウザー上のチェック状態はこちらでは確認していない。
 
-GitHub上の設定だけでは、コマンドラインの作者メールや過去のコミットは自動で変わらない。このため、今回はローカル設定と既存8コミットのAuthor/Committerを確認済みnoreplyへ変更した。GitHubへの修正履歴の反映は別途必要となる。[GitHub公式の非公開メール露出防止設定](https://docs.github.com/en/account-and-profile/how-tos/email-preferences/blocking-command-line-pushes-that-expose-your-personal-email-address)
+GitHub上の設定だけでは、コマンドラインの作者メールや過去のコミットは自動で変わらない。このため、noreplyへの変更時点の既存8コミットを修正し、その後、作者名を固定する変更時点の10コミットも確認した。現在はローカル設定とAuthor/Committerが、選択した作者名・確認済みnoreplyで一致している。GitHubへの修正履歴の反映は別途必要となる。[GitHub公式の非公開メール露出防止設定](https://docs.github.com/en/account-and-profile/how-tos/email-preferences/blocking-command-line-pushes-that-expose-your-personal-email-address)
 
 ## 公開記事とリポジトリの確認結果
 
 記事の操作例では、個人名・メールアドレス・PC名・ローカルパスを仮表記にする。個人側の公開用リポジトリが未作成のため、記事から既存接続先への実リンクを外し、個人側のURL確定後に追記する。
 
-既存履歴を確認したところ、公開済みmainの2コミットには修正前の個人用作者情報が含まれていた。実際の値は記事に再掲しない。最初にローカルの6コミットを指定の表示名・メールへ変更し、その後のメール非公開化の希望とアカウント選択に従って、作業時点の8コミットをnoreplyへ修正した。各コミットのファイルツリー・メッセージ・日時は同一で、作者情報と、それに伴うコミットID・親IDが変更されている。
+既存履歴を確認したところ、公開済みmainの2コミットには修正前の個人用作者情報が含まれていた。実際の値は記事に再掲しない。最初にローカルの6コミットを指定の表示名・メールへ変更し、その後のメール非公開化の希望とアカウント選択に従って、作業時点の8コミットをnoreplyへ修正した。最新の指示で作者名を `hirolisberger` に固定し、その変更時点の10コミットも同じ名前に統一した。各コミットのファイルツリー・メッセージ・日時は同一で、作者情報と、それに伴うコミットID・親IDが変更されている。
 
 修正前の履歴、未コミットの9ファイル、差分、Git設定とindexは `.git/author-fix-20261027-mcr3oekv/` にバックアップ済み。このローカルバックアップには旧作者情報が含まれるが、通常のGitコミット・pushの対象にはならない。
 
 noreplyへの変更直前の8コミットと作業ファイル9件は `.git/noreply-fix-20261027-90ev1a55/` にもバックアップ済み。新規コミットもこのnoreplyを使用し、記事のコード例には実際のアドレスを記載しない。
+
+作者名の固定直前の10コミットと作業ファイル9件は `.git/author-name-fix-20261027-xgn7450a/` にバックアップ済み。履歴のbundle、ファイルのtar、設定・index・新旧コミット対応を保存した。これらのローカルバックアップも通常のpushには含まれない。
 
 GitHubのmainを修正するには、公開済みの2コミットを修正後の履歴へ更新する必要がある。リモート反映はまだ行っていない。実行する場合は対象をmainだけに限定し、リモートのmainが確認済みの旧コミットと一致する場合だけ更新する `--force-with-lease` を使う。Day 0のレビュー前の内容はmainへマージしない。

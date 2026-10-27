@@ -93,7 +93,7 @@ Day 0の資料と記事は `feature/day00` でレビュー待ちにします。�
 
 各Dayの完了報告には、実装内容、変更ファイル、テスト・動作確認結果、記事保存先、レビュー確認項目、未解決事項、次のDayへ進める状態かどうかを記載します。
 
-Gitリポジトリのルートは `sales-manager-dashboard/` です。ユーザーの選択により、コミットの表示名は `DF-HW`、GitHub上の紐づけ先は個人アカウント `hirolisberger` とし、そのアカウントのnoreplyを使用します。この変更時点の既存8コミットのAuthor/Committerを修正し、ファイル内容・メッセージ・日時は維持しています。ローカルmainは `1ec4ab1` で、GitHubへの反映は未実施です。現在は `feature/day00` で準備資料を管理しています。Day 1のブランチはまだ作成していません。
+Gitリポジトリのルートは `sales-manager-dashboard/` です。ユーザーの選択により、コミットの作者名とGitHub上の紐づけ先を `hirolisberger` に統一し、その個人アカウントのnoreplyを使用します。作者名を固定する変更時点の既存10コミットのAuthor/Committerを修正し、ファイル内容・メッセージ・日時は維持しています。ローカルmainは `725a856` で、GitHubへの反映は未実施です。現在は `feature/day00` で準備資料を管理しています。Day 1のブランチはまだ作成していません。
 
 現在のoriginは [DF-HW/sales-manager-dashboard](https://github.com/DF-HW/sales-manager-dashboard) で、この接続先へのmainの初回pushは完了しています。今後は個人アカウントで運用する方針で、個人側のリポジトリは未作成です。ローカルのコードと履歴を維持して接続先を切り替える手順は [GITHUB_SETUP.md](docs/GITHUB_SETUP.md) に記録しています。切り替えと追加pushは未実施です。Day 0資料もレビュー中でmainへ未反映です。
 

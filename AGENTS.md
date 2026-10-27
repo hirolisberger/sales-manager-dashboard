@@ -104,7 +104,7 @@ Next.js、Python、LocalStack、AWSを使用した売上管理システムを開
 
 - 安定版は `main`、Dayごとの作業は `feature/dayNN` で管理する。例: `feature/day01`。
 - Gitリポジトリのルートは `sales-manager-dashboard/` とする。既存の `.git` と履歴を引き継ぎ、親の `AdventCalendar_2026/` にはGitリポジトリを作成しない。
-- コミットの表示名は `DF-HW` を維持し、GitHub上の紐づけ先はユーザーが選択した個人アカウント `hirolisberger` とする。メールには確認済みのGitHub提供noreplyをリポジトリのローカル設定で使用する。メールの実値はGit設定で管理し、公開記事の例は仮表記にする。グローバル設定は変更しない。
+- コミットの作者名は `hirolisberger` に固定し、GitHub上の紐づけ先もユーザーが選択した個人アカウント `hirolisberger` とする。メールには確認済みのGitHub提供noreplyをリポジトリのローカル設定で使用する。メールの実値はGit設定で管理し、公開記事の例は仮表記にする。グローバル設定は変更しない。
 - コミットの紐づけ先の選択と、リポジトリの所有者・originの変更は別に扱う。今回のnoreply設定を理由に、新しいリポジトリの作成やoriginの変更を行わない。
 - Git未初期化の場合、最初のドキュメント一式を初期コミットとしてmainに置いてよい。Dayの実装・記事は必ず専用featureブランチで行う。
 - 各Dayのブランチは、前Dayの承認とマージを反映したmainから作成する。
