@@ -66,6 +66,6 @@ Day 1までの準備記録は [DAY0_SETUP.md](DAY0_SETUP.md)、公開用のDay 0
 5. つまずいた点、制約、未検証項目
 6. まとめと次回への案内
 
-各記事の本文は今後 `qiita/dayNN-<topic>.md` に作成する。このファイルは記事企画であり、25本の本文やDay 1の成果物を作成したものではない。
+Day 1本文は [day01-requirements-and-architecture.md](../qiita/day01-requirements-and-architecture.md) に作成し、要件・構成・設計例の検証を対応させる。Day 2以降の本文は、各Dayの作業時に `qiita/dayNN-<topic>.md` へ作成する。このファイル自体は記事企画として管理する。
 
 開発成果物と確認項目は [ROADMAP.md](ROADMAP.md)、実績は [PROGRESS.md](PROGRESS.md)、作成・レビュー・公開のルールは [AGENTS.md](../AGENTS.md) を参照する。

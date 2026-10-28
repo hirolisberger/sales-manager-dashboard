@@ -2,7 +2,7 @@
 
 小規模店舗の商品別売上を管理する `sales-manager-dashboard` を、Next.js、Python、LocalStack、AWSで開発します。開発過程はQiita Advent Calendar 2026向けの本編25記事と、追加のDay 0準備編として記録します。
 
-現在はDay 0として開発準備をまとめる段階です。**Day 1の実装・記事作成は未着手**で、起動可能なアプリケーションはまだありません。
+Day 0の準備は承認・マージ・push済みです。現在は **Day 1の要件定義・全体設計・Qiita記事をレビューする段階**です。Day 1の成果物は設計資料で、起動可能なアプリケーションはまだありません。
 
 ## 目指す機能
 
@@ -23,10 +23,11 @@
 | 利用者・権限 | 管理者のみ。将来アカウントを分けても同じ画面を使用する想定。利用者ごとの画面や複数ロールは初期要件に含めない |
 | 完成の基準 | 商品登録、売上登録、日別・月別の売上集計、CSV出力を一連の操作として行える |
 | 期間の切り替え | 日別・月別の表示・集計単位を切り替え、過去の指定日・月の売上を参照できる |
-| 金額 | 日本円の税込金額を扱う |
-| Day 1で決める詳細 | 端数処理の方法と単位、売上計上日、訂正・取消の扱い |
+| 金額 | 日本円の税込整数円・整数数量。小数の入力は拒否し、税抜額・消費税額の内訳は初期範囲に含めない |
+| 計上日と変更 | 日本時間の取引日を手入力でき、過去日の登録・訂正・取消を認めて変更履歴を残す。訂正後の最新版を集計し、取消済みは除外する |
+| Day 1のレビュー対象 | 商品・売上の項目、入力上限、未来日の扱い、期間・集計・CSV・履歴・構成の設計案 |
 
-税込の方針は確認済みですが、端数を切り捨て・四捨五入のどちらにするかなどの詳細はまだ決まっていません。Day 1で整理し、要件と記事へ反映します。CSV取り込みは既存のDay 18の計画に残し、今回指定された完成基準とは分けて扱います。会計・税務申告や多通貨対応は初期範囲に含めません。
+税込整数円・整数数量と、計上日・訂正取消・集計の方針はDay 1の追加質問で確認済みです。今回の金額範囲では丸め処理は発生しません。その他の詳細は [REQUIREMENTS.md](docs/REQUIREMENTS.md) の設計案としてレビューします。CSV取り込みはDay 18の追加機能とし、会計・税務申告や多通貨対応は初期範囲に含めません。
 
 ## 技術方針
 
@@ -55,10 +56,14 @@ AdventCalendar_2026/
     │   ├── ARTICLE_PLAN.md  # 本編25記事とDay 0の計画
     │   ├── DAY0_SETUP.md    # 開発準備の記録
     │   ├── GITHUB_SETUP.md  # 自分のGitHubアカウントとの連携手順
+    │   ├── REQUIREMENTS.md  # Day 1の業務要件と完成条件
+    │   ├── ARCHITECTURE.md  # Day 1の構成図と設計判断
+    │   ├── DAY1_REVIEW.md   # Day 1の設計例と検証記録
     │   ├── ROADMAP.md       # Day 1〜25の開発・記事計画
     │   └── PROGRESS.md      # 実装・記事・レビュー・公開の実績
     └── qiita/
-        └── day00-project-setup-and-github.md # Qiita向けDay 0記事
+        ├── day00-project-setup-and-github.md # Qiita向けDay 0記事
+        └── day01-requirements-and-architecture.md # Qiita向けDay 1記事
 ```
 
 `AdventCalendar_2026/` の直下にある `sales-manager-dashboard/` が、プロジェクトとGitのルートです。これまでの成果物と `.git` をすべてこの中に移動しました。今後作成するソースコード、記事、設定、ドキュメントもこの中に配置します。
@@ -81,6 +86,8 @@ Day 0の資料と記事は `feature/day00` で作成し、2026-10-28にレビュ
 
 ## 開発とレビュー
 
+Day 1の成果物は [要件定義](docs/REQUIREMENTS.md)、[全体設計](docs/ARCHITECTURE.md)、[設計確認記録](docs/DAY1_REVIEW.md)、[Qiita記事](qiita/day01-requirements-and-architecture.md) です。`feature/day01` で作成し、レビュー承認を受けるまでmainへのマージ・Day 2の作業を行いません。
+
 開発は毎日行う必要はなく、ユーザーの都合に合わせて進めます。1回の作業では原則一つのDayを扱い、公開日程とは分けて管理します。
 
 1. ユーザーの開始指示を受けてDay 1に着手します。
@@ -93,7 +100,7 @@ Day 0の資料と記事は `feature/day00` で作成し、2026-10-28にレビュ
 
 各Dayの完了報告には、実装内容、変更ファイル、テスト・動作確認結果、記事保存先、レビュー確認項目、未解決事項、次のDayへ進める状態かどうかを記載します。
 
-Gitリポジトリのルートは `sales-manager-dashboard/` です。ユーザーの選択により、コミットの作者名とGitHub上の紐づけ先を `hirolisberger` に統一し、その個人アカウントのnoreplyを使用します。作者名を固定する変更時点の既存10コミットのAuthor/Committerを修正し、ファイル内容・メッセージ・日時は維持しています。Day 0はローカルmainへのマージとGitHubへの初回pushを完了し、現在の作業ブランチはmainです。Day 1のブランチはまだ作成していません。
+Gitリポジトリのルートは `sales-manager-dashboard/` です。コミットの作者名とGitHub上の紐づけ先は `hirolisberger` とし、その個人アカウントのnoreplyを使用します。Day 0はmainへのマージとGitHubへの初回pushを完了しています。現在の作業ブランチは、最新main `5d6fa18` から作成した `feature/day01` です。
 
 GitHubの接続先は [hirolisberger/sales-manager-dashboard](https://github.com/hirolisberger/sales-manager-dashboard) です。承認済みのDay 0資料・記事を含むmainの初回pushを完了し、ローカルとGitHub側のコミットID一致を確認しています。個人アカウントへの初期接続手順と確認結果は [GITHUB_SETUP.md](docs/GITHUB_SETUP.md) に記載しています。Day 1に進むための必須準備は完了しています。
 
