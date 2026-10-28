@@ -5,11 +5,11 @@
 - `AdventCalendar_2026/sales-manager-dashboard/` をプロジェクトとGitのルートとし、mainと既存のコミット履歴を引き継いでいる。
 - コミットの作者名とGitHub上の紐づけ先は、ユーザーが選択した個人アカウント `hirolisberger` に統一する。この作者名と当該アカウントの確認済みnoreplyをリポジトリのローカル設定に使用し、作者名を固定する変更時点の既存10コミットのAuthor/Committerも統一した。グローバル設定は変更していない。
 - GitHubの接続先は個人アカウントの [hirolisberger/sales-manager-dashboard](https://github.com/hirolisberger/sales-manager-dashboard)。リポジトリはユーザーが作成済みで、originの取得・送信URLも設定済み。
-- 認証なしの `ls-remote` とfetchで読み取りに成功し、参照がない状態を確認した。リポジトリにはまだコミットがなく、初回pushは未実施。ローカルmainは `725a856` で、GitHub側のmainとローカルの追跡参照 `origin/main` はまだない。
+- 認証なしの `ls-remote` とfetchで読み取りに成功し、参照がない状態を確認した。リポジトリにはまだコミットがなく、初回pushは未実施。ローカルmainには承認済みのDay 0をマージ済みで、GitHub側のmainとローカルの追跡参照 `origin/main` はまだない。
 - GitHub向けのcredential helperは `osxkeychain`。保存済みの認証情報があれば入力を省略できる場合があるが、初回pushの認証・書き込み権限は未検証。認証情報そのものは読み出していない。
 - GitHub CLI（`gh`）は現環境で見つからなかったため、この手順ではブラウザーとGitを使う。
 - Day 1の開始時に `feature/day01` を作成する。GitHubの接続はDay 1開始の必須条件ではない。
-- 現在の作業ブランチは `feature/day00`。準備記録は [DAY0_SETUP.md](DAY0_SETUP.md)、Qiita向けの公開本文は [Day 0記事](../qiita/day00-project-setup-and-github.md) にまとめる。Day 0も公開を想定して記事を作成するが、投稿操作は未実施。レビュー承認前にmainへマージしない。
+- 現在の作業ブランチはmain。準備記録は [DAY0_SETUP.md](DAY0_SETUP.md)、Qiita向けの公開本文は [Day 0記事](../qiita/day00-project-setup-and-github.md) にまとめる。Day 0は2026-10-28にレビュー承認・ローカルmainへのマージを完了した。Qiitaへの投稿操作は未実施。
 
 以下は、個人アカウントのリポジトリへ初めて接続する場合の手順である。実施済みの設定と、初回pushなどの今後の操作を区別して記載する。
 
@@ -61,7 +61,7 @@ git branch -vv
 
 `push` はコミットをGitHubへ送る。[GitHub公式手順](https://docs.github.com/en/migrations/importing-source-code/using-the-command-line-to-import-source-code/adding-locally-hosted-code-to-github) に従い、push後にGitHubのmainに初期ファイルが表示されることと、mainの追跡先が `origin/main` になっていることを確認する。実行結果は `docs/PROGRESS.md` に記録する。
 
-現在は `feature/day00` で作業しているが、このpushはmainを送信する。Day 0の資料は、レビュー承認とmainへのマージ後に改めてmainをpushすることで反映できる。レビュー用に `feature/day00` をGitHubへ送る操作は、別途対象を明示して行う。
+このpushはmainを送信する。Day 0の資料と記事はレビュー承認後にmainへマージ済みなので、初回pushに含まれる。送信後にGitHubのmainで資料と記事を確認する。
 
 ## 5. コミットの作者とGitHubアカウントの紐づけ
 
