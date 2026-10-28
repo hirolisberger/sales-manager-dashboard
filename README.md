@@ -77,7 +77,7 @@ cd sales-manager-dashboard
 
 準備の記録は [DAY0_SETUP.md](docs/DAY0_SETUP.md)、公開用の本文は [Day 0記事](qiita/day00-project-setup-and-github.md) にまとめています。ユーザーの方針変更により、Day 0もQiita公開を想定して作成します。本編25記事とは別の準備編とし、公開日は未定です。Day 1〜25の公開予定日は維持します。
 
-Day 0の資料と記事は `feature/day00` でレビュー待ちにします。記事のコマンド例では個人名・メールアドレス・PC名・ローカルパスを仮表記にします。個人アカウント側の公開用リポジトリは未作成のため、記事の実URLは作成後に追記します。承認後にmainへマージし、ユーザーのDay 1開始指示を受けてから次へ進みます。Qiitaへの投稿は別途の明示的な指示が必要です。
+Day 0の資料と記事は `feature/day00` でレビュー待ちにします。記事のコマンド例では個人名・メールアドレス・PC名・ローカルパスを仮表記にします。個人アカウント側の公開用リポジトリは作成済みで、記事に確定したURLを記載しています。承認後にmainへマージし、ユーザーのDay 1開始指示を受けてから次へ進みます。Qiitaへの投稿は別途の明示的な指示が必要です。
 
 ## 開発とレビュー
 
@@ -95,7 +95,7 @@ Day 0の資料と記事は `feature/day00` でレビュー待ちにします。�
 
 Gitリポジトリのルートは `sales-manager-dashboard/` です。ユーザーの選択により、コミットの作者名とGitHub上の紐づけ先を `hirolisberger` に統一し、その個人アカウントのnoreplyを使用します。作者名を固定する変更時点の既存10コミットのAuthor/Committerを修正し、ファイル内容・メッセージ・日時は維持しています。ローカルmainは `725a856` で、GitHubへの反映は未実施です。現在は `feature/day00` で準備資料を管理しています。Day 1のブランチはまだ作成していません。
 
-現在のoriginは [DF-HW/sales-manager-dashboard](https://github.com/DF-HW/sales-manager-dashboard) で、この接続先へのmainの初回pushは完了しています。今後は個人アカウントで運用する方針で、個人側のリポジトリは未作成です。ローカルのコードと履歴を維持して接続先を切り替える手順は [GITHUB_SETUP.md](docs/GITHUB_SETUP.md) に記録しています。切り替えと追加pushは未実施です。Day 0資料もレビュー中でmainへ未反映です。
+現在のoriginは [hirolisberger/sales-manager-dashboard](https://github.com/hirolisberger/sales-manager-dashboard) です。2026-10-28にユーザーの指示で旧接続先から切り替え、認証なしでの読み取りと `fetch --prune` に成功しました。新しいリポジトリにはまだコミットがなく、pushは未実施です。旧接続先への初回pushの記録と今回の切り替え結果は [GITHUB_SETUP.md](docs/GITHUB_SETUP.md) に記載しています。Day 0資料はレビュー中でmainへ未反映です。
 
 詳しいルールは [AGENTS.md](AGENTS.md)、各Dayの到達点は [ROADMAP.md](docs/ROADMAP.md)、全25記事のタイトル・概要案は [ARTICLE_PLAN.md](docs/ARTICLE_PLAN.md) を参照してください。
 

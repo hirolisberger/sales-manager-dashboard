@@ -6,7 +6,7 @@
 
 本編に入る前に、Day 0としてプロジェクトの配置、作業ルール、Git、GitHubとの連携を整えました。この記事は本編25記事とは別の準備編です。アプリケーションの実装はDay 1以降に進めます。
 
-公開用のリポジトリは個人アカウントで作成する予定です。作成後、公開前にリンクを追記します。
+公開用のリポジトリは [sales-manager-dashboard](https://github.com/hirolisberger/sales-manager-dashboard) です。個人アカウント側に作成し、接続先を切り替えました。現時点ではまだコミットを送信していません。
 
 コマンドやログ中のユーザー名、メールアドレス、PC名、個人を含む絶対パスは、説明用の仮表記にしています。コマンド例の `YOUR_GITHUB_USERNAME` などは、自分の設定に置き換えて使用してください。
 
@@ -151,7 +151,7 @@ git config --local user.email "YOUR_GITHUB_NOREPLY_EMAIL"
 
 この設定例は、公開向けに手順を整理する際に追加したものです。今回の準備で先に確認しておきたかった点でもあります。設定変更の対象は、以降に作るコミットです。過去のコミットの作者名やメールアドレスは、自動では変わりません。[GitHub公式の説明](https://docs.github.com/en/account-and-profile/how-tos/email-preferences/setting-your-commit-email-address#setting-your-email-address-in-git)
 
-今回も、既存のコミットが意図した作者情報になっていないことが後から分かりました。作者名は個人アカウント名と同じ表記に固定し、メールにはそのアカウントのnoreplyを使う方針にしました。バックアップを作成して作者名の変更時点のローカル10コミットを修正し、ファイル内容・メッセージ・日時が同じであることを確認しました。コミットIDも変わるため、公開済みのGitHubへの反映は別の操作として管理しています。記事中では実際の作者メールやアカウント名を仮表記にしています。
+今回も、既存のコミットが意図した作者情報になっていないことが後から分かりました。作者名は個人アカウント名と同じ表記に固定し、メールにはそのアカウントのnoreplyを使う方針にしました。バックアップを作成して作者名の変更時点のローカル10コミットを修正し、ファイル内容・メッセージ・日時が同じであることを確認しました。コミットIDも変わるため、公開済みのGitHubへの反映は別の操作として管理しています。操作例では実際の作者メールやアカウント名を仮表記にしています。
 
 GitHubのメール設定では「Keep my email addresses private」を有効にし、必要に応じて「Block command line pushes that expose my email」も有効にします。これらの設定は、既存コミットを自動で匿名化する機能ではありません。コマンドラインで使うメールには、別途Gitの設定が必要です。[GitHub公式の非公開メール露出防止設定](https://docs.github.com/en/account-and-profile/how-tos/email-preferences/blocking-command-line-pushes-that-expose-your-personal-email-address)
 
@@ -178,7 +178,7 @@ GitHubにログインし、[新しいリポジトリの作成画面](https://git
 
 Publicのリポジトリでは、ソースコードやコミット履歴も公開対象になります。本文のスクリーンショットを匿名化することに加え、リポジトリ内のファイル、過去の履歴、コミットの作者情報も確認します。記事にリンクを張る予定があることだけで、リポジトリの中身が安全になるわけではありません。[GitHub公式の公開範囲の説明](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/setting-repository-visibility)
 
-この記事では、公開用リポジトリのURLが確定してからリンクを追加し、操作例のユーザー名やメールアドレスは仮表記にします。トークン、秘密鍵、実在する顧客・売上データは掲載しません。
+この記事では、作成済みの公開用リポジトリへのリンクを冒頭に掲載しています。操作例のユーザー名やメールアドレスは仮表記にします。トークン、秘密鍵、実在する顧客・売上データは掲載しません。
 
 ## 7. HTTPS認証用のトークンを準備する
 
@@ -215,7 +215,7 @@ git push -u origin main
 
 HTTPS認証で入力を求められた場合、ユーザー名にはGitHubのユーザー名、パスワード欄にはPATを入力します。GitHubのログインパスワードを使う手順ではありません。[GitHub公式のPAT利用方法](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#using-a-personal-access-token-on-the-command-line)
 
-これまでの接続先へのpushは成功しました。今後使う個人アカウント側のリポジトリは、現時点では未作成です。実際の成功ログから、ユーザー名を仮表記にした部分だけを抜粋すると、次のようになります。
+旧接続先への初回pushは成功しました。以下はそのときの成功ログから、ユーザー名を仮表記にした部分だけを抜粋したものです。後述する個人アカウント側への切り替え後は、まだpushしていません。
 
 ```text
 To https://github.com/YOUR_GITHUB_USERNAME/sales-manager-dashboard.git
@@ -223,19 +223,28 @@ To https://github.com/YOUR_GITHUB_USERNAME/sales-manager-dashboard.git
 branch 'main' set up to track 'origin/main'.
 ```
 
-`git branch -vv` でmainの追跡先が `origin/main` になっていることを確認します。ローカルのmainと、push後に更新された `origin/main` のコミットが一致することも確認できました。
+push後は `git branch -vv` でmainの追跡先が `origin/main` になっていることを確認します。旧接続先への初回push時には、ローカルmainと `origin/main` のコミットが一致することも確認できました。
 
-### 個人アカウントのリポジトリへ接続先を切り替える場合
+### 個人アカウントのリポジトリへ接続先を切り替える
 
-ローカルのコードと履歴は、そのまま利用できます。個人アカウントに空のリポジトリを作成したら、登録済みのoriginのURLを変更します。以下は切り替え時の手順で、個人側への切り替えとpushはまだ実施していません。
+ローカルのコードと履歴は、そのまま利用できます。2026年10月28日、個人アカウントに作成済みの空のリポジトリへ、originを切り替えました。以下はその手順を仮表記にしたものです。
 
 ```sh
 git remote set-url origin https://github.com/YOUR_PERSONAL_GITHUB_USERNAME/sales-manager-dashboard.git
 git remote -v
-git push -u origin main
+git fetch --prune origin
+git ls-remote origin
 ```
 
-接続先の変更は、既存のリモートURLを書き換える操作です。[GitHub公式のリモート管理手順](https://docs.github.com/en/get-started/git-basics/managing-remote-repositories#changing-a-remote-repositorys-url)
+接続先の変更は、既存のリモートURLを書き換える操作です。`fetch --prune` で旧接続先の追跡情報も整理しました。[GitHub公式のリモート管理手順](https://docs.github.com/en/get-started/git-basics/managing-remote-repositories#changing-a-remote-repositorys-url)
+
+認証なしで新しい接続先から読み取れることを確認しました。`ls-remote` は正常終了し、参照は表示されませんでした。まだコミットを送信していないため、新しい接続先にはmainもありません。`git branch -vv` で追跡先が `gone` と表示されることがありますが、初回push後に追跡参照が作られます。読み取り成功だけでは書き込み権限の確認にはなりません。
+
+次は新しい接続先への初回pushです。以下は次に実施するコマンドであり、今回の切り替えでは実行していません。新しい接続先は空のため、通常のpushを使用します。
+
+```sh
+git push -u origin main
+```
 
 新しいリポジトリにも既存のコミット履歴が送られます。作者名やメールアドレスを公開したくない場合は、送信前に履歴と今後の作者設定を確認します。今後の作者設定だけを変えても、過去の情報は変わりません。
 
@@ -263,12 +272,12 @@ git switch -c feature/day00
 | --- | --- |
 | プロジェクトの配置 | `sales-manager-dashboard/` をプロジェクトとGitのルートに統一 |
 | Gitの履歴 | ファイル内容・メッセージ・日時を保ってローカルの作者情報を修正。GitHubへの修正反映は未実施 |
-| GitHubへの接続 | 既存接続先へのmain初回pushが成功。個人側のリポジトリは未作成・未接続 |
-| mainの追跡先 | `origin/main` に設定済み |
+| GitHubへの接続 | 個人側の作成済みリポジトリへ切り替え、読み取り確認に成功。個人側への初回pushは未実施 |
+| mainの追跡先 | 設定は `origin/main`。旧参照はpruneで整理済み、新しい接続先にはmainがまだない |
 | 認証入力の省略 | `osxkeychain` の設定を確認。使用トークンの識別は未実施 |
 | アプリケーション | 未実装。環境構築と動作確認は今後のDayで実施 |
 
-ローカルのGit管理とGitHubへの接続手順を整えられました。個人アカウント側の公開先は、リポジトリ作成後に接続して記事に追記します。
+ローカルのGit管理とGitHubへの接続手順を整え、個人アカウント側への接続先変更を完了しました。新しい接続先へのmainの初回pushと、Day 0記事のレビュー・マージは別の作業として残っています。
 
 ## まとめと次回
 

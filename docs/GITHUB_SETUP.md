@@ -4,31 +4,37 @@
 
 - `AdventCalendar_2026/sales-manager-dashboard/` をプロジェクトとGitのルートとし、mainと既存のコミット履歴を引き継いでいる。
 - コミットの作者名とGitHub上の紐づけ先は、ユーザーが選択した個人アカウント `hirolisberger` に統一する。この作者名と当該アカウントの確認済みnoreplyをリポジトリのローカル設定に使用し、作者名を固定する変更時点の既存10コミットのAuthor/Committerも統一した。グローバル設定は変更していない。
-- ユーザーが [DF-HW/sales-manager-dashboard](https://github.com/DF-HW/sales-manager-dashboard) を作成し、originの登録とmainの初回pushを完了した。初回push時は `4492b07` で一致していたが、作者名・noreply修正後のローカルmainは `725a856`。`origin/main` は修正前のままで、GitHubへの反映は未実施。
-- 今後は個人アカウントで開発を継続する方針。コミットの紐づけ先として個人アカウントは選択済みだが、ユーザーによれば個人側のリポジトリは未作成で、公開先URLは未確定。作者の選択だけを理由にoriginを変更しない。
+- 現在のoriginは [hirolisberger/sales-manager-dashboard](https://github.com/hirolisberger/sales-manager-dashboard)。ユーザーが個人アカウント側のリポジトリを作成済みで、2026-10-28の切り替え指示に従い、取得・送信の接続先を変更した。
+- 新しい接続先へ認証なしで `ls-remote` と `fetch --prune` を実行し、読み取り成功と参照がない状態を確認した。新しいリポジトリにはまだコミットがなく、初回pushは未実施。ローカルmainは `725a856` のまま維持し、旧接続先の追跡参照だった `origin/main` はpruneで整理した。
+- 旧接続先 [DF-HW/sales-manager-dashboard](https://github.com/DF-HW/sales-manager-dashboard) へのmain初回pushはユーザーが実施済みで、当時のmainは `4492b07`。旧リポジトリの内容や公開済み履歴は今回変更していない。
 - GitHub向けのcredential helperは `osxkeychain`。パスワード入力なしでpushが成功し、保存済みの認証情報が使われた可能性が高い。認証情報そのものは読み出しておらず、新しく作成したトークンが使われたかは未確認。
 - GitHub CLI（`gh`）は現環境で見つからなかったため、この手順ではブラウザーとGitを使う。
 - Day 1の開始時に `feature/day01` を作成する。GitHubの接続はDay 1開始の必須条件ではない。
 - 現在の作業ブランチは `feature/day00`。準備記録は [DAY0_SETUP.md](DAY0_SETUP.md)、Qiita向けの公開本文は [Day 0記事](../qiita/day00-project-setup-and-github.md) にまとめる。Day 0も公開を想定して記事を作成するが、投稿操作は未実施。レビュー承認前にmainへマージしない。
 
-## 個人アカウントで継続するための次の対応
+## 個人アカウントへの切り替え記録と次の対応
 
-ローカルのコード、作成済みのDay 0記事、既存のGit履歴は引き続き利用できる。対応が必要なのは、公開先と認証・作者情報の確認である。GitHubへのログイン、originの所有者、コミットに記録される作者名・メールアドレスは、それぞれ別の設定として確認する。
+ユーザーの切り替え指示を受け、プロジェクトルートで次の操作を実施した。
 
-1. 個人用のGitHubアカウントにログインし、所有者がそのアカウントであることを確認して、`sales-manager-dashboard` を空のリポジトリとして作成する。README、`.gitignore`、ライセンスの自動追加は選ばない。公開前の確認中はPrivateで用意し、記事から一般の読者に共有する段階でPublicにする方法も選べる。
-2. 作者名・メールの公開範囲を決める。通常メールを公開したくない場合は個人アカウントのSettings → Emailsでnoreplyアドレスを確認し、このリポジトリのローカル設定に使用する。既存コミットの作者情報は設定変更だけでは変わらず、新しいリポジトリにも引き継がれる。
-3. HTTPS用のPATを使う場合は、Resource ownerとアクセス対象が新しい個人アカウントのリポジトリに合うことを確認する。既存のPATが新しい所有者にも使用できるとは限らない。
-4. 下記の `YOUR_PERSONAL_GITHUB_USERNAME` を実際の個人アカウント名に置き換え、プロジェクトルートで接続先を変更する。originは登録済みなので、変更には `set-url` を使用する。
+```sh
+git remote set-url origin https://github.com/hirolisberger/sales-manager-dashboard.git
+git remote -v
+GIT_TERMINAL_PROMPT=0 git -c credential.helper= ls-remote --symref origin HEAD 'refs/heads/*'
+GIT_TERMINAL_PROMPT=0 git -c credential.helper= fetch --prune origin
+GIT_TERMINAL_PROMPT=0 git -c credential.helper= ls-remote origin
+```
 
-   ```sh
-   git remote set-url origin https://github.com/YOUR_PERSONAL_GITHUB_USERNAME/sales-manager-dashboard.git
-   git remote -v
-   git push -u origin main
-   ```
+変更前の設定と参照は `.git/remote-switch-20261028-nyql7owi/` に保存した。新しい接続先には参照がなく、`fetch --prune` により旧 `origin/main` が整理された。ローカルのmain、作業ブランチ、作者設定、既存ファイルは維持している。
 
-5. `git remote -v` とGitHub上の所有者・ファイルを確認し、結果を `docs/PROGRESS.md` に記録する。macOSのキーチェーンが以前の認証情報を使用する場合があるため、権限エラーが出た場合は接続先と認証アカウントを確認する。
+次の操作は新しい接続先へのmainの初回pushで、今回は実行していない。ユーザーからpushの指示を受けた際に、対象と送信内容を確認して実施する。現在は空のリポジトリなので、通常のpushで送信でき、旧リポジトリの作者修正に使うforce pushは不要である。
 
-この切り替えは未実施。既存のGitHubリポジトリの削除・移管・公開範囲変更も行っていない。originのURL変更だけでは、既存接続先にある履歴や作者情報は消えない。[GitHub公式のリモート管理手順](https://docs.github.com/en/get-started/git-basics/managing-remote-repositories#changing-a-remote-repositorys-url) と [コミットメール設定](https://docs.github.com/en/account-and-profile/how-tos/email-preferences/setting-your-commit-email-address) に基づく。
+```sh
+git push -u origin main
+```
+
+このpushで送るmainには、レビュー待ちのDay 0資料は含まれない。初回push後に `origin/main` が作られ、`git branch -vv` で追跡先を確認できる。新しい接続先への書き込み権限と、保存済み認証情報がその操作に使用できるかは未検証。PATを使う場合はResource ownerと対象リポジトリを確認する。
+
+既存のGitHubリポジトリの削除・移管・公開範囲変更は行っていない。originのURL変更だけでは、旧接続先にある履歴や作者情報は消えない。[GitHub公式のリモート管理手順](https://docs.github.com/en/get-started/git-basics/managing-remote-repositories#changing-a-remote-repositorys-url) と [コミットメール設定](https://docs.github.com/en/account-and-profile/how-tos/email-preferences/setting-your-commit-email-address) に基づく。
 
 以下は、これまでの接続作業の記録と一般的な初期設定手順である。
 
@@ -57,9 +63,9 @@ GitHubのSettingsからDeveloper settings、Personal access tokens、Fine-graine
 
 トークンは認証入力欄で使用し、チャット・記事・設定ファイル・リモートURLには書き込まない。GitHub CLIやGit Credential Managerを導入して認証する方法も、同じ公式手順から確認できる。
 
-## 3. ローカルのGitに接続先を登録してpushする
+## 3. 旧接続先への初回push（実施済みの記録）
 
-作業ディレクトリは `AdventCalendar_2026/sales-manager-dashboard/`。このプロジェクトでユーザーが実行したコマンドは次のとおり。originの登録とmainの初回pushは完了しているため、以下は実行済みの操作記録として参照する。
+作業ディレクトリは `AdventCalendar_2026/sales-manager-dashboard/`。ユーザーが旧接続先に対して実行したコマンドは次のとおり。以下は実行済みの操作記録であり、現在のoriginを旧URLに戻す手順ではない。
 
 ```sh
 git remote add origin https://github.com/DF-HW/sales-manager-dashboard.git
@@ -96,7 +102,7 @@ GitHub上の設定だけでは、コマンドラインの作者メールや過�
 
 ## 公開記事とリポジトリの確認結果
 
-記事の操作例では、個人名・メールアドレス・PC名・ローカルパスを仮表記にする。個人側の公開用リポジトリが未作成のため、記事から既存接続先への実リンクを外し、個人側のURL確定後に追記する。
+記事の操作例では、個人名・メールアドレス・PC名・ローカルパスを仮表記にする。個人側のリポジトリの作成と読み取り確認を終えたため、記事のリポジトリリンクを確定した個人側のURLに更新した。
 
 既存履歴を確認したところ、公開済みmainの2コミットには修正前の個人用作者情報が含まれていた。実際の値は記事に再掲しない。最初にローカルの6コミットを指定の表示名・メールへ変更し、その後のメール非公開化の希望とアカウント選択に従って、作業時点の8コミットをnoreplyへ修正した。最新の指示で作者名を `hirolisberger` に固定し、その変更時点の10コミットも同じ名前に統一した。各コミットのファイルツリー・メッセージ・日時は同一で、作者情報と、それに伴うコミットID・親IDが変更されている。
 
@@ -106,4 +112,4 @@ noreplyへの変更直前の8コミットと作業ファイル9件は `.git/nore
 
 作者名の固定直前の10コミットと作業ファイル9件は `.git/author-name-fix-20261027-xgn7450a/` にバックアップ済み。履歴のbundle、ファイルのtar、設定・index・新旧コミット対応を保存した。これらのローカルバックアップも通常のpushには含まれない。
 
-GitHubのmainを修正するには、公開済みの2コミットを修正後の履歴へ更新する必要がある。リモート反映はまだ行っていない。実行する場合は対象をmainだけに限定し、リモートのmainが確認済みの旧コミットと一致する場合だけ更新する `--force-with-lease` を使う。Day 0のレビュー前の内容はmainへマージしない。
+旧接続先のmainに残る作者情報を修正する場合は、旧リポジトリに対する別の操作となる。今回の切り替えでは旧リポジトリを変更していない。今後ユーザーから明示的な指示がある場合に限り、対象と最新の参照を確認して履歴更新を行う。新しい接続先には旧履歴がないため、修正済みローカルmainの初回送信は通常のpushで行える。Day 0のレビュー前の内容はmainへマージしない。
