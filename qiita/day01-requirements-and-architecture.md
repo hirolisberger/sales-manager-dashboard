@@ -2,8 +2,6 @@
 
 シリーズ：**Next.js・Python・LocalStack・AWSで作る売上管理システム**
 
-前回：[Day 0：プロジェクトとGitHubの準備](day00-project-setup-and-github.md)
-
 公開予定：2026年12月1日（日本時間）。開発・レビューとQiitaへの公開は別に管理しています。
 
 ## はじめに
