@@ -18,7 +18,8 @@
 | Gitリポジトリ | `sales-manager-dashboard`。作者名の変更時点の既存10コミットのAuthor/Committerを `hirolisberger` と確認済みnoreplyへ統一済み。Day 0をmainへ `--no-ff` でマージし、現在の作業ブランチはmain。Day 1のブランチは未作成 |
 | 作者の表示名・紐づけ先 | 作者名は `hirolisberger` に固定し、GitHub上の紐づけ先も同じ個人アカウント。このアカウントのnoreplyをGitのローカル設定で使用。グローバル設定は変更なし |
 | GitHub連携 | originは個人アカウントの [hirolisberger/sales-manager-dashboard](https://github.com/hirolisberger/sales-manager-dashboard)。リポジトリ作成・origin設定・認証なしの読み取り確認が完了。参照はなく、初回pushは未実施。詳細は [GITHUB_SETUP.md](GITHUB_SETUP.md) を参照 |
-| GitHubへのコード送信 | 未実施。通常の初回pushで確認済みのローカルmainを送信する |
+| GitHubへのコード送信 | 未完了。初回pushで認証アカウントの不一致による403が発生。ローカルの認証選択設定を修正済みで、個人アカウントのPAT入力待ち |
+| GitHub認証設定 | このリポジトリの `credential.https://github.com.username` を `hirolisberger`、`credential.https://github.com.useHttpPath` を `true` に設定済み。helperは既存の `osxkeychain` を維持。グローバル設定・保存済み資格情報は変更していない |
 | Qiita公開済み | 本編0 / 25記事、追加のDay 0は0 / 1記事。計0 / 26記事 |
 | 公開予定 | 本編は2026-12-01〜2026-12-25、1日1記事に固定。追加のDay 0は未定。日本時間、時刻未設定 |
 | Qiita投稿・予約登録 | すべて未投稿・未登録。今回のルール変更はQiita操作の許可ではない |
@@ -38,16 +39,16 @@
 | 記事ファイル | [qiita/day00-project-setup-and-github.md](../qiita/day00-project-setup-and-github.md) |
 | 変更ファイル | `AGENTS.md`、`README.md`、`docs/ARTICLE_PLAN.md`、`docs/DAY0_SETUP.md`、`docs/GITHUB_SETUP.md`、`docs/PROGRESS.md`、`docs/ROADMAP.md`、`qiita/day00-project-setup-and-github.md` |
 | 検証結果 | 全9ファイルの配置、ローカル文書リンク、Markdownの表・書式、記事内シェル例の構文、.gitignore抜粋と実ファイルの一致、記事の匿名化、`git diff --check` を確認。originの取得・送信URLとローカルの作者設定は設定済み。認証なしの `ls-remote` とfetchの成功・参照なしは2026-10-28に確認済み。今回は個人アカウントへの初期接続手順として資料・記事の記述を統一 |
-| 未検証 | 初回push・書き込み権限、使用する認証情報・トークンの識別、GitHubのブラウザー上の表示、Qiita上での表示・投稿操作。アプリケーションのテスト環境はDay 2以降に整備 |
+| 未検証 | 初回pushの完了・書き込み権限、使用する認証情報・トークンの識別、GitHubのブラウザー上の表示、Qiita上での表示・投稿操作。認証ユーザー・資格情報の分離設定は確認済みで、本人によるPAT入力を待つ。アプリケーションのテスト環境はDay 2以降に整備 |
 | 公開ステータス | 未投稿 |
 | 公開予定日 | 未定。本編の12月1日〜25日の公開枠は変更しない |
 | Qiita記事URL | 未取得 |
-| GitHub連携 | 個人アカウントのリポジトリをoriginとして設定し、読み取り確認済み。mainの追跡設定はoriginのmain。初回push後に `origin/main` の参照を作成する |
+| GitHub連携 | 個人アカウントのリポジトリをoriginとして設定し、読み取り確認済み。認証ユーザーの選択設定は修正済みで、PATの入力待ち。mainの追跡設定はoriginのmain。初回push成功後に `origin/main` の参照が作成される |
 | レビュー対象コミット | `17663bc7deb831aa5cb68bac0e00f7f4ea6fb0a7`。このハッシュを記録する進捗更新は別コミットとし、記事内容の変更には含めない |
 | 前回のレビュー対象コミット | `65e5530`（GitHub接続手順の整備）、`cbbaadb`（作者名の固定）、作者名修正後の `0f862ec`（旧 `982fc8c`、noreply対応）、`de284ce`（旧 `db2a638` / `641efa2`、記事）、`e31d352`（旧 `28d153d` / `882bc56`、接続結果）、`bee84a7`（旧 `8401311` / `e462e20`、初版資料） |
 | レビュー依頼日（JST） | 2026-10-27（初回）、2026-10-28（初期接続手順の整理後） |
 | レビュー確認項目 | 個人アカウントへの初期接続から初回pushまでの説明、公開記事の内容と匿名化、リポジトリリンク、コミット作者情報、Day 0の公開予定日 |
-| 未解決事項 | main初回pushは未実施・書き込み権限は未検証。GitHubのメール非公開チェック状態は未確認。Day 0公開日は未確定。端数処理・計上日・訂正取消の詳細はDay 1で決定 |
+| 未解決事項 | main初回pushは認証待ちで未完了。個人アカウントで発行した対象リポジトリ用PATを本人のターミナルで入力する必要がある。GitHubのメール非公開チェック状態は未確認。Day 0公開日は未確定。端数処理・計上日・訂正取消の詳細はDay 1で決定 |
 | ユーザーの承認・mainへのマージ | 承認済み・ローカルmainへマージ済み |
 | ユーザーの承認発言 | 「Day0は問題ありません。」。対象Dayを明示したレビュー承認として記録 |
 | レビュー承認日（JST） | 2026-10-28 |
@@ -230,3 +231,4 @@ Qiita記事URL（限定共有・予約登録時点でも記録）: 未記録
 | 2026-10-28 | 個人アカウントの `hirolisberger/sales-manager-dashboard` の作成とorigin設定を確認。認証なしの読み取り・fetchに成功し、参照がないことを確認。資料と記事に実リンクと接続確認結果を記載。初回push・Day 0のマージ・Day 1着手・Qiita投稿は未実施 |
 | 2026-10-28 | ユーザー指定により、準備資料・GitHub接続手順・Qiita記事を、個人アカウントへ初めて接続する流れに統一。初回pushは未実施として記載し、Day 0は引き続きレビュー待ち |
 | 2026-10-28 | 「Day0は問題ありません。」をレビュー承認として記録。承認対象 `17663bc` との差分が進捗の記録のみであることと、GitHubが空であることを確認し、`feature/day00` をmainへ `--no-ff` でマージ（`cb11d8d`）。資料と記事の承認・マージ状態のみ更新。初回push・Day 1着手・Qiita投稿は未実施 |
+| 2026-10-28 | 初回pushの403を調査し、別アカウントの資格情報が使用されていると判明。このリポジトリ内だけで認証ユーザーを `hirolisberger` に固定し、リポジトリ単位の資格情報分離を有効化。修正前設定を `.git/credential-fix-20261028-8z0_izb0/` に保存。個人アカウント用資格情報が見つからず、再試行はパスワード入力要求で停止。本人のターミナルでのPAT入力待ち。Day 0の承認とマージは維持し、Day 1は未着手 |
