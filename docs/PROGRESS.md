@@ -10,7 +10,7 @@
 | 初期設定 | ルール・概要・25日分の計画・進捗台帳・除外設定を作成済み |
 | 記事企画 | 本編25記事の企画とDay 0を [ARTICLE_PLAN.md](ARTICLE_PLAN.md) で管理。Day 0とDay 1の本文を作成。Day 2以降の本文は未着手 |
 | 業務前提 | 小規模店舗・管理者のみ・税込整数円・整数数量、日別/月別と過去の売上参照、日本時間の計上日・過去日の訂正取消・最新版集計を確認済み。[REQUIREMENTS.md](REQUIREMENTS.md) に確認済み事項と追加の設計案を分けて記録 |
-| 作業中のDay | Day 1はレビュー承認・mainへのマージ済み。ユーザーの指示に従いGitHubへ反映する。Day 2は未着手 |
+| 作業中のDay | Day 1はレビュー承認・mainへのマージ・GitHubへのpushを完了。Day 2は未着手・開始指示待ち |
 | 次の着手条件 | ユーザーからのDay 2開始指示。Qiitaへの投稿・公開は開始条件に含めない |
 | レビュー待ち | なし。Day 1の[要件・設計資料](REQUIREMENTS.md) と [公開用記事](../qiita/day01-requirements-and-architecture.md) は承認済み |
 | 承認済みDay | Day 0・Day 1（いずれも2026-10-28） |
@@ -18,7 +18,7 @@
 | Gitリポジトリ | mainとorigin/mainの最新状態をfetchで確認した後、`feature/day01` をmainへ `--no-ff` でマージ。現在の作業ブランチはmain |
 | 作者の表示名・紐づけ先 | 作者名は `hirolisberger` に固定し、GitHub上の紐づけ先も同じ個人アカウント。このアカウントのnoreplyをGitのローカル設定で使用。グローバル設定は変更なし |
 | GitHub連携 | originは個人アカウントの [hirolisberger/sales-manager-dashboard](https://github.com/hirolisberger/sales-manager-dashboard)。リポジトリ作成・origin設定・main初回pushを完了。初回push確認時のローカルmain・`origin/main`・GitHub側mainは `d71bc3e` で一致。詳細は [GITHUB_SETUP.md](GITHUB_SETUP.md) を参照 |
-| GitHubへのコード送信 | main初回pushは完了。403は認証選択設定の修正とユーザーによるPAT入力で解消。Day 0資料・記事を含むmainを送信済み |
+| GitHubへのコード送信 | Day 0とDay 1を含むmainを送信済み。Day 1反映の最初の確認時は `d667c6a` でローカルmainと `origin/main` が一致。以後の進捗記録更新もユーザーが指示したmainの通常pushに含める |
 | GitHub認証設定 | このリポジトリの `credential.https://github.com.username` を `hirolisberger`、`credential.https://github.com.useHttpPath` を `true` に設定済み。helperは既存の `osxkeychain` を維持。グローバル設定は変更せず、保存された資格情報の中身は読み出していない |
 | Qiita公開済み | 本編0 / 25記事、追加のDay 0は0 / 1記事。計0 / 26記事 |
 | 公開予定 | 本編は2026-12-01〜2026-12-25、1日1記事に固定。追加のDay 0は未定。日本時間、時刻未設定 |
@@ -84,7 +84,7 @@
 | レビュー承認日（JST） | 2026-10-28 |
 | mainマージコミット | `3b4292f901f7e3553c5a19a9e286304348b4810b`。マージ対象のブランチ先端は `c8ba7b3c28a4e47efd39d6a53bd733efa0b16ae6` |
 | 承認後の記録更新 | 承認・マージ・pushの実績記録のみ更新。記事の手順・設計の内容は変更しない。Day 0リンクは削除した状態を維持 |
-| GitHubへのpush・Qiita投稿 | mainへのpushは今回のユーザー指示で実行し、結果を照合して記録する。Qiitaへの投稿・更新・予約登録は未実施 |
+| GitHubへのpush・Qiita投稿 | Day 1を含むmainへの通常pushが成功。最初の反映確認時のコミットは `d667c6a534ccc440c25a4a4750fba2399f2a79db`。ローカルmainと追跡参照の一致を確認。Qiitaへの投稿・更新・予約登録は未実施 |
 | 次のDayへ進める状態 | Day 1の成果物・記事・検証・レビュー承認・mainマージの条件を満たす。Day 2は開始指示待ち |
 
 ## 公開記事の匿名化と履歴の確認
@@ -268,3 +268,4 @@ Qiita記事URL（限定共有・予約登録時点でも記録）: 未記録
 | 2026-10-28 | Day 1の設計例10件と数値・日付境界例、記事内コマンド、要件の対応、文書リンク・書式・匿名化を確認し、実装完了・レビュー待ちへ更新。Mermaidの描画とアプリケーション実動作は未検証として区別。公開予定は2026-12-01、Day 2は未着手 |
 | 2026-10-28 | Day 0のQiita公開可否を検討中という指示を受け、Day 1記事冒頭のDay 0リンクを削除。Day 0のファイルを保持し、自動でリンクを追加しない方針を記録。Day 1は引き続きレビュー待ち |
 | 2026-10-28 | 「Day 1レビューOK。」とmainへのマージ・GitHubへのpush指示を受領。承認対象 `97b377e` とブランチ先端 `c8ba7b3` の差分が進捗記録のみであることを確認し、最新mainへ `--no-ff` でマージ（`3b4292f`）。承認・マージ状態を資料と記事へ反映。Day 2着手・Qiita投稿は未実施 |
+| 2026-10-28 | 承認済みDay 1とマージ記録を含むmain `d667c6a` の通常pushが成功。ローカルmainと `origin/main` の一致を確認し、送信結果を記録。Day 2は開始指示待ち、Qiita投稿・更新・予約登録は未実施 |
