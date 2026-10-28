@@ -58,34 +58,38 @@ Gitの初期化と、プロジェクト名・配置の変更は完了してい�
 
 | コミット | 内容 |
 | --- | --- |
-| `2261125`（初回 `eec7aeb`） | 初期ドキュメント・除外設定・GitHub連携手順を登録。作者名・noreply修正後のID |
-| `725a856`（初回 `4492b07`） | プロジェクト名と配置をsales-manager-dashboardへ変更。作者名・noreply修正後のID |
+| `2261125` | 初期ドキュメント・除外設定・GitHub連携手順を登録 |
+| `725a856` | プロジェクト名と配置をsales-manager-dashboardへ変更 |
 
 今回のDay 0資料と記事は `feature/day00` で作成し、レビュー待ちにします。レビュー承認前にmainへマージしません。最新の状態とレビュー対象コミットは [PROGRESS.md](PROGRESS.md) に記録します。
 
 ## GitHubと連携する手順
 
-ユーザーが [DF-HW/sales-manager-dashboard](https://github.com/DF-HW/sales-manager-dashboard) を作成し、originの登録とmainの初回pushを完了しました。以下は、その操作の流れを記録したものです。
-
-その後、ユーザーが個人アカウント側に [hirolisberger/sales-manager-dashboard](https://github.com/hirolisberger/sales-manager-dashboard) を作成し、2026-10-28に指示を受けてoriginを切り替えました。認証なしでの読み取り確認と `fetch --prune` に成功し、新しいリポジトリにコミットがないことを確認しています。個人側へのpushは未実施です。以下は旧接続先への初回pushの記録で、今回の切り替え手順は [GITHUB_SETUP.md](GITHUB_SETUP.md) に記載しています。
+個人アカウントの [hirolisberger/sales-manager-dashboard](https://github.com/hirolisberger/sales-manager-dashboard) を使用します。リポジトリの作成、originの設定、読み取り確認は完了しており、初回pushは未実施です。以下は、このリポジトリに初めて接続する場合の手順です。
 
 1. 自分のGitHubアカウントで、`sales-manager-dashboard` という空のリポジトリを作成します。公開範囲を選び、README・`.gitignore`・ライセンスの自動追加は選びません。
 2. HTTPS用の認証を準備します。認証入力でパスワードを求められた場合はPersonal Access Tokenを使用します。作成方法と権限の設定は [GITHUB_SETUP.md](GITHUB_SETUP.md) にまとめています。
-3. プロジェクトルートで次のコマンドを実行します。このプロジェクトではユーザーが実行済みです。
+3. プロジェクトルートでoriginを登録し、接続先を確認します。このプロジェクトではoriginを設定済みのため、`remote add` の再実行は不要です。
 
    ```sh
-   git remote add origin https://github.com/DF-HW/sales-manager-dashboard.git
+   git remote add origin https://github.com/hirolisberger/sales-manager-dashboard.git
    git remote -v
+   git ls-remote origin
+   ```
+
+4. mainの初回pushを行います。これは今後実施する操作で、現時点では未実施です。
+
+   ```sh
    git push -u origin main
    ```
 
-4. GitHubのmainに初期ファイルが表示されることを確認します。ローカルでは `git branch -vv` でmainと `origin/main` の対応を確認できます。
+5. push後にGitHubのmainに初期ファイルが表示されることと、`git branch -vv` でmainの追跡先が `origin/main` になっていることを確認します。
 
 この流れは [GitHub公式の既存リポジトリ追加手順](https://docs.github.com/en/migrations/importing-source-code/using-the-command-line-to-import-source-code/adding-locally-hosted-code-to-github) に基づきます。
 
-初回pushでは、パスワード入力を求められずに成功しました。Gitの認証設定は `osxkeychain` であり、macOSのキーチェーンに保存済みの認証情報が使われた可能性が高いと考えられます。認証情報の内容や、どのトークンが使われたかは確認していません。初回push時はmainと `origin/main` が `4492b07` で一致し、追跡設定が完了していました。
+読み取り確認では、認証なしの `ls-remote` とfetchが正常終了し、参照がないことを確認しました。まだコミットを送信していないため、GitHub側にmainはありません。mainの追跡設定はoriginのmainですが、`origin/main` の参照は初回push後に作成されます。詳しい手順と確認結果は [GITHUB_SETUP.md](GITHUB_SETUP.md) にまとめています。
 
-その後、選択した個人アカウントのnoreplyを使用し、作者名も `hirolisberger` に固定する方針になりました。作者名の変更時点の10コミットを修正し、現在のローカルmainは `725a856` です。各コミットのファイル内容・メッセージ・日時と、作業ファイル9件が修正前後で保たれていることを確認しました。今回の接続先切り替えでは、ローカルのmainと作業ブランチの履歴を維持しています。旧接続先を指していた `origin/main` はpruneで整理し、新しい接続先にはmainがまだありません。旧リポジトリの公開済み履歴も変更していません。
+作者名は `hirolisberger` に固定し、個人アカウントの確認済みnoreplyを使用しています。ローカルmainは `725a856` です。認証helperには `osxkeychain` が設定されていますが、初回push時に使用する認証情報や書き込み権限は未検証です。
 
 現在の作業ブランチは `feature/day00` です。上記のpushが送るのはmainであり、レビュー待ちのDay 0資料は含まれません。Day 0を承認してmainへマージした後、mainを再度pushすると資料も反映されます。レビュー用にDay 0のブランチを共有する場合は、対象ブランチを明示して別途pushします。
 
@@ -101,8 +105,8 @@ GitHub操作をCodexに依頼する場合も、対象リポジトリと許可さ
 | 確認済みの業務前提の記録 | 完了 |
 | Gitの初期化とローカルの作者修正 | 完了。作者名を固定する変更時点の10コミットを `hirolisberger` と確認済みnoreplyへ統一 |
 | Day 0資料・公開用記事・GitHub連携手順 | 作成済み・レビュー待ち。実際のQiita投稿は未実施 |
-| 既存接続先へのmainの初回push | ユーザーが実施済み。作者修正後のmainのGitHub反映は未実施 |
-| 個人アカウントでの公開用リポジトリ | 作成済み。originを切り替え、読み取り確認と記事リンクの更新を完了。初回pushは未実施 |
+| 個人アカウントでの公開用リポジトリ | 作成済み。originの設定、読み取り確認、記事リンクの記載を完了 |
+| mainの初回push | 未実施。送信後にGitHub上のファイルと追跡先を確認する |
 | 端数処理・計上日・訂正取消の詳細決定 | Day 1で実施 |
 | Node.js・Pythonなどの採用バージョンと環境構築 | Day 2で整備。現在のインストール状況は未確認 |
 | LocalStackの環境構築 | Day 3で実施 |
@@ -111,6 +115,6 @@ GitHubの接続完了はDay 1開始の必須条件にはしません。必要な
 
 ## 検証とレビューで確認してほしいこと
 
-資料の検証結果とレビュー対象コミットは [PROGRESS.md](PROGRESS.md) を参照してください。旧接続先へのpushはユーザーの成功ログとローカルのGit設定・参照から確認済みです。新しい接続先への読み取り確認にも成功しています。新しい接続先への書き込み権限、認証情報の内容と使用トークンの識別、ブラウザー上の表示は未確認です。アプリケーションのテスト環境はDay 2以降に整備します。
+資料の検証結果とレビュー対象コミットは [PROGRESS.md](PROGRESS.md) を参照してください。originの設定とGitHubへの読み取り接続を確認済みです。書き込み権限、認証情報の内容と使用トークンの識別、ブラウザー上の表示は未確認です。アプリケーションのテスト環境はDay 2以降に整備します。
 
-レビューでは、プロジェクトの配置、業務前提、25記事の進め方、GitHub接続手順、記事の匿名化、個人側への切り替え結果と記事リンクを確認してください。Day 0はレビュー待ちで停止し、Day 1には自動的に進みません。
+レビューでは、プロジェクトの配置、業務前提、25記事の進め方、個人アカウントへの初期接続手順、記事の匿名化、リポジトリリンクを確認してください。Day 0はレビュー待ちで停止し、Day 1には自動的に進みません。

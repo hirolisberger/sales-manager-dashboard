@@ -6,7 +6,7 @@
 
 本編に入る前に、Day 0としてプロジェクトの配置、作業ルール、Git、GitHubとの連携を整えました。この記事は本編25記事とは別の準備編です。アプリケーションの実装はDay 1以降に進めます。
 
-公開用のリポジトリは [sales-manager-dashboard](https://github.com/hirolisberger/sales-manager-dashboard) です。個人アカウント側に作成し、接続先を切り替えました。現時点ではまだコミットを送信していません。
+公開用のリポジトリは、個人アカウントの [sales-manager-dashboard](https://github.com/hirolisberger/sales-manager-dashboard) です。このリポジトリをoriginに設定し、読み取り接続を確認しました。現時点ではまだコミットを送信していません。
 
 コマンドやログ中のユーザー名、メールアドレス、PC名、個人を含む絶対パスは、説明用の仮表記にしています。コマンド例の `YOUR_GITHUB_USERNAME` などは、自分の設定に置き換えて使用してください。
 
@@ -151,7 +151,7 @@ git config --local user.email "YOUR_GITHUB_NOREPLY_EMAIL"
 
 この設定例は、公開向けに手順を整理する際に追加したものです。今回の準備で先に確認しておきたかった点でもあります。設定変更の対象は、以降に作るコミットです。過去のコミットの作者名やメールアドレスは、自動では変わりません。[GitHub公式の説明](https://docs.github.com/en/account-and-profile/how-tos/email-preferences/setting-your-commit-email-address#setting-your-email-address-in-git)
 
-今回も、既存のコミットが意図した作者情報になっていないことが後から分かりました。作者名は個人アカウント名と同じ表記に固定し、メールにはそのアカウントのnoreplyを使う方針にしました。バックアップを作成して作者名の変更時点のローカル10コミットを修正し、ファイル内容・メッセージ・日時が同じであることを確認しました。コミットIDも変わるため、公開済みのGitHubへの反映は別の操作として管理しています。操作例では実際の作者メールやアカウント名を仮表記にしています。
+作者名は個人アカウント名と同じ表記に固定し、メールにはそのアカウントのnoreplyを使います。今回も、初回pushの前にローカルの作者情報を確認しました。既存コミットを修正する際は、バックアップを作成し、ファイル内容・メッセージ・日時が保たれていることを確認します。操作例では実際の作者メールやアカウント名を仮表記にしています。
 
 GitHubのメール設定では「Keep my email addresses private」を有効にし、必要に応じて「Block command line pushes that expose my email」も有効にします。これらの設定は、既存コミットを自動で匿名化する機能ではありません。コマンドラインで使うメールには、別途Gitの設定が必要です。[GitHub公式の非公開メール露出防止設定](https://docs.github.com/en/account-and-profile/how-tos/email-preferences/blocking-command-line-pushes-that-expose-your-personal-email-address)
 
@@ -203,56 +203,37 @@ Contentsを選んだときに、読み書きの設定が見つからず迷いま
 
 設定後にGenerate tokenを押し、表示されたトークンを手元で保管します。トークンを記事、チャット、GitのリモートURL、コミットする設定ファイルに貼り付けないようにします。
 
-## 8. originを登録し、mainをpushする
+## 8. originを登録し、GitHubへの接続を確認する
 
-プロジェクトルートで、接続先を登録します。次のURLは操作例なので、`YOUR_GITHUB_USERNAME` を自分のユーザー名へ置き換えます。
+初めて接続する場合は、プロジェクトルートで個人アカウントのリポジトリをoriginとして登録します。次のURLは操作例なので、`YOUR_GITHUB_USERNAME` を自分のユーザー名へ置き換えます。このプロジェクトではoriginを設定済みのため、`remote add` の再実行は不要です。
 
 ```sh
 git remote add origin https://github.com/YOUR_GITHUB_USERNAME/sales-manager-dashboard.git
 git remote -v
+git ls-remote origin
+```
+
+今回、認証なしでGitHubから読み取れることを確認しました。`ls-remote` は正常終了し、参照は表示されませんでした。まだコミットを送信していないため、GitHub側にmainはありません。読み取り成功だけでは書き込み権限の確認にはなりません。
+
+### mainの初回pushは次の操作
+
+次はローカルmainの送信です。以下は今後実施するコマンドであり、現時点では未実施です。リポジトリは空なので、通常のpushを使用します。
+
+```sh
 git push -u origin main
 ```
 
 HTTPS認証で入力を求められた場合、ユーザー名にはGitHubのユーザー名、パスワード欄にはPATを入力します。GitHubのログインパスワードを使う手順ではありません。[GitHub公式のPAT利用方法](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#using-a-personal-access-token-on-the-command-line)
 
-旧接続先への初回pushは成功しました。以下はそのときの成功ログから、ユーザー名を仮表記にした部分だけを抜粋したものです。後述する個人アカウント側への切り替え後は、まだpushしていません。
+push後は、GitHubにmainと初期ファイルが表示されることを確認します。`git branch -vv` でmainの追跡先が `origin/main` になっていることと、ローカルmainと追跡参照のコミットが一致することも確認します。[GitHub公式の既存リポジトリ追加手順](https://docs.github.com/en/migrations/importing-source-code/using-the-command-line-to-import-source-code/adding-locally-hosted-code-to-github)
 
-```text
-To https://github.com/YOUR_GITHUB_USERNAME/sales-manager-dashboard.git
- * [new branch]      main -> main
-branch 'main' set up to track 'origin/main'.
-```
-
-push後は `git branch -vv` でmainの追跡先が `origin/main` になっていることを確認します。旧接続先への初回push時には、ローカルmainと `origin/main` のコミットが一致することも確認できました。
-
-### 個人アカウントのリポジトリへ接続先を切り替える
-
-ローカルのコードと履歴は、そのまま利用できます。2026年10月28日、個人アカウントに作成済みの空のリポジトリへ、originを切り替えました。以下はその手順を仮表記にしたものです。
-
-```sh
-git remote set-url origin https://github.com/YOUR_PERSONAL_GITHUB_USERNAME/sales-manager-dashboard.git
-git remote -v
-git fetch --prune origin
-git ls-remote origin
-```
-
-接続先の変更は、既存のリモートURLを書き換える操作です。`fetch --prune` で旧接続先の追跡情報も整理しました。[GitHub公式のリモート管理手順](https://docs.github.com/en/get-started/git-basics/managing-remote-repositories#changing-a-remote-repositorys-url)
-
-認証なしで新しい接続先から読み取れることを確認しました。`ls-remote` は正常終了し、参照は表示されませんでした。まだコミットを送信していないため、新しい接続先にはmainもありません。`git branch -vv` で追跡先が `gone` と表示されることがありますが、初回push後に追跡参照が作られます。読み取り成功だけでは書き込み権限の確認にはなりません。
-
-次は新しい接続先への初回pushです。以下は次に実施するコマンドであり、今回の切り替えでは実行していません。新しい接続先は空のため、通常のpushを使用します。
-
-```sh
-git push -u origin main
-```
-
-新しいリポジトリにも既存のコミット履歴が送られます。作者名やメールアドレスを公開したくない場合は、送信前に履歴と今後の作者設定を確認します。今後の作者設定だけを変えても、過去の情報は変わりません。
+初回pushでは既存のコミット履歴も送られます。作者名やメールアドレスを公開したくない場合は、送信前に履歴と今後の作者設定を確認します。今後の作者設定だけを変えても、過去の情報は変わりません。
 
 ### パスワードを求められなくても、成功していれば正常
 
-今回、push時にパスワード入力が表示されませんでした。確認すると、GitHub向けの認証helperには `osxkeychain` が設定されていました。macOSのキーチェーンに保存されていた認証情報が使われた可能性が高いと考えています。
+認証情報が保存されている環境では、毎回の入力が省略されることがあります。今回のmacOS環境では、GitHub向けの認証helperに `osxkeychain` が設定されていることを確認しました。初回pushは未実施のため、その際にどの認証情報が使われるかは未確認です。[GitHub公式の認証情報保存の説明](https://docs.github.com/en/get-started/git-basics/caching-your-github-credentials-in-git)
 
-認証情報が保存されている環境では、毎回の入力が省略されることがあります。どのトークンが使われたかまでは確認していませんが、今回確認できたのはpushの成功とmainの追跡設定です。[GitHub公式の認証情報保存の説明](https://docs.github.com/en/get-started/git-basics/caching-your-github-credentials-in-git)
+実際にpushした際は、パスワード欄の有無だけで判断せず、コマンドの終了結果、GitHub上のファイル、mainの追跡先を確認します。
 
 ## 9. Dayごとの作業はfeatureブランチで進める
 
@@ -271,16 +252,16 @@ git switch -c feature/day00
 | 確認内容 | 結果 |
 | --- | --- |
 | プロジェクトの配置 | `sales-manager-dashboard/` をプロジェクトとGitのルートに統一 |
-| Gitの履歴 | ファイル内容・メッセージ・日時を保ってローカルの作者情報を修正。GitHubへの修正反映は未実施 |
-| GitHubへの接続 | 個人側の作成済みリポジトリへ切り替え、読み取り確認に成功。個人側への初回pushは未実施 |
-| mainの追跡先 | 設定は `origin/main`。旧参照はpruneで整理済み、新しい接続先にはmainがまだない |
-| 認証入力の省略 | `osxkeychain` の設定を確認。使用トークンの識別は未実施 |
+| Gitの作者情報 | 個人アカウントの作者名とnoreplyをローカル設定・既存コミットで確認 |
+| GitHubへの接続 | 個人アカウントのリポジトリをoriginに設定し、読み取り確認に成功。初回pushは未実施 |
+| mainの追跡先 | 設定は `origin/main`。参照は初回push後に作成される |
+| 認証設定 | `osxkeychain` の設定を確認。初回push時の認証は未検証 |
 | アプリケーション | 未実装。環境構築と動作確認は今後のDayで実施 |
 
-ローカルのGit管理とGitHubへの接続手順を整え、個人アカウント側への接続先変更を完了しました。新しい接続先へのmainの初回pushと、Day 0記事のレビュー・マージは別の作業として残っています。
+ローカルのGit管理と、個人アカウントのリポジトリへの初期接続を整えました。mainの初回pushと、Day 0記事のレビュー・マージは別の作業として残っています。
 
 ## まとめと次回
 
-Day 0では、プロジェクトの配置、開発と記事の進め方、Gitの初期設定、GitHubとの連携を整えました。トークン作成画面の場所、Contentsのアクセス設定、保存済み認証情報による入力の省略も、実際につまずいた点として確認できました。
+Day 0では、プロジェクトの配置、開発と記事の進め方、Gitの初期設定、個人アカウントのリポジトリへの接続を整えました。トークン作成画面の場所とContentsのアクセス設定を確認し、認証情報が保存されている場合の入力省略についても整理しました。
 
 次回のDay 1では、売上管理システムの要件と全体設計を整理します。税込金額の端数処理、計上日、訂正・取消の扱いを決め、各機能の完成条件を具体化する予定です。
