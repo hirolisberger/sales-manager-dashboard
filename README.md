@@ -2,7 +2,7 @@
 
 小規模店舗の商品別売上を管理する `sales-manager-dashboard` を、Next.js、Python、LocalStack、AWSで開発します。開発過程はQiita Advent Calendar 2026向けの本編25記事と、追加のDay 0準備編として記録します。
 
-Day 0の準備は承認・マージ・push済みです。現在は **Day 1の要件定義・全体設計・Qiita記事をレビューする段階**です。Day 1の成果物は設計資料で、起動可能なアプリケーションはまだありません。
+Day 0の準備は承認・マージ・push済みです。**Day 1の要件定義・全体設計・Qiita記事もレビュー承認を受け、mainへマージ済み**です。Day 2は開始指示待ちです。Day 1の成果物は設計資料で、起動可能なアプリケーションはまだありません。
 
 ## 目指す機能
 
@@ -27,7 +27,7 @@ Day 0の準備は承認・マージ・push済みです。現在は **Day 1の要
 | 計上日と変更 | 日本時間の取引日を手入力でき、過去日の登録・訂正・取消を認めて変更履歴を残す。訂正後の最新版を集計し、取消済みは除外する |
 | Day 1のレビュー対象 | 商品・売上の項目、入力上限、未来日の扱い、期間・集計・CSV・履歴・構成の設計案 |
 
-税込整数円・整数数量と、計上日・訂正取消・集計の方針はDay 1の追加質問で確認済みです。今回の金額範囲では丸め処理は発生しません。その他の詳細は [REQUIREMENTS.md](docs/REQUIREMENTS.md) の設計案としてレビューします。CSV取り込みはDay 18の追加機能とし、会計・税務申告や多通貨対応は初期範囲に含めません。
+税込整数円・整数数量と、計上日・訂正取消・集計の方針はDay 1の追加質問で確認済みです。今回の金額範囲では丸め処理は発生しません。その他の詳細も [REQUIREMENTS.md](docs/REQUIREMENTS.md) の設計案としてレビュー承認を受けました。CSV取り込みはDay 18の追加機能とし、会計・税務申告や多通貨対応は初期範囲に含めません。
 
 ## 技術方針
 
@@ -86,7 +86,7 @@ Day 0の資料と記事は `feature/day00` で作成し、2026-10-28にレビュ
 
 ## 開発とレビュー
 
-Day 1の成果物は [要件定義](docs/REQUIREMENTS.md)、[全体設計](docs/ARCHITECTURE.md)、[設計確認記録](docs/DAY1_REVIEW.md)、[Qiita記事](qiita/day01-requirements-and-architecture.md) です。`feature/day01` で作成し、レビュー承認を受けるまでmainへのマージ・Day 2の作業を行いません。
+Day 1の成果物は [要件定義](docs/REQUIREMENTS.md)、[全体設計](docs/ARCHITECTURE.md)、[設計確認記録](docs/DAY1_REVIEW.md)、[Qiita記事](qiita/day01-requirements-and-architecture.md) です。`feature/day01` で作成し、2026-10-28のレビュー承認後にmainへマージしました。Day 2は開始指示待ちです。
 
 開発は毎日行う必要はなく、ユーザーの都合に合わせて進めます。1回の作業では原則一つのDayを扱い、公開日程とは分けて管理します。
 
@@ -100,7 +100,7 @@ Day 1の成果物は [要件定義](docs/REQUIREMENTS.md)、[全体設計](docs/
 
 各Dayの完了報告には、実装内容、変更ファイル、テスト・動作確認結果、記事保存先、レビュー確認項目、未解決事項、次のDayへ進める状態かどうかを記載します。
 
-Gitリポジトリのルートは `sales-manager-dashboard/` です。コミットの作者名とGitHub上の紐づけ先は `hirolisberger` とし、その個人アカウントのnoreplyを使用します。Day 0はmainへのマージとGitHubへの初回pushを完了しています。現在の作業ブランチは、最新main `5d6fa18` から作成した `feature/day01` です。
+Gitリポジトリのルートは `sales-manager-dashboard/` です。コミットの作者名とGitHub上の紐づけ先は `hirolisberger` とし、その個人アカウントのnoreplyを使用します。Day 1はmain `5d6fa18` から作成した `feature/day01` で作業し、承認後にmainへマージしました。現在の作業ブランチはmainです。
 
 GitHubの接続先は [hirolisberger/sales-manager-dashboard](https://github.com/hirolisberger/sales-manager-dashboard) です。承認済みのDay 0資料・記事を含むmainの初回pushを完了し、ローカルとGitHub側のコミットID一致を確認しています。個人アカウントへの初期接続手順と確認結果は [GITHUB_SETUP.md](docs/GITHUB_SETUP.md) に記載しています。Day 1に進むための必須準備は完了しています。
 
