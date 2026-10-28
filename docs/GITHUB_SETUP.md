@@ -5,13 +5,13 @@
 - `AdventCalendar_2026/sales-manager-dashboard/` をプロジェクトとGitのルートとし、mainと既存のコミット履歴を引き継いでいる。
 - コミットの作者名とGitHub上の紐づけ先は、ユーザーが選択した個人アカウント `hirolisberger` に統一する。この作者名と当該アカウントの確認済みnoreplyをリポジトリのローカル設定に使用し、作者名を固定する変更時点の既存10コミットのAuthor/Committerも統一した。グローバル設定は変更していない。
 - GitHubの接続先は個人アカウントの [hirolisberger/sales-manager-dashboard](https://github.com/hirolisberger/sales-manager-dashboard)。リポジトリはユーザーが作成済みで、originの取得・送信URLも設定済み。
-- 認証なしの `ls-remote` とfetchで読み取りに成功し、参照がない状態を確認した。リポジトリにはまだコミットがなく、初回pushは未実施。ローカルmainには承認済みのDay 0をマージ済みで、GitHub側のmainとローカルの追跡参照 `origin/main` はまだない。
-- GitHub向けのcredential helperは `osxkeychain`。保存済みの認証情報があれば入力を省略できる場合があるが、初回pushの認証・書き込み権限は未検証。認証情報そのものは読み出していない。
+- mainの初回pushはユーザーが完了した。初回push確認時のローカルmain・`origin/main`・GitHub側mainは `d71bc3e` で一致。承認済みのDay 0資料と記事も送信済み。
+- GitHub向けのcredential helperは `osxkeychain`。このリポジトリでは認証ユーザーを `hirolisberger` に固定し、資格情報をリポジトリ単位で分ける設定を使用している。ユーザーの認証後にpush成功を確認済み。認証情報そのものは読み出していない。
 - GitHub CLI（`gh`）は現環境で見つからなかったため、この手順ではブラウザーとGitを使う。
 - Day 1の開始時に `feature/day01` を作成する。GitHubの接続はDay 1開始の必須条件ではない。
 - 現在の作業ブランチはmain。準備記録は [DAY0_SETUP.md](DAY0_SETUP.md)、Qiita向けの公開本文は [Day 0記事](../qiita/day00-project-setup-and-github.md) にまとめる。Day 0は2026-10-28にレビュー承認・ローカルmainへのマージを完了した。Qiitaへの投稿操作は未実施。
 
-以下は、個人アカウントのリポジトリへ初めて接続する場合の手順である。実施済みの設定と、初回pushなどの今後の操作を区別して記載する。
+以下は、個人アカウントのリポジトリへ初めて接続する場合の手順である。このプロジェクトではリポジトリ作成からmainの初回pushまで実施済み。
 
 ## 1. GitHubに空のリポジトリを作成する
 
@@ -26,7 +26,7 @@
 
 ## 2. HTTPSでの認証を準備する
 
-すでにGitHub用の認証が設定されている場合は、その方法を利用できる。今回の環境では `osxkeychain` が設定されている。初回push時に使用される認証情報やトークンの識別は未確認。
+すでにGitHub用の認証が設定されている場合は、その方法を利用できる。今回の環境では `osxkeychain` が設定されており、ユーザーの認証後に初回pushが成功した。保存されたトークンの内容は読み出していない。
 
 認証情報が保存されている場合は、毎回のパスワード入力が省略されることがある。入力が表示されないことだけではエラーとは判断せず、pushの成功ログと追跡先の設定を確認する。[GitHub公式の認証情報保存の説明](https://docs.github.com/en/get-started/git-basics/caching-your-github-credentials-in-git) を参照。
 
@@ -48,11 +48,11 @@ git remote -v
 git ls-remote origin
 ```
 
-`origin` は接続先に付ける名前である。`remote add` はローカルの接続設定を追加し、`ls-remote` はGitHub側の参照を確認する。今回は認証なしの読み取り確認に成功し、参照は表示されなかった。まだコミットを送信していないため、GitHub側にmainはない。
+`origin` は接続先に付ける名前である。`remote add` はローカルの接続設定を追加し、`ls-remote` はGitHub側の参照を確認する。初回push後の読み取り確認では、GitHub側のmainのコミットIDがローカルと一致することを確認した。
 
-## 4. mainを初めてpushする（未実施）
+## 4. mainを初めてpushする（実施済み）
 
-以下は今後実施する操作であり、現時点では未実施。ユーザーからpushの指示を受けた際に、対象と送信内容を確認して実施する。リポジトリは空なので、通常のpushを使用する。
+以下はユーザーが実施済みの操作。空のリポジトリへ通常のpushでmainを送信し、mainの追跡先を設定した。
 
 ```sh
 git push -u origin main
@@ -94,4 +94,4 @@ noreplyへの変更直前の8コミットと作業ファイル9件は `.git/nore
 
 作者名の固定直前の10コミットと作業ファイル9件は `.git/author-name-fix-20261027-xgn7450a/` にバックアップ済み。履歴のbundle、ファイルのtar、設定・index・新旧コミット対応を保存した。これらのローカルバックアップも通常のpushには含まれない。
 
-リポジトリにはまだコミットを送信していないため、確認済みのローカルmainを通常の初回pushで送信する。Day 0のレビュー前の内容はmainへマージしない。
+確認済みのローカルmainを通常の初回pushで送信済み。Day 0のレビュー承認とmainへのマージを済ませてから送信している。

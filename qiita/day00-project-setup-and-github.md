@@ -6,7 +6,7 @@
 
 本編に入る前に、Day 0としてプロジェクトの配置、作業ルール、Git、GitHubとの連携を整えました。この記事は本編25記事とは別の準備編です。アプリケーションの実装はDay 1以降に進めます。
 
-公開用のリポジトリは、個人アカウントの [sales-manager-dashboard](https://github.com/hirolisberger/sales-manager-dashboard) です。このリポジトリをoriginに設定し、読み取り接続を確認しました。現時点ではまだコミットを送信していません。
+公開用のリポジトリは、個人アカウントの [sales-manager-dashboard](https://github.com/hirolisberger/sales-manager-dashboard) です。このリポジトリをoriginに設定し、mainの初回pushを完了しました。
 
 コマンドやログ中のユーザー名、メールアドレス、PC名、個人を含む絶対パスは、説明用の仮表記にしています。コマンド例の `YOUR_GITHUB_USERNAME` などは、自分の設定に置き換えて使用してください。
 
@@ -213,11 +213,11 @@ git remote -v
 git ls-remote origin
 ```
 
-今回、認証なしでGitHubから読み取れることを確認しました。`ls-remote` は正常終了し、参照は表示されませんでした。まだコミットを送信していないため、GitHub側にmainはありません。読み取り成功だけでは書き込み権限の確認にはなりません。
+初期設定時には、認証なしでGitHubから読み取れることを確認しました。その後、mainの初回pushも完了し、GitHub側のmainとローカルのコミットIDが一致することを確認できました。
 
-### mainの初回pushは次の操作
+### mainを初めてpushする
 
-次はローカルmainの送信です。以下は今後実施するコマンドであり、現時点では未実施です。リポジトリは空なので、通常のpushを使用します。
+次に、ローカルmainを送信します。以下は実施済みの操作です。空のリポジトリへ、通常のpushでmainを送信しました。
 
 ```sh
 git push -u origin main
@@ -231,7 +231,7 @@ push後は、GitHubにmainと初期ファイルが表示されることを確認
 
 ### パスワードを求められなくても、成功していれば正常
 
-認証情報が保存されている環境では、毎回の入力が省略されることがあります。今回のmacOS環境では、GitHub向けの認証helperに `osxkeychain` が設定されていることを確認しました。初回pushは未実施のため、その際にどの認証情報が使われるかは未確認です。[GitHub公式の認証情報保存の説明](https://docs.github.com/en/get-started/git-basics/caching-your-github-credentials-in-git)
+認証情報が保存されている環境では、毎回の入力が省略されることがあります。今回のmacOS環境では、GitHub向けの認証helperに `osxkeychain` が設定されていることを確認しました。初回pushはユーザーの認証後に成功していますが、保存されたトークンの内容は読み出していません。[GitHub公式の認証情報保存の説明](https://docs.github.com/en/get-started/git-basics/caching-your-github-credentials-in-git)
 
 実際にpushした際は、パスワード欄の有無だけで判断せず、コマンドの終了結果、GitHub上のファイル、mainの追跡先を確認します。
 
@@ -253,12 +253,12 @@ git switch -c feature/day00
 | --- | --- |
 | プロジェクトの配置 | `sales-manager-dashboard/` をプロジェクトとGitのルートに統一 |
 | Gitの作者情報 | 個人アカウントの作者名とnoreplyをローカル設定・既存コミットで確認 |
-| GitHubへの接続 | 個人アカウントのリポジトリをoriginに設定し、読み取り確認に成功。初回pushは未実施 |
-| mainの追跡先 | 設定は `origin/main`。参照は初回push後に作成される |
-| 認証設定 | `osxkeychain` の設定を確認。初回push時の認証は未検証 |
+| GitHubへの接続 | 個人アカウントのリポジトリをoriginに設定し、mainの初回pushとコミットIDの一致を確認 |
+| mainの追跡先 | `origin/main` を追跡。初回push後に参照の作成を確認 |
+| 認証設定 | `osxkeychain` の設定とpush成功を確認。トークンの内容は読み出していない |
 | アプリケーション | 未実装。環境構築と動作確認は今後のDayで実施 |
 
-ローカルのGit管理と、個人アカウントのリポジトリへの初期接続を整えました。Day 0記事はレビュー承認を受けてローカルmainへマージ済みです。残るGitHub操作はmainの初回pushです。
+ローカルのGit管理と、個人アカウントのリポジトリへの初期接続を整えました。Day 0記事はレビュー承認を受けてmainへマージし、GitHubへの初回pushまで完了しています。
 
 ## まとめと次回
 

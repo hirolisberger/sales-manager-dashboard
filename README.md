@@ -93,9 +93,9 @@ Day 0の資料と記事は `feature/day00` で作成し、2026-10-28にレビュ
 
 各Dayの完了報告には、実装内容、変更ファイル、テスト・動作確認結果、記事保存先、レビュー確認項目、未解決事項、次のDayへ進める状態かどうかを記載します。
 
-Gitリポジトリのルートは `sales-manager-dashboard/` です。ユーザーの選択により、コミットの作者名とGitHub上の紐づけ先を `hirolisberger` に統一し、その個人アカウントのnoreplyを使用します。作者名を固定する変更時点の既存10コミットのAuthor/Committerを修正し、ファイル内容・メッセージ・日時は維持しています。Day 0はローカルmainへマージ済みで、現在の作業ブランチはmainです。GitHubへの初回pushとDay 1のブランチ作成は未実施です。
+Gitリポジトリのルートは `sales-manager-dashboard/` です。ユーザーの選択により、コミットの作者名とGitHub上の紐づけ先を `hirolisberger` に統一し、その個人アカウントのnoreplyを使用します。作者名を固定する変更時点の既存10コミットのAuthor/Committerを修正し、ファイル内容・メッセージ・日時は維持しています。Day 0はローカルmainへのマージとGitHubへの初回pushを完了し、現在の作業ブランチはmainです。Day 1のブランチはまだ作成していません。
 
-GitHubの接続先は [hirolisberger/sales-manager-dashboard](https://github.com/hirolisberger/sales-manager-dashboard) です。originの設定と認証なしでの読み取り確認を完了しています。リポジトリにはまだコミットがなく、初回pushは未実施です。個人アカウントへの初期接続手順と確認結果は [GITHUB_SETUP.md](docs/GITHUB_SETUP.md) に記載しています。次のGit操作は、承認済みのDay 0資料を含むmainの初回pushです。
+GitHubの接続先は [hirolisberger/sales-manager-dashboard](https://github.com/hirolisberger/sales-manager-dashboard) です。承認済みのDay 0資料・記事を含むmainの初回pushを完了し、ローカルとGitHub側のコミットID一致を確認しています。個人アカウントへの初期接続手順と確認結果は [GITHUB_SETUP.md](docs/GITHUB_SETUP.md) に記載しています。Day 1に進むための必須準備は完了しています。
 
 詳しいルールは [AGENTS.md](AGENTS.md)、各Dayの到達点は [ROADMAP.md](docs/ROADMAP.md)、全25記事のタイトル・概要案は [ARTICLE_PLAN.md](docs/ARTICLE_PLAN.md) を参照してください。
 
