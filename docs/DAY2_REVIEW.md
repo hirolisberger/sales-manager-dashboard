@@ -55,7 +55,7 @@ Next.js 16.4.3の開発サーバーが生成した `apps/web/AGENTS.md` は追�
 - LocalStack・Dockerの起動とAWS接続：Day 3以降。今回は実行していない。
 - FastAPI等のフレームワーク、HTTP API、設定読込、APIテスト：Day 5。
 - WebとAPIの通信：Day 11。
-- GitHubでのPR作成：接続方法を確認中。GitHubプラグインの追加・アカウント接続が必要。featureのpushとPR作成は別に結果を記録する。
+- GitHubでのPR作成：`feature/day02` のpushは成功。PRは未作成で、GitHubプラグインの追加・アカウント接続待ち。手動の場合は [PR作成画面](https://github.com/hirolisberger/sales-manager-dashboard/pull/new/feature/day02) からmain向けに作成できる。このリンクは作成済みPRのURLではない。
 - `day02` タグ：レビュー承認・PRマージ前のため未作成。記事のタグURLは公開前に有効性を確認する。
 - Qiitaへの投稿・更新・予約登録：未実施。予定日は2026-12-02のまま維持する。
 

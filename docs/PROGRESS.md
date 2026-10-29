@@ -18,7 +18,7 @@
 | Gitリポジトリ | fetchでmain / origin/main `4295718` の一致を確認し、`feature/day02` を作成。直前の運用変更3ファイルを保持して作業ブランチへ引き継いだ |
 | 作者の表示名・紐づけ先 | 作者名は `hirolisberger` に固定し、GitHub上の紐づけ先も同じ個人アカウント。このアカウントのnoreplyをGitのローカル設定で使用。グローバル設定は変更なし |
 | GitHub連携 | originは個人アカウントの [hirolisberger/sales-manager-dashboard](https://github.com/hirolisberger/sales-manager-dashboard)。リポジトリ作成・origin設定・main初回pushを完了。初回push確認時のローカルmain・`origin/main`・GitHub側mainは `d71bc3e` で一致。詳細は [GITHUB_SETUP.md](GITHUB_SETUP.md) を参照 |
-| GitHubへのコード送信 | Day 0・Day 1を含むmainは送信済み。Day 2は検証後にfeatureをpushし、送信結果と対象コミットをDay 2欄へ記録する |
+| GitHubへのコード送信 | Day 0・Day 1を含むmainは送信済み。Day 2の `feature/day02` も通常pushに成功し、GitHubから参照できる。初回送信コミットは `684f8b8` |
 | 今後のGit運用 | 2026-10-29のユーザー指示により、Day 2以降はfeatureをpushしてPRを作成し、レビュー承認後にGitHub上でmainへマージする。完成時点に `dayNN` タグを作成・pushし、Qiita記事からタグを参照する |
 | PR・タグの実績 | 全DayでPR・タグは未作成。Day 2のPRにはGitHubプラグインの追加・接続が必要で、現在は未導入。Gitのpush認証は別に検証する。過去Dayのタグ付与は指示待ち。自動削除設定は未確認 |
 | GitHub認証設定 | このリポジトリの `credential.https://github.com.username` を `hirolisberger`、`credential.https://github.com.useHttpPath` を `true` に設定済み。helperは既存の `osxkeychain` を維持。グローバル設定は変更せず、保存された資格情報の中身は読み出していない |
@@ -104,9 +104,9 @@
 | 記事ファイル | [qiita/day02-nextjs-python-development-environment.md](../qiita/day02-nextjs-python-development-environment.md) |
 | 検証結果 | 依存導入・ロック再導入とSHA-256一致、lint・型・本番ビルド、開発と本番のHTTP 200・本文、本番の404、Python実行・配布物作成、npm監査0件を確認。17文書・97ローカルリンク・35シェル例、記事匿名化・Git除外・差分も確認。詳細はDAY2_REVIEW.md |
 | 未検証・対象外 | nvm、他OS、ブラウザー描画。LocalStackはDay 3、HTTP API・設定読込・APIテストはDay 5、画面とAPIの通信はDay 11 |
-| レビュー対象コミット | 確定後に記録 |
-| featureのpush | 未実施。検証・コミット後に送信する |
-| PRのURL・状態 | 未取得・未作成。GitHubプラグインの追加・アカウント接続待ち。ローカルマージへの切り替えは行わない |
+| レビュー対象コミット | `684f8b803cd570a01eda41e51ec4f4107a4b2e52`。以後のpush・レビュー対象の記録更新は別コミットとし、コードと記事は変更しない |
+| featureのpush | 成功。`feature/day02` は `origin/feature/day02` を追跡。初回送信は `684f8b8`。[GitHub上のブランチ](https://github.com/hirolisberger/sales-manager-dashboard/tree/feature/day02) |
+| PRのURL・状態 | PRは未作成・URL未取得。GitHubプラグインの追加・接続待ちで、現在は未導入。手動で作成する場合の [PR作成画面](https://github.com/hirolisberger/sales-manager-dashboard/pull/new/feature/day02) は取得済み。このリンクは既存PRのURLではない。ローカルマージへの切り替えは行わない |
 | レビュー確認項目 | 依存管理と配置、手順の再現性、ローカル設定の除外、実装済み範囲と記事の一致、PR承認後のタグ共有 |
 | ユーザーの承認・mainへのマージ | 未承認・未マージ |
 | タグ名・対象・push結果 | 予定は `day02`。承認・PRマージ前のため未作成・未送信 |
@@ -303,3 +303,4 @@ Qiita記事URL（限定共有・予約登録時点でも記録）: 未記録
 | 2026-10-28 | 承認済みDay 1とマージ記録を含むmain `d667c6a` の通常pushが成功。ローカルmainと `origin/main` の一致を確認し、送信結果を記録。Day 2は開始指示待ち、Qiita投稿・更新・予約登録は未実施 |
 | 2026-10-29 | ユーザー指定の今後の運用として「featureをpush・PR作成 → レビュー承認 → GitHub上でmainへマージ → Dayタグを作成・push」をAGENTS.mdとREADMEへ反映。featureを原則保持し、記事から完成版タグを参照する方針と、PR・タグの記録欄を追加。今回はローカル文書の更新のみで、Day 2開始・過去Dayへのタグ付与・Qiita操作は未実施 |
 | 2026-10-29 | Day 1の着手条件を確認し、ユーザーの指示により最新main `4295718` から `feature/day02` を作成。直前の運用変更を保持し、固定版のNext.js・Python環境、設定見本、導入手順、確認記録、Day 2記事を作成。LocalStack・HTTP API・Day 3・Qiita操作は未実施。PRはGitHub接続待ちとして別管理 |
+| 2026-10-29 | Day 2の起動・静的検証・ビルド・依存監査・文書・除外設定を確認し、`684f8b8` にコミット。`feature/day02` のGitHubへのpushが成功し、追跡先とPR作成画面を取得。PRは未作成・接続待ちとして記録。Day 2の承認・mainマージ・タグ作成・Qiita投稿・Day 3着手は未実施 |
