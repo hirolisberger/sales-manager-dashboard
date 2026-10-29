@@ -1,6 +1,6 @@
 # 開発・レビュー・公開の進捗
 
-最終更新日: **2026-10-28（Asia/Tokyo）**
+最終更新日: **2026-10-29（Asia/Tokyo）**
 
 ## 現在地
 
@@ -8,17 +8,19 @@
 | --- | --- |
 | プロジェクトルート | `AdventCalendar_2026/sales-manager-dashboard/`。全ファイルとGit管理情報を配置済み。今後の成果物もこの配下に作成 |
 | 初期設定 | ルール・概要・25日分の計画・進捗台帳・除外設定を作成済み |
-| 記事企画 | 本編25記事の企画とDay 0を [ARTICLE_PLAN.md](ARTICLE_PLAN.md) で管理。Day 0とDay 1の本文を作成。Day 2以降の本文は未着手 |
+| 記事企画 | 本編25記事の企画とDay 0を [ARTICLE_PLAN.md](ARTICLE_PLAN.md) で管理。Day 0〜2の本文を作成。Day 3以降の本文は未着手 |
 | 業務前提 | 小規模店舗・管理者のみ・税込整数円・整数数量、日別/月別と過去の売上参照、日本時間の計上日・過去日の訂正取消・最新版集計を確認済み。[REQUIREMENTS.md](REQUIREMENTS.md) に確認済み事項と追加の設計案を分けて記録 |
-| 作業中のDay | Day 1はレビュー承認・mainへのマージ・GitHubへのpushを完了。Day 2は未着手・開始指示待ち |
-| 次の着手条件 | ユーザーからのDay 2開始指示。Qiitaへの投稿・公開は開始条件に含めない |
-| レビュー待ち | なし。Day 1の[要件・設計資料](REQUIREMENTS.md) と [公開用記事](../qiita/day01-requirements-and-architecture.md) は承認済み |
+| 作業中のDay | Day 2。2026-10-29の開始指示を受け、`feature/day02` で開発環境と記事を作成。実装・記事の準備完了、PR作成待ち |
+| 次の着手条件 | Day 2の検証・PRレビュー承認・mainマージ後に、ユーザーからのDay 3開始指示を受ける。Qiita公開は条件に含めない |
+| レビュー待ち | Day 2はPR作成待ちのためレビュー未着手。ローカルの成果物・確認記録・記事は準備済み。Day 1は承認済み |
 | 承認済みDay | Day 0・Day 1（いずれも2026-10-28） |
 | mainへマージ済みのDay | Day 0（`cb11d8d`）、Day 1（`3b4292f`）。いずれも2026-10-28 |
-| Gitリポジトリ | mainとorigin/mainの最新状態をfetchで確認した後、`feature/day01` をmainへ `--no-ff` でマージ。現在の作業ブランチはmain |
+| Gitリポジトリ | fetchでmain / origin/main `4295718` の一致を確認し、`feature/day02` を作成。直前の運用変更3ファイルを保持して作業ブランチへ引き継いだ |
 | 作者の表示名・紐づけ先 | 作者名は `hirolisberger` に固定し、GitHub上の紐づけ先も同じ個人アカウント。このアカウントのnoreplyをGitのローカル設定で使用。グローバル設定は変更なし |
 | GitHub連携 | originは個人アカウントの [hirolisberger/sales-manager-dashboard](https://github.com/hirolisberger/sales-manager-dashboard)。リポジトリ作成・origin設定・main初回pushを完了。初回push確認時のローカルmain・`origin/main`・GitHub側mainは `d71bc3e` で一致。詳細は [GITHUB_SETUP.md](GITHUB_SETUP.md) を参照 |
-| GitHubへのコード送信 | Day 0とDay 1を含むmainを送信済み。Day 1反映の最初の確認時は `d667c6a` でローカルmainと `origin/main` が一致。以後の進捗記録更新もユーザーが指示したmainの通常pushに含める |
+| GitHubへのコード送信 | Day 0・Day 1を含むmainは送信済み。Day 2は検証後にfeatureをpushし、送信結果と対象コミットをDay 2欄へ記録する |
+| 今後のGit運用 | 2026-10-29のユーザー指示により、Day 2以降はfeatureをpushしてPRを作成し、レビュー承認後にGitHub上でmainへマージする。完成時点に `dayNN` タグを作成・pushし、Qiita記事からタグを参照する |
+| PR・タグの実績 | 全DayでPR・タグは未作成。Day 2のPRにはGitHubプラグインの追加・接続が必要で、現在は未導入。Gitのpush認証は別に検証する。過去Dayのタグ付与は指示待ち。自動削除設定は未確認 |
 | GitHub認証設定 | このリポジトリの `credential.https://github.com.username` を `hirolisberger`、`credential.https://github.com.useHttpPath` を `true` に設定済み。helperは既存の `osxkeychain` を維持。グローバル設定は変更せず、保存された資格情報の中身は読み出していない |
 | Qiita公開済み | 本編0 / 25記事、追加のDay 0は0 / 1記事。計0 / 26記事 |
 | 公開予定 | 本編は2026-12-01〜2026-12-25、1日1記事に固定。追加のDay 0は未定。日本時間、時刻未設定 |
@@ -85,7 +87,32 @@
 | mainマージコミット | `3b4292f901f7e3553c5a19a9e286304348b4810b`。マージ対象のブランチ先端は `c8ba7b3c28a4e47efd39d6a53bd733efa0b16ae6` |
 | 承認後の記録更新 | 承認・マージ・pushの実績記録のみ更新。記事の手順・設計の内容は変更しない。Day 0リンクは削除した状態を維持 |
 | GitHubへのpush・Qiita投稿 | Day 1を含むmainへの通常pushが成功。最初の反映確認時のコミットは `d667c6a534ccc440c25a4a4750fba2399f2a79db`。ローカルmainと追跡参照の一致を確認。Qiitaへの投稿・更新・予約登録は未実施 |
-| 次のDayへ進める状態 | Day 1の成果物・記事・検証・レビュー承認・mainマージの条件を満たす。Day 2は開始指示待ち |
+| 次のDayへ進める状態 | Day 1の成果物・記事・検証・レビュー承認・mainマージの条件を満たす。2026-10-29のユーザー指示によりDay 2へ着手済み |
+
+## Day 2：Next.jsとPythonの開発環境
+
+| 項目 | 状態・内容 |
+| --- | --- |
+| 開始指示 | 「Day1の作業で残っているタスクはありますか？ もし無ければday2に進んでください。」。Day 1の開発完了・承認・マージを確認し、公開準備の残件を別管理して着手 |
+| 開発 | 実装完了（開発環境・確認用ページ・Pythonパッケージ） |
+| 記事本文 | 完成 |
+| レビュー | 未着手（成果物の準備完了。PR作成待ち） |
+| ブランチ・基点 | `feature/day02`。main / origin/main `429571841ea891a4258691c130b46ce2218ec027` |
+| 実装・設定 | `.nvmrc`、`apps/web/`、`apps/api/`、`.gitignore`。直前のPR・タグ運用ルールも引き継ぐ |
+| 採用バージョン | Node.js 24.22.2 / npm 11.19.1、Next.js 16.4.3 / React 19.3.1 / TypeScript 6.0.3 / Biome 2.6.4、Python 3.14.9 / uv・uv_build 0.13.6 / Ruff 0.17.3 |
+| 手順・確認記録 | [DEVELOPMENT.md](DEVELOPMENT.md)、[DAY2_REVIEW.md](DAY2_REVIEW.md) |
+| 記事ファイル | [qiita/day02-nextjs-python-development-environment.md](../qiita/day02-nextjs-python-development-environment.md) |
+| 検証結果 | 依存導入・ロック再導入とSHA-256一致、lint・型・本番ビルド、開発と本番のHTTP 200・本文、本番の404、Python実行・配布物作成、npm監査0件を確認。17文書・97ローカルリンク・35シェル例、記事匿名化・Git除外・差分も確認。詳細はDAY2_REVIEW.md |
+| 未検証・対象外 | nvm、他OS、ブラウザー描画。LocalStackはDay 3、HTTP API・設定読込・APIテストはDay 5、画面とAPIの通信はDay 11 |
+| レビュー対象コミット | 確定後に記録 |
+| featureのpush | 未実施。検証・コミット後に送信する |
+| PRのURL・状態 | 未取得・未作成。GitHubプラグインの追加・アカウント接続待ち。ローカルマージへの切り替えは行わない |
+| レビュー確認項目 | 依存管理と配置、手順の再現性、ローカル設定の除外、実装済み範囲と記事の一致、PR承認後のタグ共有 |
+| ユーザーの承認・mainへのマージ | 未承認・未マージ |
+| タグ名・対象・push結果 | 予定は `day02`。承認・PRマージ前のため未作成・未送信 |
+| 公開ステータス・予定日 | 未投稿・2026-12-02（Asia/Tokyo・固定、時刻未設定） |
+| Qiita記事URL | 未取得 |
+| 次のDayへ進める状態 | 進めない。PRの作成、ユーザーレビュー承認、mainマージが必要。Day 3は未着手 |
 
 ## 公開記事の匿名化と履歴の確認
 
@@ -137,7 +164,7 @@
 | Day | 開発 | レビュー | 公開 | 公開予定日（JST・固定） |
 | --- | --- | --- | --- | --- |
 | 01 | 実装完了 | 承認済み | 未投稿 | 2026-12-01 |
-| 02 | 未着手 | 未着手 | 未投稿 | 2026-12-02 |
+| 02 | 実装完了 | 未着手 | 未投稿 | 2026-12-02 |
 | 03 | 未着手 | 未着手 | 未投稿 | 2026-12-03 |
 | 04 | 未着手 | 未着手 | 未投稿 | 2026-12-04 |
 | 05 | 未着手 | 未着手 | 未投稿 | 2026-12-05 |
@@ -169,7 +196,7 @@
 | Day | 記事ファイル | 記事本文 | Qiita記事URL | 検証結果 | mainマージ |
 | --- | --- | --- | --- | --- | --- |
 | 01 | [day01-requirements-and-architecture.md](../qiita/day01-requirements-and-architecture.md) | 完成 | 未取得 | [DAY1_REVIEW.md](DAY1_REVIEW.md)：設計例・文書確認済み | 済（`3b4292f`） |
-| 02 | 未作成 | 未着手 | 未取得 | 未実施 | 未 |
+| 02 | [day02-nextjs-python-development-environment.md](../qiita/day02-nextjs-python-development-environment.md) | 完成 | 未取得 | [DAY2_REVIEW.md](DAY2_REVIEW.md)：起動・静的検証済み | 未 |
 | 03 | 未作成 | 未着手 | 未取得 | 未実施 | 未 |
 | 04 | 未作成 | 未着手 | 未取得 | 未実施 | 未 |
 | 05 | 未作成 | 未着手 | 未取得 | 未実施 | 未 |
@@ -196,11 +223,13 @@
 
 ## レビュー・マージ記録
 
-Day 0とDay 1のレビューは上記の専用欄で管理する。Day 1は承認・mainへのマージ済み。Day 2〜25にはレビュー依頼の実績がない。以後は次の形式でDayごとに追記する。`未記録` を実際の値に置き換え、修正履歴がある場合は前の記録を残す。
+Day 0〜2の記録は上記の専用欄で管理する。Day 1は承認・mainへのマージ済み、Day 2はPR作成待ち。Day 3〜25にはレビュー依頼の実績がない。以後は次の形式でDayごとに追記する。`未記録` を実際の値に置き換え、修正履歴がある場合は前の記録を残す。
 
 ```text
 Day: 未記録
 ブランチ: 未記録
+featureのpush結果・GitHub参照URL: 未記録
+PRのURL・状態: 未記録
 今回の実装内容: 未記録
 実装・設定・設計のパス: 未記録
 作成・変更したファイル: 未記録
@@ -216,6 +245,9 @@ Day: 未記録
 ユーザーの承認発言: 未記録
 承認日時（JST）: 未記録
 マージコミット・日時（JST）: 未記録
+ローカルmainの同期結果: 未記録
+タグ名・対象コミット: 未記録
+タグのpush結果・GitHub参照URL: 未記録
 次のDayへ進める状態か・不足条件: 未記録
 ```
 
@@ -269,3 +301,5 @@ Qiita記事URL（限定共有・予約登録時点でも記録）: 未記録
 | 2026-10-28 | Day 0のQiita公開可否を検討中という指示を受け、Day 1記事冒頭のDay 0リンクを削除。Day 0のファイルを保持し、自動でリンクを追加しない方針を記録。Day 1は引き続きレビュー待ち |
 | 2026-10-28 | 「Day 1レビューOK。」とmainへのマージ・GitHubへのpush指示を受領。承認対象 `97b377e` とブランチ先端 `c8ba7b3` の差分が進捗記録のみであることを確認し、最新mainへ `--no-ff` でマージ（`3b4292f`）。承認・マージ状態を資料と記事へ反映。Day 2着手・Qiita投稿は未実施 |
 | 2026-10-28 | 承認済みDay 1とマージ記録を含むmain `d667c6a` の通常pushが成功。ローカルmainと `origin/main` の一致を確認し、送信結果を記録。Day 2は開始指示待ち、Qiita投稿・更新・予約登録は未実施 |
+| 2026-10-29 | ユーザー指定の今後の運用として「featureをpush・PR作成 → レビュー承認 → GitHub上でmainへマージ → Dayタグを作成・push」をAGENTS.mdとREADMEへ反映。featureを原則保持し、記事から完成版タグを参照する方針と、PR・タグの記録欄を追加。今回はローカル文書の更新のみで、Day 2開始・過去Dayへのタグ付与・Qiita操作は未実施 |
+| 2026-10-29 | Day 1の着手条件を確認し、ユーザーの指示により最新main `4295718` から `feature/day02` を作成。直前の運用変更を保持し、固定版のNext.js・Python環境、設定見本、導入手順、確認記録、Day 2記事を作成。LocalStack・HTTP API・Day 3・Qiita操作は未実施。PRはGitHub接続待ちとして別管理 |

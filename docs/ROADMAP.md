@@ -5,7 +5,7 @@
 - この表は計画であり、実施・承認・公開の実績ではない。状態は [PROGRESS.md](PROGRESS.md) で管理する。
 - 各記事のタイトル・概要案は [ARTICLE_PLAN.md](ARTICLE_PLAN.md) にまとめる。この表では開発テーマ・成果物・確認項目を管理する。
 - 業務要件は [REQUIREMENTS.md](REQUIREMENTS.md)、概要は [README.md](../README.md) を参照する。小規模店舗・管理者のみ・税込整数円・整数数量を基本とし、日別・月別の集計切り替えと過去の売上参照を対象とする。
-- Day 0とDay 1は承認・mainへのマージ済み。Day 2の作業・ブランチ作成はユーザーの開始指示を受けてから行う。
+- Day 0とDay 1は承認・mainへのマージ済み。Day 2は2026-10-29の開始指示を受け、`feature/day02` で環境と記事を作成する。承認前にDay 3へ進まない。
 - 開発は毎日行う必要はなく、ユーザーの都合に合わせて進める。1回の作業は原則一つのDayを対象とし、実装・設定・設計などの成果物とMarkdown記事をセットで作成する。
 - 各Dayで検証を終えたらレビュー待ちにして停止する。対象Dayへの明示的な「レビューOK」とmainへのマージを経て、次のDayへ進む。
 - 次のDayへの着手には実装完了、必要な動作確認、記事Markdownの完成、レビュー承認が必要。Qiitaへの投稿・予約登録・公開完了は条件に含めない。修正指示はコードと記事の両方に反映する。
@@ -21,7 +21,7 @@ Day 0は本編25記事とは別の追加記事とし、公開日は未定。`fea
 
 ## Day 1〜25の到達点
 
-Day 1の成果物は [要件定義](REQUIREMENTS.md)、[全体設計](ARCHITECTURE.md)、[設計確認記録](DAY1_REVIEW.md)、[記事本文](../qiita/day01-requirements-and-architecture.md) に記録する。今日は設計を対象とし、Day 2以降の実装を前倒ししない。
+Day 1の成果物は [要件定義](REQUIREMENTS.md)、[全体設計](ARCHITECTURE.md)、[設計確認記録](DAY1_REVIEW.md)、[記事本文](../qiita/day01-requirements-and-architecture.md) に記録する。Day 2の導入・起動手順は [DEVELOPMENT.md](DEVELOPMENT.md)、確認結果は [DAY2_REVIEW.md](DAY2_REVIEW.md)、本文は [Day 2記事](../qiita/day02-nextjs-python-development-environment.md) に記録する。
 
 各行の実装成果物と記事の両方が完成し、確認項目の結果を記録できた時点でレビューを依頼する。
 

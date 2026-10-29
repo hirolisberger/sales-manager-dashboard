@@ -15,6 +15,7 @@ out/
 .turbo/
 .vercel/
 .npm/
+.tools/
 .pnpm-store/
 .yarn/cache/
 .yarn/unplugged/

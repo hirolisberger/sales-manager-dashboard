@@ -8,8 +8,9 @@
 - mainの初回pushはユーザーが完了した。初回push確認時のローカルmain・`origin/main`・GitHub側mainは `d71bc3e` で一致。承認済みのDay 0資料と記事も送信済み。
 - GitHub向けのcredential helperは `osxkeychain`。このリポジトリでは認証ユーザーを `hirolisberger` に固定し、資格情報をリポジトリ単位で分ける設定を使用している。ユーザーの認証後にpush成功を確認済み。認証情報そのものは読み出していない。
 - GitHub CLI（`gh`）は現環境で見つからなかったため、この手順ではブラウザーとGitを使う。
-- Day 1の開始時に `feature/day01` を作成する。GitHubの接続はDay 1開始の必須条件ではない。
-- 現在の作業ブランチはmain。準備記録は [DAY0_SETUP.md](DAY0_SETUP.md)、Qiita向けの公開本文は [Day 0記事](../qiita/day00-project-setup-and-github.md) にまとめる。Day 0は2026-10-28にレビュー承認・ローカルmainへのマージを完了した。Qiitaへの投稿操作は未実施。
+- Day 1は `feature/day01` で作業し、レビュー承認後にローカルでmainへマージ・pushした。現在はDay 2の開始指示を受け、`feature/day02` で作業する。
+- Day 2以降はfeatureをpushしてGitHubのPRでレビューし、承認後にPRをマージして `dayNN` タグを作成・pushする。Gitによるpushの認証と、GitHubのPR操作に必要な接続・権限は別に確認する。最新の実績は [PROGRESS.md](PROGRESS.md) に記録する。
+- 準備記録は [DAY0_SETUP.md](DAY0_SETUP.md)、Qiita向けの公開本文は [Day 0記事](../qiita/day00-project-setup-and-github.md) にまとめる。Day 0は2026-10-28にレビュー承認・ローカルmainへのマージを完了した。Qiitaへの投稿操作は未実施。
 
 以下は、個人アカウントのリポジトリへ初めて接続する場合の手順である。このプロジェクトではリポジトリ作成からmainの初回pushまで実施済み。
 
