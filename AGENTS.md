@@ -21,7 +21,8 @@ Next.js、Python、LocalStack、AWSを使用した売上管理システムを開
 
 - Day 1の要件定義・全体設計・記事はユーザーのレビュー承認を受け、`feature/day01` からmainへマージ済み。
 - Day 1の成果物は設計資料とMarkdown記事とし、アプリケーションの実装・依存関係の導入・環境構築は後続Dayで行う。
-- 2026-10-29のユーザーの開始指示を受け、`feature/day02` でDay 2の開発環境と記事を作成する。LocalStackの起動はDay 3、APIフレームワークとHTTP APIの実装はDay 5で扱う。Day 2のレビュー承認前にDay 3へ進まない。最新の状態は `docs/PROGRESS.md` を参照する。
+- Day 2の開発環境と記事は、2026-10-29にユーザーの動作確認・レビュー完了の報告を受けて承認済み。承認対象は `b5cd821`。PRの作成・mainへのマージ・`day02` タグの作成は未完了で、`feature/day02` で承認記録のみ更新する。
+- Day 3は、PRマージ後にユーザーの開始指示を受けてから着手する。MiniStackとLocalStackの挙動を比較して採用を判断し、承認記録の更新中には選定・構築を始めない。APIフレームワークとHTTP APIの実装はDay 5で扱う。最新の状態は `docs/PROGRESS.md` を参照する。
 - 全25日分の計画は `docs/ROADMAP.md`、実際の状況は `docs/PROGRESS.md` を正とする。
 - 計画の記載や公開予定日の到来を、開発・承認・公開の完了として扱わない。
 

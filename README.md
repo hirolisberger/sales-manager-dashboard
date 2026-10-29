@@ -2,7 +2,7 @@
 
 小規模店舗の商品別売上を管理する `sales-manager-dashboard` を、Next.js、Python、LocalStack、AWSで開発します。開発過程はQiita Advent Calendar 2026向けの本編25記事と、追加のDay 0準備編として記録します。
 
-Day 0・Day 1は承認・mainへのマージ・push済みです。**Day 2ではNext.jsの確認用ページとPythonパッケージの開発環境を用意しました**。業務機能・HTTP API・LocalStack接続は後続Dayで実装します。Day 2の検証結果・レビュー状況は [DAY2_REVIEW.md](docs/DAY2_REVIEW.md) を参照してください。
+Day 0・Day 1は承認・mainへのマージ・push済みです。**Day 2のNext.js確認用ページ・Python開発環境と記事も、2026-10-29にユーザーの動作確認・レビュー承認を受けました**。Day 2のPR作成・mainへのマージ・`day02` タグ作成は未完了です。業務機能・HTTP API・ローカルAWS接続は後続Dayで実装します。検証結果・レビュー状況は [DAY2_REVIEW.md](docs/DAY2_REVIEW.md) を参照してください。
 
 ## 目指す機能
 
@@ -114,7 +114,7 @@ featureブランチはpush後にGitHubから確認でき、マージ後も原則
 
 各Dayの完了報告には、実装内容、変更ファイル、テスト・動作確認結果、記事保存先、レビュー確認項目、未解決事項、次のDayへ進める状態かどうかを記載します。
 
-Gitリポジトリのルートは `sales-manager-dashboard/` です。コミットの作者名とGitHub上の紐づけ先は `hirolisberger` とし、その個人アカウントのnoreplyを使用します。現在の作業ブランチは、main `4295718` から作成した `feature/day02` です。Day 2は承認・mainマージ前で、PR・タグの実績は進捗に記録します。
+Gitリポジトリのルートは `sales-manager-dashboard/` です。コミットの作者名とGitHub上の紐づけ先は `hirolisberger` とし、その個人アカウントのnoreplyを使用します。現在の作業ブランチは、main `4295718` から作成した `feature/day02` です。Day 2はレビュー承認済み・mainマージ前で、PR・タグの実績は確認記録とローカル台帳に残します。
 
 GitHubの接続先は [hirolisberger/sales-manager-dashboard](https://github.com/hirolisberger/sales-manager-dashboard) です。承認済みのDay 0資料・記事を含むmainの初回pushを完了し、ローカルとGitHub側のコミットID一致を確認しています。個人環境の認証・復旧記録はローカル資料で管理し、公開リポジトリには含めません。
 
