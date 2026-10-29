@@ -2,7 +2,7 @@
 
 ## 進め方と前提
 
-- この表は計画であり、実施・承認・公開の実績ではない。状態は [PROGRESS.md](PROGRESS.md) で管理する。
+- この表は計画であり、実施・承認・公開の実績ではない。個人用台帳はローカル専用の `docs/PROGRESS.md` で管理し、共有する状態はREADME・各Dayの確認記録・PRに残す。
 - 各記事のタイトル・概要案は [ARTICLE_PLAN.md](ARTICLE_PLAN.md) にまとめる。この表では開発テーマ・成果物・確認項目を管理する。
 - 業務要件は [REQUIREMENTS.md](REQUIREMENTS.md)、概要は [README.md](../README.md) を参照する。小規模店舗・管理者のみ・税込整数円・整数数量を基本とし、日別・月別の集計切り替えと過去の売上参照を対象とする。
 - Day 0とDay 1は承認・mainへのマージ済み。Day 2は2026-10-29の開始指示を受け、`feature/day02` で環境と記事を作成する。承認前にDay 3へ進まない。
@@ -15,7 +15,7 @@
 
 ## Day 0：Day 1までの準備（Qiita向け追加記事）
 
-プロジェクトの配置、開発・記事・レビュー・公開ルール、Gitの初期設定、業務前提、GitHub連携手順を [DAY0_SETUP.md](DAY0_SETUP.md) にまとめ、公開向けの本文を [Day 0記事](../qiita/day00-project-setup-and-github.md) に作成する。詳しい接続手順は [GITHUB_SETUP.md](GITHUB_SETUP.md) を参照する。
+プロジェクトの配置、開発・記事・レビュー・公開ルール、Gitの初期設定、業務前提、GitHub連携手順を [DAY0_SETUP.md](DAY0_SETUP.md) にまとめ、公開向けの本文を [Day 0記事](../qiita/day00-project-setup-and-github.md) に作成する。個人環境の詳しい認証・復旧記録はローカル専用資料で管理する。
 
 Day 0は本編25記事とは別の追加記事とし、公開日は未定。`feature/day00` で資料と記事を作成し、匿名化と検証を終えたらレビュー待ちにする。個人側の公開用リポジトリは作成済みで、記事には確定したURLを掲載する。Qiitaへの投稿操作は別途の明示的な指示を必要とする。承認後のmainへのマージとユーザーのDay 1開始指示を経てDay 1へ進む。
 

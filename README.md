@@ -2,7 +2,7 @@
 
 小規模店舗の商品別売上を管理する `sales-manager-dashboard` を、Next.js、Python、LocalStack、AWSで開発します。開発過程はQiita Advent Calendar 2026向けの本編25記事と、追加のDay 0準備編として記録します。
 
-Day 0・Day 1は承認・mainへのマージ・push済みです。**Day 2ではNext.jsの確認用ページとPythonパッケージの開発環境を用意しました**。業務機能・HTTP API・LocalStack接続は後続Dayで実装します。最新のレビュー・PR状況は [PROGRESS.md](docs/PROGRESS.md) を参照してください。
+Day 0・Day 1は承認・mainへのマージ・push済みです。**Day 2ではNext.jsの確認用ページとPythonパッケージの開発環境を用意しました**。業務機能・HTTP API・LocalStack接続は後続Dayで実装します。Day 2の検証結果・レビュー状況は [DAY2_REVIEW.md](docs/DAY2_REVIEW.md) を参照してください。
 
 ## 目指す機能
 
@@ -59,14 +59,12 @@ AdventCalendar_2026/
     ├── docs/
     │   ├── ARTICLE_PLAN.md  # 本編25記事とDay 0の計画
     │   ├── DAY0_SETUP.md    # 開発準備の記録
-    │   ├── GITHUB_SETUP.md  # 自分のGitHubアカウントとの連携手順
     │   ├── REQUIREMENTS.md  # Day 1の業務要件と完成条件
     │   ├── ARCHITECTURE.md  # Day 1の構成図と設計判断
     │   ├── DAY1_REVIEW.md   # Day 1の設計例と検証記録
     │   ├── DEVELOPMENT.md   # Day 2の環境導入・起動・検証手順
     │   ├── DAY2_REVIEW.md   # Day 2の実行結果とレビュー項目
-    │   ├── ROADMAP.md       # Day 1〜25の開発・記事計画
-    │   └── PROGRESS.md      # 実装・記事・レビュー・公開の実績
+    │   └── ROADMAP.md       # Day 1〜25の開発・記事計画
     └── qiita/
         ├── day00-project-setup-and-github.md # Qiita向けDay 0記事
         ├── day01-requirements-and-architecture.md # Qiita向けDay 1記事
@@ -84,6 +82,10 @@ cd sales-manager-dashboard
 以降のパスは、特記がない限りプロジェクトルートからの相対パスです。開発コマンドとGit操作もプロジェクトルートで実行します。
 
 記事本文は `qiita/` に配置しています。Day 2で `apps/web/`（Next.js）と `apps/api/`（Python）を追加しました。`infra/`（LocalStack・IaC）などは該当Dayで追加します。
+
+`docs/GITHUB_SETUP.md` と `docs/PROGRESS.md` はローカル専用資料として保持し、Gitの追跡対象から外します。上の構成図は共有するファイルを示しており、この2ファイルはclone先には含まれません。レビュー・検証の共有情報はREADME、各Dayの確認記録、PRで確認できます。
+
+`qiita/` は投稿前のレビュー、投稿後の修正履歴、各Dayのコードとの対応を確認するため、引き続きGitで管理します。Qiitaへの投稿後もMarkdown原稿を残します。
 
 ## Day 0：開発前の準備
 
@@ -114,7 +116,7 @@ featureブランチはpush後にGitHubから確認でき、マージ後も原則
 
 Gitリポジトリのルートは `sales-manager-dashboard/` です。コミットの作者名とGitHub上の紐づけ先は `hirolisberger` とし、その個人アカウントのnoreplyを使用します。現在の作業ブランチは、main `4295718` から作成した `feature/day02` です。Day 2は承認・mainマージ前で、PR・タグの実績は進捗に記録します。
 
-GitHubの接続先は [hirolisberger/sales-manager-dashboard](https://github.com/hirolisberger/sales-manager-dashboard) です。承認済みのDay 0資料・記事を含むmainの初回pushを完了し、ローカルとGitHub側のコミットID一致を確認しています。個人アカウントへの初期接続手順と確認結果は [GITHUB_SETUP.md](docs/GITHUB_SETUP.md) に記載しています。Day 1に進むための必須準備は完了しています。
+GitHubの接続先は [hirolisberger/sales-manager-dashboard](https://github.com/hirolisberger/sales-manager-dashboard) です。承認済みのDay 0資料・記事を含むmainの初回pushを完了し、ローカルとGitHub側のコミットID一致を確認しています。個人環境の認証・復旧記録はローカル資料で管理し、公開リポジトリには含めません。
 
 詳しいルールは [AGENTS.md](AGENTS.md)、各Dayの到達点は [ROADMAP.md](docs/ROADMAP.md)、全25記事のタイトル・概要案は [ARTICLE_PLAN.md](docs/ARTICLE_PLAN.md) を参照してください。
 
@@ -126,7 +128,7 @@ GitHubの接続先は [hirolisberger/sales-manager-dashboard](https://github.com
 
 公開前に記事の内容、URL、公開範囲を確認します。予約登録にはQiita公式のAdvent Calendar予約投稿機能を優先し、利用可否と操作仕様は実行時に確認します。登録成功時は対象日と結果を記録し、失敗・確認不能時は「未登録」と報告します。予約登録だけでは公開済みにしません。
 
-[PROGRESS.md](docs/PROGRESS.md) では、次の状態を独立して記録します。記事ファイル、Qiita記事URL、検証結果、予約結果、実際の公開日時も管理します。
+ローカル専用の `docs/PROGRESS.md` では、次の状態を独立して記録します。記事ファイル、Qiita記事URL、検証結果、予約結果、実際の公開日時も管理します。共有が必要な結果は各Dayの確認記録・PRにも残します。
 
 | 項目 | ステータス |
 | --- | --- |

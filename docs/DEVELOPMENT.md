@@ -135,7 +135,7 @@ npm --prefix apps/web run start
 
 `node_modules/`、`.next/`、`.venv/`、`.tools/`、キャッシュ、ローカルの `.env` はGitへ登録しない。`.env.example` とロックファイルは登録する。
 
-検証結果と未確認事項は [DAY2_REVIEW.md](DAY2_REVIEW.md)、レビュー・PR・タグの実績は [PROGRESS.md](PROGRESS.md) を参照する。
+検証結果・未確認事項・共有するレビュー状況は [DAY2_REVIEW.md](DAY2_REVIEW.md) を参照する。PR・タグはGitHubで確認し、個人環境の詳細な操作履歴はローカル専用台帳で管理する。
 
 ## 参照資料
 
