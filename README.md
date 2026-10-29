@@ -1,8 +1,8 @@
 # sales-manager-dashboard / 売上管理システム
 
-小規模店舗の商品別売上を管理する `sales-manager-dashboard` を、Next.js、Python、LocalStack、AWSで開発します。開発過程はQiita Advent Calendar 2026向けの本編25記事と、追加のDay 0準備編として記録します。
+小規模店舗の商品別売上を管理する `sales-manager-dashboard` を、Next.js、Python、ローカルAWS環境、AWSで開発します。Day 3ではMiniStackを採用する構成とし、LocalStackとの比較結果も記録します。開発過程はQiita Advent Calendar 2026向けの本編25記事と、追加のDay 0準備編として記録します。
 
-Day 0・Day 1は承認・mainへのマージ・push済みです。**Day 2のNext.js確認用ページ・Python開発環境と記事も、2026-10-29にユーザーの動作確認・レビュー承認を受けました**。Day 2のPR作成・mainへのマージ・`day02` タグ作成は未完了です。業務機能・HTTP API・ローカルAWS接続は後続Dayで実装します。検証結果・レビュー状況は [DAY2_REVIEW.md](docs/DAY2_REVIEW.md) を参照してください。
+Day 0〜2は承認・mainへのマージ済みです。Day 2は [PR #1](https://github.com/hirolisberger/sales-manager-dashboard/pull/1) でマージし、完成版は [day02タグ](https://github.com/hirolisberger/sales-manager-dashboard/tree/day02) で参照できます。**Day 3ではMiniStackの起動、DynamoDB・S3・Cognitoの基本操作、接続先の分離と状態保持を検証しました**。業務機能とHTTP APIは後続Dayで実装します。Day 3の成果物・記事はレビュー対象で、[手順と比較](docs/LOCAL_AWS.md)、[検証・レビュー記録](docs/DAY3_REVIEW.md) を参照してください。
 
 ## 目指す機能
 
@@ -13,7 +13,7 @@ Day 0・Day 1は承認・mainへのマージ・push済みです。**Day 2のNext
 - 日別・月別の表示切り替えと、過去の指定日・月の売上の参照
 - CSVによる出力と取り込み
 - 認証・アクセス制御、入力検証、監視
-- LocalStackでのローカル検証とAWSへのデプロイ
+- ローカルAWSエミュレーターでの検証とAWSへのデプロイ
 
 ## ユーザーから確認済みの業務前提
 
@@ -35,13 +35,13 @@ Day 0・Day 1は承認・mainへのマージ・push済みです。**Day 2のNext
 | --- | --- |
 | フロントエンド | Next.js / TypeScript |
 | バックエンド | Python。APIフレームワークはFastAPIを候補とする |
-| ローカルAWS環境 | LocalStack。Dockerによる再現可能な環境を用意する |
+| ローカルAWS環境 | MiniStack 1.5.33。Docker Compose・digest固定・名前付きボリューム。LocalStack 2026.8.2の比較条件は手順書に記録 |
 | AWS | DynamoDBによるデータ管理、S3によるCSV保存、Lambda / API GatewayによるAPI、Cognitoによる認証を候補とする |
 | フロントエンド配信 | Next.jsのレンダリング要件を確定した上でAWSの配信構成を選ぶ |
 | インフラ | IaCでローカルとAWS実環境を分離する。Terraformを候補とする |
-| 品質管理 | フロントエンド・API・集計のテスト、LocalStack連携確認、CI |
+| 品質管理 | フロントエンド・API・集計のテスト、ローカルAWS連携確認、CI |
 
-候補技術の採否、依存バージョン、LocalStackで利用する機能の対応範囲は、各Dayで公式資料を確認して決定します。初期設定では依存パッケージ、AWSリソース、認証情報を作成しません。
+候補技術の採否、依存バージョン、エミュレーターで利用する機能の対応範囲は、各Dayで公式資料と動作を確認して決定します。今回、実AWSリソースの作成やAWSへのデプロイは行っていません。
 
 ## 現在のファイル構成
 
@@ -51,11 +51,14 @@ AdventCalendar_2026/
     ├── .git/                # 既存の履歴を引き継いだGit管理情報
     ├── .gitignore           # 生成物・秘密情報の除外
     ├── .nvmrc               # Node.jsの採用版
+    ├── compose.yaml         # MiniStackの起動・状態保持
     ├── AGENTS.md            # 開発・記事・レビュー・Git・公開のルール
     ├── README.md            # 概要と進め方
     ├── apps/
     │   ├── web/             # Next.js・npmロック・設定見本・起動確認ページ
     │   └── api/             # Pythonパッケージ・uvロック・設定見本
+    ├── infra/local-aws/     # 検証専用SDK・ロックとLocalStack比較用Compose
+    ├── scripts/             # ローカルAWS検証と接続境界のテスト
     ├── docs/
     │   ├── ARTICLE_PLAN.md  # 本編25記事とDay 0の計画
     │   ├── DAY0_SETUP.md    # 開発準備の記録
@@ -64,11 +67,14 @@ AdventCalendar_2026/
     │   ├── DAY1_REVIEW.md   # Day 1の設計例と検証記録
     │   ├── DEVELOPMENT.md   # Day 2の環境導入・起動・検証手順
     │   ├── DAY2_REVIEW.md   # Day 2の実行結果とレビュー項目
+    │   ├── LOCAL_AWS.md     # Day 3の比較・起動・停止・環境分離
+    │   ├── DAY3_REVIEW.md   # Day 3の検証結果とレビュー項目
     │   └── ROADMAP.md       # Day 1〜25の開発・記事計画
     └── qiita/
         ├── day00-project-setup-and-github.md # Qiita向けDay 0記事
         ├── day01-requirements-and-architecture.md # Qiita向けDay 1記事
-        └── day02-nextjs-python-development-environment.md # Qiita向けDay 2記事
+        ├── day02-nextjs-python-development-environment.md # Qiita向けDay 2記事
+        └── day03-ministack-localstack-local-aws.md # Qiita向けDay 3記事
 ```
 
 `AdventCalendar_2026/` の直下にある `sales-manager-dashboard/` が、プロジェクトとGitのルートです。これまでの成果物と `.git` をすべてこの中に移動しました。今後作成するソースコード、記事、設定、ドキュメントもこの中に配置します。
@@ -81,7 +87,7 @@ cd sales-manager-dashboard
 
 以降のパスは、特記がない限りプロジェクトルートからの相対パスです。開発コマンドとGit操作もプロジェクトルートで実行します。
 
-記事本文は `qiita/` に配置しています。Day 2で `apps/web/`（Next.js）と `apps/api/`（Python）を追加しました。`infra/`（LocalStack・IaC）などは該当Dayで追加します。
+記事本文は `qiita/` に配置しています。Day 2で `apps/web/`（Next.js）と `apps/api/`（Python）、Day 3で `compose.yaml` と `infra/local-aws/`・`scripts/` を追加しました。ローカルAWSの起動・確認・停止は [LOCAL_AWS.md](docs/LOCAL_AWS.md) に従ってください。IaCは後続Dayで扱います。
 
 `docs/GITHUB_SETUP.md` と `docs/PROGRESS.md` はローカル専用資料として保持し、Gitの追跡対象から外します。上の構成図は共有するファイルを示しており、この2ファイルはclone先には含まれません。レビュー・検証の共有情報はREADME、各Dayの確認記録、PRで確認できます。
 

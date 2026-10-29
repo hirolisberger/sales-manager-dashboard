@@ -2,6 +2,8 @@
 
 作成・公式資料確認日：2026-10-29（Asia/Tokyo）。Day 2ではNext.jsの起動とPythonパッケージの実行までを用意する。LocalStackの起動はDay 3、HTTP APIはDay 5、画面とAPIの接続はDay 11で扱う。
 
+Day 3の比較後はMiniStackでローカルAWS環境を構築した。起動・停止・検証専用の仮想環境・状態保持は [LOCAL_AWS.md](LOCAL_AWS.md)、検証結果は [DAY3_REVIEW.md](DAY3_REVIEW.md) を参照する。この手順書のNext.js・アプリPythonの採用版と依存関係はDay 2から変更しない。
+
 ## 採用バージョン
 
 | 対象 | 固定したバージョン | 管理するファイル |

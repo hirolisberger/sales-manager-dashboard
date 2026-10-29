@@ -2,6 +2,8 @@
 
 確認日：2026-10-29（Asia/Tokyo）。ブランチ：`feature/day02`。基点：main / origin/main `4295718`。
 
+Day 3開始時の実績確認：Day 2は [PR #1](https://github.com/hirolisberger/sales-manager-dashboard/pull/1) でmainへマージ済み。マージコミットは `b302057066db9cf8ad9cd61d638b2ac071e2d448`、完成版は [day02タグ](https://github.com/hirolisberger/sales-manager-dashboard/tree/day02) で共有済み。以下の未マージ・タグ未作成の記載はPR提出時点の記録として保持する。アプリコード・依存関係・Day 2記事本文は変更しない。
+
 ## 対象と範囲
 
 - `apps/web/`：Next.js / TypeScriptの確認用ページ、Biome設定、npmロックファイル。
