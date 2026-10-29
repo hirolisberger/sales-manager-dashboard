@@ -51,8 +51,6 @@ AdventCalendar_2026/
     ├── docs/
     │   ├── ARTICLE_PLAN.md
     │   ├── DAY0_SETUP.md
-    │   ├── GITHUB_SETUP.md
-    │   ├── PROGRESS.md
     │   └── ROADMAP.md
     └── qiita/
         └── day00-project-setup-and-github.md
@@ -77,12 +75,14 @@ cd AdventCalendar_2026/sales-manager-dashboard
 | `AGENTS.md` | 開発・記事作成・Git・レビューのルール |
 | `docs/ROADMAP.md` | 全25Dayで作るものと確認項目 |
 | `docs/ARTICLE_PLAN.md` | 記事のタイトルと概要 |
-| `docs/PROGRESS.md` | 開発・レビュー・公開を分けた進捗 |
+| `docs/PROGRESS.md`（ローカル専用・Git対象外） | 開発・レビュー・公開を分けた個人用台帳 |
 | `docs/DAY0_SETUP.md` | 準備作業の記録 |
-| `docs/GITHUB_SETUP.md` | GitHub接続手順と確認結果 |
+| `docs/GITHUB_SETUP.md`（ローカル専用・Git対象外） | 個人環境のGitHub接続・復旧記録 |
 | `qiita/` | 公開する記事のMarkdown |
 
 開発は毎日行う必要はなく、作業できる日に一つのDayを進めます。実装や設定と記事をセットで作り、検証結果を添えてレビューを依頼します。レビューで承認されるまでは次のDayへ進みません。
+
+個人環境の認証・復旧記録と詳細な台帳は、手元に保持してGitから除外します。共有する検証・承認結果はREADME・各Dayの確認記録・PRに残し、記事のMarkdownはコードと一緒にGitで管理します。
 
 本編の公開予定日は2026年12月1日〜25日とし、Day番号と日付を対応させます。開発やレビューが早く終わっても、公開予定日前に記事を全体公開しない方針です。
 
@@ -94,6 +94,8 @@ Gitで管理するファイルと、ローカルだけに置くファイルを�
 
 ```gitignore
 # 環境変数。設定見本にはダミー値だけを入れる
+/docs/GITHUB_SETUP.md
+/docs/PROGRESS.md
 .env
 .env.*
 !.env.example

@@ -66,6 +66,6 @@ Day 1までの準備記録は [DAY0_SETUP.md](DAY0_SETUP.md)、公開用のDay 0
 5. つまずいた点、制約、未検証項目
 6. まとめと次回への案内
 
-Day 1本文は [day01-requirements-and-architecture.md](../qiita/day01-requirements-and-architecture.md) に作成し、要件・構成・設計例の検証を対応させる。Day 2以降の本文は、各Dayの作業時に `qiita/dayNN-<topic>.md` へ作成する。このファイル自体は記事企画として管理する。
+Day 1本文は [day01-requirements-and-architecture.md](../qiita/day01-requirements-and-architecture.md)、Day 2本文は [day02-nextjs-python-development-environment.md](../qiita/day02-nextjs-python-development-environment.md) に作成し、各Dayの成果物と検証を対応させる。Day 3以降の本文は、各Dayの作業時に `qiita/dayNN-<topic>.md` へ作成する。このファイル自体は記事企画として管理する。
 
-開発成果物と確認項目は [ROADMAP.md](ROADMAP.md)、実績は [PROGRESS.md](PROGRESS.md)、作成・レビュー・公開のルールは [AGENTS.md](../AGENTS.md) を参照する。
+開発成果物と確認項目は [ROADMAP.md](ROADMAP.md)、共有する検証・レビュー結果は各Dayの確認記録とPR、作成・レビュー・公開のルールは [AGENTS.md](../AGENTS.md) を参照する。個人用の詳細な台帳はローカル専用とする。

@@ -15,6 +15,7 @@ out/
 .turbo/
 .vercel/
 .npm/
+.tools/
 .pnpm-store/
 .yarn/cache/
 .yarn/unplugged/
@@ -62,6 +63,9 @@ playwright-report/
 blob-report/
 
 # Environment variables and machine-local configuration
+# Local operational notes (keep files locally; exclude from future commits)
+/docs/GITHUB_SETUP.md
+/docs/PROGRESS.md
 .env
 .env.*
 !.env.example

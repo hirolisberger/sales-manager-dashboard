@@ -2,7 +2,7 @@
 
 小規模店舗の商品別売上を管理する `sales-manager-dashboard` を、Next.js、Python、LocalStack、AWSで開発します。開発過程はQiita Advent Calendar 2026向けの本編25記事と、追加のDay 0準備編として記録します。
 
-Day 0の準備は承認・マージ・push済みです。**Day 1の要件定義・全体設計・Qiita記事もレビュー承認を受け、mainへマージ済み**です。Day 2は開始指示待ちです。Day 1の成果物は設計資料で、起動可能なアプリケーションはまだありません。
+Day 0・Day 1は承認・mainへのマージ・push済みです。**Day 2のNext.js確認用ページ・Python開発環境と記事も、2026-10-29にユーザーの動作確認・レビュー承認を受けました**。Day 2のPR作成・mainへのマージ・`day02` タグ作成は未完了です。業務機能・HTTP API・ローカルAWS接続は後続Dayで実装します。検証結果・レビュー状況は [DAY2_REVIEW.md](docs/DAY2_REVIEW.md) を参照してください。
 
 ## 目指す機能
 
@@ -50,20 +50,25 @@ AdventCalendar_2026/
 └── sales-manager-dashboard/ # プロジェクト・Gitのルート
     ├── .git/                # 既存の履歴を引き継いだGit管理情報
     ├── .gitignore           # 生成物・秘密情報の除外
+    ├── .nvmrc               # Node.jsの採用版
     ├── AGENTS.md            # 開発・記事・レビュー・Git・公開のルール
     ├── README.md            # 概要と進め方
+    ├── apps/
+    │   ├── web/             # Next.js・npmロック・設定見本・起動確認ページ
+    │   └── api/             # Pythonパッケージ・uvロック・設定見本
     ├── docs/
     │   ├── ARTICLE_PLAN.md  # 本編25記事とDay 0の計画
     │   ├── DAY0_SETUP.md    # 開発準備の記録
-    │   ├── GITHUB_SETUP.md  # 自分のGitHubアカウントとの連携手順
     │   ├── REQUIREMENTS.md  # Day 1の業務要件と完成条件
     │   ├── ARCHITECTURE.md  # Day 1の構成図と設計判断
     │   ├── DAY1_REVIEW.md   # Day 1の設計例と検証記録
-    │   ├── ROADMAP.md       # Day 1〜25の開発・記事計画
-    │   └── PROGRESS.md      # 実装・記事・レビュー・公開の実績
+    │   ├── DEVELOPMENT.md   # Day 2の環境導入・起動・検証手順
+    │   ├── DAY2_REVIEW.md   # Day 2の実行結果とレビュー項目
+    │   └── ROADMAP.md       # Day 1〜25の開発・記事計画
     └── qiita/
         ├── day00-project-setup-and-github.md # Qiita向けDay 0記事
-        └── day01-requirements-and-architecture.md # Qiita向けDay 1記事
+        ├── day01-requirements-and-architecture.md # Qiita向けDay 1記事
+        └── day02-nextjs-python-development-environment.md # Qiita向けDay 2記事
 ```
 
 `AdventCalendar_2026/` の直下にある `sales-manager-dashboard/` が、プロジェクトとGitのルートです。これまでの成果物と `.git` をすべてこの中に移動しました。今後作成するソースコード、記事、設定、ドキュメントもこの中に配置します。
@@ -76,7 +81,11 @@ cd sales-manager-dashboard
 
 以降のパスは、特記がない限りプロジェクトルートからの相対パスです。開発コマンドとGit操作もプロジェクトルートで実行します。
 
-記事本文は `qiita/` に配置しています。今後は必要なDayで `apps/web/`（Next.js）、`apps/api/`（Python）、`infra/`（LocalStack・IaC）などを追加する予定です。アプリケーションとインフラのディレクトリはまだ作成していません。
+記事本文は `qiita/` に配置しています。Day 2で `apps/web/`（Next.js）と `apps/api/`（Python）を追加しました。`infra/`（LocalStack・IaC）などは該当Dayで追加します。
+
+`docs/GITHUB_SETUP.md` と `docs/PROGRESS.md` はローカル専用資料として保持し、Gitの追跡対象から外します。上の構成図は共有するファイルを示しており、この2ファイルはclone先には含まれません。レビュー・検証の共有情報はREADME、各Dayの確認記録、PRで確認できます。
+
+`qiita/` は投稿前のレビュー、投稿後の修正履歴、各Dayのコードとの対応を確認するため、引き続きGitで管理します。Qiitaへの投稿後もMarkdown原稿を残します。
 
 ## Day 0：開発前の準備
 
@@ -86,23 +95,28 @@ Day 0の資料と記事は `feature/day00` で作成し、2026-10-28にレビュ
 
 ## 開発とレビュー
 
-Day 1の成果物は [要件定義](docs/REQUIREMENTS.md)、[全体設計](docs/ARCHITECTURE.md)、[設計確認記録](docs/DAY1_REVIEW.md)、[Qiita記事](qiita/day01-requirements-and-architecture.md) です。`feature/day01` で作成し、2026-10-28のレビュー承認後にmainへマージしました。Day 2は開始指示待ちです。
+Day 1の成果物は [要件定義](docs/REQUIREMENTS.md)、[全体設計](docs/ARCHITECTURE.md)、[設計確認記録](docs/DAY1_REVIEW.md)、[Qiita記事](qiita/day01-requirements-and-architecture.md) です。`feature/day01` で作成し、2026-10-28のレビュー承認後にmainへマージしました。Day 2は2026-10-29の開始指示を受け、`feature/day02` で [環境構築手順](docs/DEVELOPMENT.md)、[確認記録](docs/DAY2_REVIEW.md)、[記事](qiita/day02-nextjs-python-development-environment.md) とコード・設定を作成しました。
 
 開発は毎日行う必要はなく、ユーザーの都合に合わせて進めます。1回の作業では原則一つのDayを扱い、公開日程とは分けて管理します。
 
-1. ユーザーの開始指示を受けてDay 1に着手します。
-2. Dayごとにmainから `feature/dayNN` を作成します。
+1. ユーザーの開始指示を受けて、次のDayに着手します。
+2. 前Dayの承認・マージを反映したmainから `feature/dayNN` を作成します。
 3. そのDayのソースコードや設定と、対応する `qiita/dayNN-<topic>.md` を一緒に作成・検証します。
-4. 両方が完成し、必要な動作確認を終えたら、開発を「実装完了」、レビューを「レビュー待ち」にします。テスト結果と記事を提示して停止します。
-5. 修正指示はコードと記事の両方へ反映します。ユーザーが対象Dayの「レビューOK」を伝えた場合のみ承認済みにし、mainへマージします。その後に次のDayへ進めます。
+4. 両方が完成し、必要な動作確認を終えたら、featureブランチをGitHubへpushしてmain向けのPRを作成します。開発を「実装完了」、レビューを「レビュー待ち」にし、テスト結果・記事・PRのURLを提示して停止します。
+5. 修正指示は同じfeatureブランチでコードと記事の両方へ反映し、検証して同じPRへpushします。
+6. ユーザーが対象Dayの「レビューOK」を伝えた場合のみ承認済みにし、GitHub上でPRをmainへマージします。ローカルmainを同期し、マージコミットに `dayNN` の注釈付きタグを付け、タグもpushします。次のDayは開始指示を受けてから着手します。
+
+このPR・タグ運用は、2026-10-29のユーザー指示によりDay 2以降に適用します。featureのpush・PR作成と、レビュー承認後のPRマージ・タグのpushは、この方針に沿って行います。Day 0・Day 1はローカルでマージした実績を保持し、過去Dayのタグ付与は別途の指示を受けて行います。
+
+featureブランチはpush後にGitHubから確認でき、マージ後も原則保持します。Qiita記事では、各Dayの完成版を `day01`、`day02` などのタグで案内します。例えば `day02` 作成・push後の参照先は `https://github.com/hirolisberger/sales-manager-dashboard/tree/day02` です。タグはそのDayまでのコード・設定・記事を含む状態を参照します。共有済みタグは移動・上書きせず、修正時には別タグを付けます。
 
 次のDayへの着手には、実装完了、必要な動作確認の実施、記事Markdownの完成、ユーザーのレビュー承認が必要です。Qiitaへの投稿・予約登録・公開完了は着手条件に含めません。レビュー待ちの間は次のDayへ自動的に進みません。
 
 各Dayの完了報告には、実装内容、変更ファイル、テスト・動作確認結果、記事保存先、レビュー確認項目、未解決事項、次のDayへ進める状態かどうかを記載します。
 
-Gitリポジトリのルートは `sales-manager-dashboard/` です。コミットの作者名とGitHub上の紐づけ先は `hirolisberger` とし、その個人アカウントのnoreplyを使用します。Day 1はmain `5d6fa18` から作成した `feature/day01` で作業し、承認後にmainへマージしました。現在の作業ブランチはmainです。
+Gitリポジトリのルートは `sales-manager-dashboard/` です。コミットの作者名とGitHub上の紐づけ先は `hirolisberger` とし、その個人アカウントのnoreplyを使用します。現在の作業ブランチは、main `4295718` から作成した `feature/day02` です。Day 2はレビュー承認済み・mainマージ前で、PR・タグの実績は確認記録とローカル台帳に残します。
 
-GitHubの接続先は [hirolisberger/sales-manager-dashboard](https://github.com/hirolisberger/sales-manager-dashboard) です。承認済みのDay 0資料・記事を含むmainの初回pushを完了し、ローカルとGitHub側のコミットID一致を確認しています。個人アカウントへの初期接続手順と確認結果は [GITHUB_SETUP.md](docs/GITHUB_SETUP.md) に記載しています。Day 1に進むための必須準備は完了しています。
+GitHubの接続先は [hirolisberger/sales-manager-dashboard](https://github.com/hirolisberger/sales-manager-dashboard) です。承認済みのDay 0資料・記事を含むmainの初回pushを完了し、ローカルとGitHub側のコミットID一致を確認しています。個人環境の認証・復旧記録はローカル資料で管理し、公開リポジトリには含めません。
 
 詳しいルールは [AGENTS.md](AGENTS.md)、各Dayの到達点は [ROADMAP.md](docs/ROADMAP.md)、全25記事のタイトル・概要案は [ARTICLE_PLAN.md](docs/ARTICLE_PLAN.md) を参照してください。
 
@@ -114,7 +128,7 @@ GitHubの接続先は [hirolisberger/sales-manager-dashboard](https://github.com
 
 公開前に記事の内容、URL、公開範囲を確認します。予約登録にはQiita公式のAdvent Calendar予約投稿機能を優先し、利用可否と操作仕様は実行時に確認します。登録成功時は対象日と結果を記録し、失敗・確認不能時は「未登録」と報告します。予約登録だけでは公開済みにしません。
 
-[PROGRESS.md](docs/PROGRESS.md) では、次の状態を独立して記録します。記事ファイル、Qiita記事URL、検証結果、予約結果、実際の公開日時も管理します。
+ローカル専用の `docs/PROGRESS.md` では、次の状態を独立して記録します。記事ファイル、Qiita記事URL、検証結果、予約結果、実際の公開日時も管理します。共有が必要な結果は各Dayの確認記録・PRにも残します。
 
 | 項目 | ステータス |
 | --- | --- |
@@ -126,6 +140,20 @@ Qiita記事URLは限定共有・予約登録時にも取得後に記録します
 
 ## ローカル開発を始める前に
 
-Day 2以降でNode.js、Python、Dockerなどの採用バージョン、導入手順、起動・停止コマンドを整備します。現時点ではアプリの実行コマンドはありません。
+採用版はNode.js 24.22.2 / npm 11.19.1、Python 3.14.9 / uv 0.13.6です。導入・設定・停止方法は [DEVELOPMENT.md](docs/DEVELOPMENT.md) を参照してください。実行環境を切り替えた上で、プロジェクトルートから実行します。
+
+```sh
+npm --prefix apps/web ci
+uv sync --project apps/api --locked
+npm --prefix apps/web run dev
+```
+
+`http://127.0.0.1:3000` で確認用ページを表示します。別のターミナルでPython環境を確認します。
+
+```sh
+uv run --project apps/api --locked sales-manager-api
+```
+
+Python側は実行メッセージを出して終了します。HTTP APIや設定読込はDay 5で実装します。Docker・LocalStackの起動はDay 3の対象です。
 
 実認証情報は `.env` などのローカル設定や適切な秘密情報管理先に置き、Gitには含めません。共有する設定見本にはダミー値を使います。AWS実環境へのデプロイや課金リソースの作成は、対象と変更内容を確認してから行います。

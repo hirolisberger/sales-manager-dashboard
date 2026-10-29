@@ -34,8 +34,6 @@ AdventCalendar_2026/
     ├── docs/
     │   ├── ARTICLE_PLAN.md
     │   ├── DAY0_SETUP.md
-    │   ├── GITHUB_SETUP.md
-    │   ├── PROGRESS.md
     │   └── ROADMAP.md
     └── qiita/
         └── day00-project-setup-and-github.md
@@ -47,8 +45,8 @@ AdventCalendar_2026/
 | [README.md](../README.md) | プロジェクト概要と業務前提 |
 | [ROADMAP.md](ROADMAP.md) | 全25Dayの成果物と確認項目 |
 | [ARTICLE_PLAN.md](ARTICLE_PLAN.md) | 全25記事のタイトル・概要案 |
-| [PROGRESS.md](PROGRESS.md) | 開発・レビュー・公開の実績 |
-| [GITHUB_SETUP.md](GITHUB_SETUP.md) | GitHubの作成・認証・接続・pushの手順 |
+| `docs/PROGRESS.md`（ローカル専用・Git対象外） | 開発・レビュー・公開の個人用台帳 |
+| `docs/GITHUB_SETUP.md`（ローカル専用・Git対象外） | 個人環境のGitHub接続・復旧記録 |
 | [.gitignore](../.gitignore) | 認証情報、環境変数、生成物などの除外 |
 | [Day 0記事](../qiita/day00-project-setup-and-github.md) | 個人情報を仮表記にしたQiita公開用の本文 |
 
@@ -61,14 +59,14 @@ Gitの初期化と、プロジェクト名・配置の変更は完了してい�
 | `2261125` | 初期ドキュメント・除外設定・GitHub連携手順を登録 |
 | `725a856` | プロジェクト名と配置をsales-manager-dashboardへ変更 |
 
-Day 0資料と記事は `feature/day00` で作成し、2026-10-28のレビュー承認後にローカルmainへマージしました。承認対象とマージコミットは [PROGRESS.md](PROGRESS.md) に記録しています。
+Day 0資料と記事は `feature/day00` で作成し、2026-10-28のレビュー承認後にローカルmainへマージしました。マージコミットは `cb11d8dce2985e5e7fa79a389af56eb18dbaf05f` です。個人用台帳はローカル専用とし、Gitの履歴で共有できる情報は公開資料にも残します。
 
 ## GitHubと連携する手順
 
 個人アカウントの [hirolisberger/sales-manager-dashboard](https://github.com/hirolisberger/sales-manager-dashboard) を使用します。リポジトリの作成、originの設定、読み取り確認、mainの初回pushを完了しました。以下は、このリポジトリに初めて接続する場合の手順です。
 
 1. 自分のGitHubアカウントで、`sales-manager-dashboard` という空のリポジトリを作成します。公開範囲を選び、README・`.gitignore`・ライセンスの自動追加は選びません。
-2. HTTPS用の認証を準備します。認証入力でパスワードを求められた場合はPersonal Access Tokenを使用します。作成方法と権限の設定は [GITHUB_SETUP.md](GITHUB_SETUP.md) にまとめています。
+2. HTTPS用の認証を準備します。認証入力でパスワードを求められた場合はPersonal Access Tokenを使用します。作成方法と権限は [GitHub公式のトークン管理手順](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens) を確認します。
 3. プロジェクトルートでoriginを登録し、接続先を確認します。このプロジェクトではoriginを設定済みのため、`remote add` の再実行は不要です。
 
    ```sh
@@ -87,13 +85,13 @@ Day 0資料と記事は `feature/day00` で作成し、2026-10-28のレビュー
 
 この流れは [GitHub公式の既存リポジトリ追加手順](https://docs.github.com/en/migrations/importing-source-code/using-the-command-line-to-import-source-code/adding-locally-hosted-code-to-github) に基づきます。
 
-初期の読み取り確認後、ユーザーがmainの初回pushを完了しました。`origin/main` の追跡参照が作成され、初回push確認時のローカルmain・追跡参照・GitHub側mainが `d71bc3e` で一致しました。詳しい手順と確認結果は [GITHUB_SETUP.md](GITHUB_SETUP.md) にまとめています。
+初期の読み取り確認後、ユーザーがmainの初回pushを完了しました。`origin/main` の追跡参照が作成され、初回push確認時のローカルmain・追跡参照・GitHub側mainが `d71bc3e` で一致しました。個人環境の認証・復旧記録はローカル専用の資料で管理します。
 
 作者名は `hirolisberger` に固定し、個人アカウントの確認済みnoreplyを使用しています。認証helperは `osxkeychain` で、ユーザーによる認証後に書き込み成功を確認しました。保存されたトークンの内容は読み出していません。
 
 現在の作業ブランチはmainです。Day 0資料は承認・マージ後にGitHubへ送信済みです。mainは `origin/main` を追跡しています。
 
-GitHub操作をCodexに依頼する場合も、対象リポジトリと許可された操作に従います。この準備資料の作成だけを理由に外部へ送信しません。実行した結果は [PROGRESS.md](PROGRESS.md) に追記します。
+GitHub操作をCodexに依頼する場合も、対象リポジトリと許可された操作に従います。この準備資料の作成だけを理由に外部へ送信しません。個人用の実行記録はローカル台帳に、共有するレビュー・マージの記録は公開資料・PRにも残します。
 
 ## 完了した準備と残っている作業
 
@@ -115,6 +113,6 @@ GitHubの接続完了はDay 1開始の必須条件にはしません。必要な
 
 ## 検証とレビューで確認してほしいこと
 
-資料の検証結果とレビュー対象コミットは [PROGRESS.md](PROGRESS.md) を参照してください。originの設定、main初回push、ローカルとGitHub側のコミットID一致を確認済みです。保存された認証情報の内容と使用トークンの識別、ブラウザー上の表示は未確認です。アプリケーションのテスト環境はDay 2以降に整備します。
+originの設定、main初回push、ローカルとGitHub側のコミットID一致を確認済みです。個人用の検証履歴はローカル台帳で管理します。保存された認証情報の内容と使用トークンの識別、ブラウザー上の表示は未確認です。アプリケーションのテスト環境はDay 2以降に整備します。
 
 Day 0はレビュー承認・mainへのマージ・GitHubへの初回pushを完了しています。Day 1の前に必須の準備は残っていません。Day 1には開始の指示を受けてから着手します。

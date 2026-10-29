@@ -2,10 +2,10 @@
 
 ## 進め方と前提
 
-- この表は計画であり、実施・承認・公開の実績ではない。状態は [PROGRESS.md](PROGRESS.md) で管理する。
+- この表は計画であり、実施・承認・公開の実績ではない。個人用台帳はローカル専用の `docs/PROGRESS.md` で管理し、共有する状態はREADME・各Dayの確認記録・PRに残す。
 - 各記事のタイトル・概要案は [ARTICLE_PLAN.md](ARTICLE_PLAN.md) にまとめる。この表では開発テーマ・成果物・確認項目を管理する。
 - 業務要件は [REQUIREMENTS.md](REQUIREMENTS.md)、概要は [README.md](../README.md) を参照する。小規模店舗・管理者のみ・税込整数円・整数数量を基本とし、日別・月別の集計切り替えと過去の売上参照を対象とする。
-- Day 0とDay 1は承認・mainへのマージ済み。Day 2の作業・ブランチ作成はユーザーの開始指示を受けてから行う。
+- Day 0とDay 1は承認・mainへのマージ済み。Day 2は2026-10-29にユーザーの動作確認・レビュー承認を受け、PR作成・mainマージ待ち。Day 3はその後の開始指示を受けてからMiniStackとLocalStackの挙動を比較し、採用を判断する。
 - 開発は毎日行う必要はなく、ユーザーの都合に合わせて進める。1回の作業は原則一つのDayを対象とし、実装・設定・設計などの成果物とMarkdown記事をセットで作成する。
 - 各Dayで検証を終えたらレビュー待ちにして停止する。対象Dayへの明示的な「レビューOK」とmainへのマージを経て、次のDayへ進む。
 - 次のDayへの着手には実装完了、必要な動作確認、記事Markdownの完成、レビュー承認が必要。Qiitaへの投稿・予約登録・公開完了は条件に含めない。修正指示はコードと記事の両方に反映する。
@@ -15,13 +15,13 @@
 
 ## Day 0：Day 1までの準備（Qiita向け追加記事）
 
-プロジェクトの配置、開発・記事・レビュー・公開ルール、Gitの初期設定、業務前提、GitHub連携手順を [DAY0_SETUP.md](DAY0_SETUP.md) にまとめ、公開向けの本文を [Day 0記事](../qiita/day00-project-setup-and-github.md) に作成する。詳しい接続手順は [GITHUB_SETUP.md](GITHUB_SETUP.md) を参照する。
+プロジェクトの配置、開発・記事・レビュー・公開ルール、Gitの初期設定、業務前提、GitHub連携手順を [DAY0_SETUP.md](DAY0_SETUP.md) にまとめ、公開向けの本文を [Day 0記事](../qiita/day00-project-setup-and-github.md) に作成する。個人環境の詳しい認証・復旧記録はローカル専用資料で管理する。
 
 Day 0は本編25記事とは別の追加記事とし、公開日は未定。`feature/day00` で資料と記事を作成し、匿名化と検証を終えたらレビュー待ちにする。個人側の公開用リポジトリは作成済みで、記事には確定したURLを掲載する。Qiitaへの投稿操作は別途の明示的な指示を必要とする。承認後のmainへのマージとユーザーのDay 1開始指示を経てDay 1へ進む。
 
 ## Day 1〜25の到達点
 
-Day 1の成果物は [要件定義](REQUIREMENTS.md)、[全体設計](ARCHITECTURE.md)、[設計確認記録](DAY1_REVIEW.md)、[記事本文](../qiita/day01-requirements-and-architecture.md) に記録する。今日は設計を対象とし、Day 2以降の実装を前倒ししない。
+Day 1の成果物は [要件定義](REQUIREMENTS.md)、[全体設計](ARCHITECTURE.md)、[設計確認記録](DAY1_REVIEW.md)、[記事本文](../qiita/day01-requirements-and-architecture.md) に記録する。Day 2の導入・起動手順は [DEVELOPMENT.md](DEVELOPMENT.md)、確認結果は [DAY2_REVIEW.md](DAY2_REVIEW.md)、本文は [Day 2記事](../qiita/day02-nextjs-python-development-environment.md) に記録する。
 
 各行の実装成果物と記事の両方が完成し、確認項目の結果を記録できた時点でレビューを依頼する。
 
