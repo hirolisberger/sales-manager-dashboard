@@ -8,12 +8,13 @@
 
 - `compose.yaml`：MiniStack 1.5.33をdigest固定で起動。loopback公開、ヘルスチェック、名前付きボリューム、停止猶予。
 - `infra/local-aws/compose.localstack.yaml`：LocalStack 2026.8.2の独立した比較用構成。既定起動には含めない。
+- `.env.localstack.example`：Auth Tokenの設定項目だけを共有する見本。実値を置く `.env.localstack` はGit対象外。
 - `infra/local-aws/pyproject.toml`・`uv.lock`・`.python-version`：検証専用SDK・JWT依存とPythonを固定。アプリ本体の依存は変更しない。
-- `scripts/verify_local_aws.py`：架空データのSDK検証、Cognito/JWKS/RS256検証、任意の再起動・再作成確認と検証リソースの削除。
+- `scripts/verify_local_aws.py`：架空データのSDK検証、Cognito/JWKS/RS256検証、任意の再起動・再作成確認と検証リソースの削除。再比較でデータ専用の `--data-only` を追加し、省略したCognitoは `not_requested` と記録。
 - `scripts/test_local_aws.py`：外部URL拒否、既存AWSプロファイル・資格情報・プロキシの分離を確認。
 - [手順と比較](LOCAL_AWS.md)、[記事](../qiita/day03-ministack-localstack-local-aws.md)、README・計画・開発ルールの更新。
 
-MiniStackを採用する構成をレビュー対象とする。LocalStackはAuth Tokenなしでライセンス認証に失敗して終了したため、同一APIを実行しての優劣・性能比較は行えていない。条件と固定イメージは手順書に記録する。
+MiniStackを採用する構成をレビュー対象とする。レビュー中の再比較依頼に対応し、LocalStackでもAuth Token設定後の起動とDynamoDB・S3の同じSDK検証に成功した。Cognitoは現在の無料ライセンス対象外としてCreateUserPoolを拒否した。無料でCognitoも含めて検証する目的に対してMiniStackを推奨する。性能比較・別ライセンス・AWSへのデプロイは未検証。条件と固定イメージは手順書に記録する。
 
 ## 実施した確認
 
@@ -26,6 +27,9 @@ MiniStackを採用する構成をレビュー対象とする。LocalStackはAuth
 | Composeの構文 | 両構成の `docker compose ... config --quiet` が成功 |
 | MiniStack起動 | `docker compose --env-file /dev/null -f compose.yaml up -d --wait --wait-timeout 90` がhealthyで成功 |
 | LocalStack起動 | Auth Tokenを除いた環境で起動。ライセンス認証失敗で終了コード55。起動失敗を採用条件の比較結果として記録 |
+| LocalStack再比較：認証 | Git対象外のローカル設定からAuth Tokenを渡し、起動成功。情報APIで `is_license_activated=true` を確認。プラン名・有効期限はAPI応答から特定できない |
+| LocalStack再比較：DynamoDB/S3 | 同じ検証の `--endpoint http://127.0.0.1:4567 --data-only` が終了コード0。書込・読取・検証リソース削除が成功。Cognitoは `not_requested` と区別 |
+| LocalStack再比較：Cognito | Cognitoを含む既定モードも実行。CreateUserPoolにInternalFailure・現在のライセンスにcognito-idpが含まれない旨が返り、終了コード1。認証失敗とは区別して記録 |
 | SDKとCognito | `uv run --project infra/local-aws --locked python scripts/verify_local_aws.py --lifecycle` が終了コード0 |
 | DynamoDB | 一意名のテーブル作成、架空の1,430円の書込・強い整合性での読取・削除が成功 |
 | S3 | 一意名のバケット・架空オブジェクト作成、内容一致・削除が成功 |
@@ -37,8 +41,8 @@ MiniStackを採用する構成をレビュー対象とする。LocalStackはAuth
 | ロックからの再導入 | 別の空の仮想環境へ `uv sync --locked --offline` で導入し、SDK・JWT・暗号ライブラリをimport。ロックのSHA-256は再導入前後で一致 |
 | 静的検証・書式 | `uv run --project apps/api --locked ruff check --config infra/local-aws/pyproject.toml scripts` と同設定の `ruff format --check` が成功 |
 | アプリへの影響 | `git diff --exit-code day02 -- apps .nvmrc` が成功。アプリのコード・依存・ロックはDay 2から変更なし |
-| 文書と公開情報 | Markdown 18本、相対リンク76件、シェルブロック39件の構文、表・フェンス、記事YAMLとComposeの完全一致、匿名化・Git除外を確認 |
-| 接続範囲・終了状態 | HTTP 200・バージョン1.5.33・127.0.0.1公開・Dockerソケット非マウントを確認。両Compose構成をdownし、4566番への接続拒否を確認。名前付きボリュームは保持 |
+| 文書と公開情報 | 再比較後はMarkdown 18本、相対リンク77件、シェルブロック44件の構文、表・フェンス、記事YAMLとComposeの完全一致を確認。公開対象に実トークンが含まれないことと、匿名化・実設定ファイルのGit除外を確認 |
+| 接続範囲・終了状態 | HTTP 200・バージョン1.5.33・127.0.0.1公開・Dockerソケット非マウントを確認。再比較したLocalStackもComposeのhealthyを確認し、両構成をdown。4566・4567番への接続拒否を確認。MiniStackの名前付きボリュームは保持 |
 
 スクリプトの最終結果は次のとおり。JWT、パスワード、個人用の資格情報は含めない。
 
@@ -57,7 +61,7 @@ MiniStackを採用する構成をレビュー対象とする。LocalStackはAuth
 
 ## レビューで確認してほしいこと
 
-1. Auth Tokenを用意せず動作確認できたMiniStackを採用する判断と、LocalStackのAPI比較は未実施とする線引き。
+1. Auth Token設定後のLocalStackでもDynamoDB・S3は動作した一方、Cognitoは無料ライセンス対象外だったことを踏まえ、MiniStackを採用する判断。
 2. `LOCAL_AWS.md` の手順で起動・接続確認・停止できること。`--lifecycle` は本プロジェクトのコンテナを再起動・再作成する。
 3. 個人用AWS資格情報を使わず、ホストのhosts・証明書ストアを変更しない構成。
 4. 通常のdownではボリュームを残し、明示的な `down --volumes` でローカルデータを破棄する方針。
@@ -66,7 +70,7 @@ MiniStackを採用する構成をレビュー対象とする。LocalStackはAuth
 
 ## 未検証・残件とレビュー状態
 
-- LocalStackの有効な利用資格・Auth Tokenでの起動とAPI検証、両製品の性能比較は未実施。
+- LocalStackのAuth Token設定後の起動・DynamoDB・S3・Cognitoのライセンス拒否は確認済み。Cognitoのログイン以降、永続化構成、別のライセンス条件、両製品の性能比較は未実施。有効期限は未特定。
 - 他OS・amd64実行、ブラウザー認証・MFA等、DynamoDBトランザクション等の業務要件、IaC・AWSへのデプロイは今回の対象外。[手順書の未検証一覧](LOCAL_AWS.md) を参照する。
 - アプリのHTTP API・ローカル/AWS設定の読込は未実装。今回の検証ツールにだけ接続先の拒否条件を実装した。
 - `day03` タグは承認・PRマージ後に作成するため、記事のタグURLはまだ有効性を確認していない。

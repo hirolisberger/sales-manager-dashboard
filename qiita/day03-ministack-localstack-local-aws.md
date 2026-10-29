@@ -8,7 +8,7 @@
 
 [Day 2](https://github.com/hirolisberger/sales-manager-dashboard/blob/day02/qiita/day02-nextjs-python-development-environment.md)では、Next.jsとPythonを同じリポジトリで起動できるようにしました。今回は、そのPythonから接続するローカルAWS環境を用意します。
 
-当初はLocalStackを使う計画でしたが、Cognitoも含めてローカルで検証したいため、MiniStackと比較することにしました。今回の結果から、以後のローカル開発にはMiniStack 1.5.33を使う構成にしています。以前の記事は企画時のLocalStackを含むシリーズ表記のまま残し、この回から採用した構成を説明します。
+当初はLocalStackを使う計画でしたが、Cognitoも含めてローカルで検証したいため、MiniStackと比較することにしました。LocalStackはAuth Tokenを設定してから起動とAPIを再確認しました。その結果、今回の無料ライセンス条件ではCognitoが対象外だったため、以後のローカル開発にはMiniStack 1.5.33を使う構成にしています。以前の記事は企画時のLocalStackを含むシリーズ表記のまま残し、この回から採用した構成を説明します。
 
 リポジトリは [sales-manager-dashboard](https://github.com/hirolisberger/sales-manager-dashboard) です。この回の完成版は [`day03`タグ](https://github.com/hirolisberger/sales-manager-dashboard/tree/day03) で共有する予定です。タグはレビュー承認とmainへのマージ後に作成するため、記事公開前にリンクを確認します。
 
@@ -33,16 +33,18 @@ License activation failed!
 Reason: No credentials were found in the environment.
 ```
 
-コンテナの終了コードは55でした。現行の公式導入手順も、AWSエミュレーターの有効化にAuth Tokenを必要としています。[LocalStackの公式導入手順](https://docs.localstack.cloud/aws/getting-started/installation/)
+コンテナの終了コードは55でした。現行の公式導入手順も、AWSエミュレーターの有効化にAuth Tokenを必要としています。ここでは設定が不足していたため、LocalStackのAPIの動作を判断できません。[LocalStackの公式導入手順](https://docs.localstack.cloud/aws/getting-started/installation/)
+
+その後、アカウントのAuth Tokenをローカルに設定して起動し直しました。ライセンス認証が成功し、DynamoDB・S3の読み書きも成功しました。一方、CognitoのCreateUserPoolは、現在のライセンスにcognito-idpが含まれないという応答になりました。
 
 | 確認 | MiniStack 1.5.33 | LocalStack 2026.8.2 |
 | --- | --- | --- |
-| Auth Tokenなしでの起動 | 成功 | ライセンス認証で停止 |
-| DynamoDB・S3の読み書き | 成功 | 未検証 |
-| Cognitoログイン・JWKS・RS256署名検証 | 成功 | 未検証 |
-| 再起動・再作成後の状態保持 | 成功 | 未検証 |
+| 起動 | Auth Token不要で成功 | Auth Token設定後に認証・起動成功 |
+| DynamoDB・S3の読み書き | 成功 | 同じSDK処理で成功 |
+| Cognitoログイン・JWKS・RS256署名検証 | 成功 | CreateUserPoolが無料ライセンス対象外として拒否され、以降は未検証 |
+| 再起動・再作成後の状態保持 | 成功 | 永続化構成は未構築・未検証 |
 
-今回は、必要な基本操作を実際に確認できたMiniStackを選びました。この表は同条件でのAPI互換性や性能の比較ではありません。LocalStackのCognitoが利用できないという意味でもなく、有効な利用資格・Auth Tokenでの検証はしていません。[LocalStackのCognito対応資料](https://docs.localstack.cloud/aws/services/cognito-idp/)
+無料でCognitoと状態保持を含めて検証を続けたいので、今回はMiniStackを選びました。LocalStackの現行資料では、Cognitoと永続化はBase・Ultimateが対象です。必要な利用資格があれば別の結果になる可能性があり、この表から製品全体の性能や互換性の優劣は判断しません。[Cognito対応資料](https://docs.localstack.cloud/aws/services/cognito-idp/)、[永続化の資料](https://docs.localstack.cloud/aws/developer-tools/snapshots/persistence/)
 
 ## 2. Composeでイメージと保存先を固定する
 
@@ -109,7 +111,42 @@ uv run --project infra/local-aws --locked python scripts/verify_local_aws.py
 
 スクリプトは毎回一意の名前でテーブル・バケット・ユーザープールを作成します。DynamoDBには架空の1,430円、S3には検証用の文字列を保存して読み戻し、最後に検証リソースを削除します。商品・売上の本番用テーブルはまだ作りません。
 
-## 4. Cognitoはログインと署名検証まで試す
+## 4. Auth Tokenを設定したLocalStackも確認する
+
+比較用のComposeは `infra/local-aws/compose.localstack.yaml` に分け、ホストの4567番ポートへ公開しました。既定のMiniStackと同時に起動できます。
+
+`.env.localstack.example` を参考に、Gitの除外対象である `.env.localstack` へ自分のAuth Tokenを設定します。実値は記事やチャットへ載せず、ローカルにだけ保持します。Composeの `config` で展開した値を表示しないよう、構文確認には `--quiet` を付けます。
+
+```sh
+git check-ignore .env.localstack
+docker compose --env-file .env.localstack -f infra/local-aws/compose.localstack.yaml config --quiet
+docker compose --env-file .env.localstack -f infra/local-aws/compose.localstack.yaml up -d --wait --wait-timeout 90
+uv run --project infra/local-aws --locked python scripts/verify_local_aws.py --endpoint http://127.0.0.1:4567 --data-only
+```
+
+このモードではDynamoDB・S3の読み書きと検証リソースの削除が成功し、Cognitoの結果は `not_requested` になります。検証を省略した機能を成功として扱わないための区別です。
+
+Cognitoを含む既定モードも試しました。
+
+```sh
+uv run --project infra/local-aws --locked python scripts/verify_local_aws.py --endpoint http://127.0.0.1:4567
+```
+
+今回の条件ではCreateUserPoolがInternalFailureで拒否され、応答に次の説明が含まれていました。スクリプトの終了コードは1です。
+
+```text
+the cognito-idp service is not included within your LocalStack license
+```
+
+Auth Tokenの設定により起動できることは確認できましたが、利用できる機能はライセンスに依存します。情報APIの `is_license_activated=true` は認証成功を示す一方、`edition=pro` という表示から有料プランだとは判断しません。今回の応答には契約プラン名・有効期限が含まれず、期限の有無は未確認です。
+
+比較を終えたら専用コンテナを停止します。
+
+```sh
+docker compose --env-file .env.localstack -f infra/local-aws/compose.localstack.yaml down
+```
+
+## 5. Cognitoはログインと署名検証まで試す
 
 Cognitoについては、次の流れを確認しました。
 
@@ -126,7 +163,7 @@ MiniStackのJWTにはAWS形式のissuerが入ります。今回はそのURLへ�
 
 これはエミュレーターの基本動作の確認です。Next.jsのログイン画面やAPIの認証・認可は、Day 19で実装します。ブラウザーの認証フロー、PKCE、MFA、SRP、失効、API Gatewayとの連携も今回の確認には含めていません。
 
-## 5. 実AWSに接続しない境界を作る
+## 6. 実AWSに接続しない境界を作る
 
 検証スクリプトは接続先をloopbackの4566/4567番ポートに限定し、外部URLや不明なURLをSDKクライアントの作成前に拒否します。AWSのキーは検証プロセス内で `test` / `test` を明示します。
 
@@ -140,7 +177,7 @@ uv run --project infra/local-aws --locked python -m unittest discover -s scripts
 
 4件が成功しました。外部URLの拒否だけでなく、既存のAWSプロファイル・資格情報・endpoint設定・プロキシを渡しても、ローカル用クライアントがそれらを使わないことを確認しています。アプリ側の設定読込と環境の分離は、Day 5で別途実装します。
 
-## 6. コンテナを消して作り直しても保持されるか
+## 7. コンテナを消して作り直しても保持されるか
 
 永続化は設定を書いただけで確認済みにはせず、次のコマンドでコンテナを操作しました。
 
@@ -183,7 +220,7 @@ AWS環境ではローカル用URLとダミー資格情報を使わず、IAMロ�
 
 ## まとめと次回
 
-MiniStackとLocalStackを起動し、今回の条件で動作確認できたMiniStackでローカルAWS環境を用意しました。DynamoDB・S3・Cognitoの基本操作、署名検証、状態保持、接続先の分離までを確認できました。
+LocalStackもAuth Tokenの設定後に起動し、DynamoDB・S3の基本操作を確認できました。Cognitoは今回の無料ライセンスの対象外だったため、無料でCognitoと状態保持も検証できたMiniStackでローカルAWS環境を用意しました。署名検証や接続先の分離まで確認した範囲と、実AWS・別ライセンス等の未検証範囲を分けて記録しました。
 
 手順と比較条件は [LOCAL_AWS.md](https://github.com/hirolisberger/sales-manager-dashboard/blob/day03/docs/LOCAL_AWS.md)、検証記録は [DAY3_REVIEW.md](https://github.com/hirolisberger/sales-manager-dashboard/blob/day03/docs/DAY3_REVIEW.md) にまとめています。これらのタグURLも承認・マージ・タグ作成後に公開前確認を行います。
 

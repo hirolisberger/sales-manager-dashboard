@@ -118,7 +118,7 @@ def compose(*args: str) -> None:
     )
 
 
-def run_checks(endpoint: str, lifecycle: bool = False) -> dict:
+def run_checks(endpoint: str, lifecycle: bool = False, data_only: bool = False) -> dict:
     endpoint = local_endpoint(endpoint)
     if lifecycle and endpoint != DEFAULT_ENDPOINT:
         raise ValueError("Lifecycle checks require the default project's endpoint")
@@ -165,38 +165,47 @@ def run_checks(endpoint: str, lifecycle: bool = False) -> dict:
         read_data()
         results["dynamodb_read_write"] = "passed"
         results["s3_read_write"] = "passed"
-        pool_id = cognito.create_user_pool(PoolName=name)["UserPool"]["Id"]
-        client_id = cognito.create_user_pool_client(
-            UserPoolId=pool_id,
-            ClientName=name,
-            GenerateSecret=False,
-            ExplicitAuthFlows=["ALLOW_USER_PASSWORD_AUTH", "ALLOW_REFRESH_TOKEN_AUTH"],
-        )["UserPoolClient"]["ClientId"]
-        username = "local-admin"
-        password = "LocalOnly-" + uuid.uuid4().hex + "!aA9"
-        cognito.admin_create_user(
-            UserPoolId=pool_id, Username=username, MessageAction="SUPPRESS"
-        )
-        cognito.admin_set_user_password(
-            UserPoolId=pool_id, Username=username, Password=password, Permanent=True
-        )
-        tokens = cognito.initiate_auth(
-            ClientId=client_id,
-            AuthFlow="USER_PASSWORD_AUTH",
-            AuthParameters={"USERNAME": username, "PASSWORD": password},
-        )["AuthenticationResult"]
-        verify_tokens(endpoint, pool_id, client_id, tokens)
-        try:
-            cognito.initiate_auth(
+        if data_only:
+            results["cognito_login_jwks_rs256_tamper_wrong_password"] = "not_requested"
+        else:
+            pool_id = cognito.create_user_pool(PoolName=name)["UserPool"]["Id"]
+            client_id = cognito.create_user_pool_client(
+                UserPoolId=pool_id,
+                ClientName=name,
+                GenerateSecret=False,
+                ExplicitAuthFlows=[
+                    "ALLOW_USER_PASSWORD_AUTH",
+                    "ALLOW_REFRESH_TOKEN_AUTH",
+                ],
+            )["UserPoolClient"]["ClientId"]
+            username = "local-admin"
+            password = "LocalOnly-" + uuid.uuid4().hex + "!aA9"
+            cognito.admin_create_user(
+                UserPoolId=pool_id, Username=username, MessageAction="SUPPRESS"
+            )
+            cognito.admin_set_user_password(
+                UserPoolId=pool_id, Username=username, Password=password, Permanent=True
+            )
+            tokens = cognito.initiate_auth(
                 ClientId=client_id,
                 AuthFlow="USER_PASSWORD_AUTH",
-                AuthParameters={"USERNAME": username, "PASSWORD": "Wrong-Local-123!"},
-            )
-        except ClientError as error:
-            assert error.response["Error"]["Code"] == "NotAuthorizedException"
-        else:
-            raise AssertionError("Wrong password was accepted")
-        results["cognito_login_jwks_rs256_tamper_wrong_password"] = "passed"
+                AuthParameters={"USERNAME": username, "PASSWORD": password},
+            )["AuthenticationResult"]
+            verify_tokens(endpoint, pool_id, client_id, tokens)
+            try:
+                cognito.initiate_auth(
+                    ClientId=client_id,
+                    AuthFlow="USER_PASSWORD_AUTH",
+                    AuthParameters={
+                        "USERNAME": username,
+                        "PASSWORD": "Wrong-Local-123!",
+                    },
+                )
+            except ClientError as error:
+                assert error.response["Error"]["Code"] == "NotAuthorizedException"
+            else:
+                raise AssertionError("Wrong password was accepted")
+            results["cognito_login_jwks_rs256_tamper_wrong_password"] = "passed"
         if lifecycle:
             for phase in ("restart", "recreate"):
                 if phase == "restart":
@@ -205,9 +214,12 @@ def run_checks(endpoint: str, lifecycle: bool = False) -> dict:
                     compose("down")  # Keep the named volume.
                 compose("up", "-d", "--wait", "--wait-timeout", "90")
                 read_data()
-                cognito.admin_get_user(UserPoolId=pool_id, Username=username)
-                verify_tokens(endpoint, pool_id, client_id, tokens)
-                results[phase + "_data_user_signing_key"] = "passed"
+                if data_only:
+                    results[phase + "_data"] = "passed"
+                else:
+                    cognito.admin_get_user(UserPoolId=pool_id, Username=username)
+                    verify_tokens(endpoint, pool_id, client_id, tokens)
+                    results[phase + "_data_user_signing_key"] = "passed"
     finally:
         actions = []
         if pool_id:
@@ -242,13 +254,18 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--endpoint", default=DEFAULT_ENDPOINT)
     parser.add_argument(
+        "--data-only",
+        action="store_true",
+        help="Check DynamoDB/S3 only; explicitly leave Cognito unverified",
+    )
+    parser.add_argument(
         "--lifecycle",
         action="store_true",
         help="Restart/recreate the project container",
     )
     args = parser.parse_args()
     try:
-        results = run_checks(args.endpoint, args.lifecycle)
+        results = run_checks(args.endpoint, args.lifecycle, args.data_only)
     except (
         BotoCoreError,
         ClientError,

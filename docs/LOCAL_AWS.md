@@ -6,19 +6,21 @@
 
 今回は **MiniStack 1.5.33** をローカル開発に採用する構成とした。SDKによるDynamoDB・S3の読み書き、CognitoのログインとJWKSを使ったRS256署名検証、再起動・再作成後の状態保持を実測できたためである。MiniStackはMITライセンスで公開され、今回の起動にアカウントやAuth Tokenは使っていない。[固定版のライセンス](https://github.com/ministackorg/ministack/blob/v1.5.33/LICENSE)
 
-LocalStack 2026.8.2も実際に起動したが、Auth Tokenを渡さない条件ではライセンス認証に失敗し、終了コード55で停止した。現行の公式導入手順にもAuth Tokenが必要と記載されている。[LocalStack公式導入手順](https://docs.localstack.cloud/aws/getting-started/installation/)
+LocalStack 2026.8.2は、最初にAuth Tokenなしで起動して終了コード55となった。その後、Auth Tokenをローカルに設定して再比較し、**認証と起動に成功した**。DynamoDB・S3の読み書きと検証リソースの削除も成功した。一方、CognitoのCreateUserPoolは「cognito-idpが現在のライセンスに含まれていない」というInternalFailureで拒否された。起動失敗だけを採用判断の根拠とせず、無料でCognitoも検証する今回の目的に合わせてMiniStackを推奨する。[LocalStack公式導入手順](https://docs.localstack.cloud/aws/getting-started/installation/)
 
 | 比較項目 | MiniStack 1.5.33 | LocalStack 2026.8.2 |
 | --- | --- | --- |
-| 起動条件 | アカウント・Auth Tokenなしで起動成功 | 今回はAuth Tokenなしで起動失敗。有効な利用資格・トークンでの起動は未検証 |
-| DynamoDB・S3 | 架空データの書込・読取・削除が成功 | 起動失敗のためAPI動作は未検証 |
-| Cognito | プール・クライアント・ユーザー作成、ログイン、JWKS取得、署名検証が成功 | 起動失敗のためAPI動作は未検証。公式資料には対応APIが掲載されている |
-| 不正入力の拒否 | 誤パスワードと改ざんJWTの拒否を確認 | 未検証 |
-| 状態保持 | コンテナ再起動と削除・再作成後のデータ・ユーザー・署名鍵を確認 | 未検証 |
+| 起動条件 | アカウント・Auth Tokenなしで起動成功 | Auth Tokenなしは終了コード55。設定後は認証有効・起動成功 |
+| DynamoDB・S3 | 架空データの書込・読取・削除が成功 | 同じSDK処理で書込・読取・削除が成功 |
+| Cognito | プール・クライアント・ユーザー作成、ログイン、JWKS取得、署名検証が成功 | CreateUserPoolが現在の無料ライセンスの対象外として拒否。ログイン・署名検証は未実施 |
+| 不正入力の拒否 | 誤パスワードと改ざんJWTの拒否を確認 | Cognitoが利用できず未検証 |
+| 状態保持 | コンテナ再起動と削除・再作成後のデータ・ユーザー・署名鍵を確認 | 永続化構成は未構築・未検証。公式資料ではBase・Ultimateが対象 |
 | CPU | 今回はlinux/arm64で実行。配布manifestにはamd64も存在 | 同左。APIの同等性を意味しない |
 | AWSへの移行 | 標準AWS SDKを使用。実AWSでは接続設定・資格情報・IaCを別途検証 | 標準AWS SDKとIaC向けの公式案内あり。今回はデプロイ未検証 |
 
-これは利用条件と今回動かせた範囲の比較であり、同条件での性能測定や全API互換性の比較ではない。LocalStackでCognitoが一律に利用できないという結論ではない。利用可能プランとAPI範囲は採用時点で確認する。[LocalStackのCognito資料](https://docs.localstack.cloud/aws/services/cognito-idp/)
+これは今回の利用資格・構成で確認した比較であり、性能測定や全API互換性、有料プランを含めた製品全体の優劣は判定していない。LocalStackのCognitoと永続化は、現行公式資料ではBase・Ultimateが対象。別の利用資格では結果が変わり得る。[Cognito資料](https://docs.localstack.cloud/aws/services/cognito-idp/)、[永続化資料](https://docs.localstack.cloud/aws/developer-tools/snapshots/persistence/)
+
+ローカルの情報APIでは `is_license_activated=true` を確認したが、契約プラン名と有効期限は応答に含まれなかった。`edition=pro` を有料契約の証拠として扱わず、期限が無期限とも推測しない。利用資格・期限の詳細は管理画面で確認する。
 
 ## 固定した環境
 
@@ -87,7 +89,40 @@ docker compose --env-file /dev/null -f compose.yaml down --volumes
 
 取得したDockerイメージとDocker Desktop自体は通常の `down` では削除・終了しない。プロジェクト外のPython・Node.js・シェル設定・AWS設定ファイルには変更を加えない。
 
-## LocalStackを再比較する場合
+## Auth Tokenを設定したLocalStackの比較
+
+ローカルに `.env.localstack` を作成し、`.env.localstack.example` の項目へ自分のAuth Tokenを設定する。実値はGit・記事・PR・チャットへ載せず、このファイルはGitの除外対象とする。以下はすべてプロジェクトルートで実行する。`config` はトークンを展開して表示しないよう、必ず `--quiet` を付ける。
+
+```sh
+git check-ignore .env.localstack
+docker compose --env-file .env.localstack -f infra/local-aws/compose.localstack.yaml config --quiet
+docker compose --env-file .env.localstack -f infra/local-aws/compose.localstack.yaml up -d --wait --wait-timeout 90
+uv run --project infra/local-aws --locked python scripts/verify_local_aws.py --endpoint http://127.0.0.1:4567 --data-only
+docker compose --env-file .env.localstack -f infra/local-aws/compose.localstack.yaml down
+```
+
+`--data-only` はDynamoDB・S3だけを検証する明示的なモードで、Cognitoは `not_requested` と出力する。Cognitoを含む既定モードを自動的にデータ専用へ切り替えて成功扱いにはしない。今回のデータ専用結果は次のとおり。
+
+```json
+{
+  "endpoint": "http://127.0.0.1:4567",
+  "region": "ap-northeast-1",
+  "dynamodb_read_write": "passed",
+  "s3_read_write": "passed",
+  "cognito_login_jwks_rs256_tamper_wrong_password": "not_requested",
+  "fixture_cleanup": "passed"
+}
+```
+
+Cognitoを含む同じ検証も、LocalStack起動中に実行した。
+
+```sh
+uv run --project infra/local-aws --locked python scripts/verify_local_aws.py --endpoint http://127.0.0.1:4567
+```
+
+今回の無料ライセンス条件ではCreateUserPoolに対して「cognito-idp service is not included within your LocalStack license」と返り、スクリプトは終了コード1となった。DynamoDB・S3だけの成功をCognitoまで検証済みとは扱わない。別のライセンスで再比較する場合は、有効な利用資格を確認して同じ検証を実行する。有料契約・プラン変更は今回行っていない。
+
+### 最初のトークンなしの条件
 
 以下は今回実行した「Auth Tokenなし」の条件を再現する。ローカルAWSの既定起動には含めない。
 
@@ -98,7 +133,7 @@ docker compose --env-file /dev/null -f infra/local-aws/compose.localstack.yaml l
 docker compose --env-file /dev/null -f infra/local-aws/compose.localstack.yaml down
 ```
 
-今回の結果は `No credentials were found in the environment` による終了コード55。トークンを利用する再比較は、利用資格を確認してから環境変数で渡し、実値をファイル・記事・PRへ貼らない。起動できた場合は同じ検証を `--endpoint http://127.0.0.1:4567` で行えるが、今回は未実施。
+この最初の条件では `No credentials were found in the environment` により終了コード55となった。上記の再比較で、Auth Tokenの設定により起動できることを確認した。
 
 ## AWSへのデプロイに向けて残す境界
 
