@@ -271,4 +271,4 @@ LocalStackもAuth Token設定後の起動とDynamoDB・S3の基本操作には�
 
 手順と比較条件は [LOCAL_AWS.md](https://github.com/hirolisberger/sales-manager-dashboard/blob/day03/docs/LOCAL_AWS.md)、検証記録は [DAY3_REVIEW.md](https://github.com/hirolisberger/sales-manager-dashboard/blob/day03/docs/DAY3_REVIEW.md) にまとめています。これらのタグURLも承認・マージ・タグ作成後に公開前確認を行います。
 
-Day 3は実装・記事をレビューする段階です。承認を受けてPRをmainへマージしてから、開始指示に従ってDay 4のデータモデルとAPI契約の設計へ進みます。Qiitaへの投稿や公開は、このレビューとは分けて管理します。
+Day 3の実装・記事はレビュー承認を受けました。PRの作成・mainへのマージと、day03タグの作成はこれから行います。Day 4のデータモデルとAPI契約の設計は、PRマージ後に開始指示を受けてから着手します。Qiitaへの投稿や公開は、このレビューとは分けて管理します。

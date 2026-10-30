@@ -5,7 +5,7 @@
 - この表は計画であり、実施・承認・公開の実績ではない。個人用台帳はローカル専用の `docs/PROGRESS.md` で管理し、共有する状態はREADME・各Dayの確認記録・PRに残す。
 - 各記事のタイトル・概要案は [ARTICLE_PLAN.md](ARTICLE_PLAN.md) にまとめる。この表では開発テーマ・成果物・確認項目を管理する。
 - 業務要件は [REQUIREMENTS.md](REQUIREMENTS.md)、概要は [README.md](../README.md) を参照する。小規模店舗・管理者のみ・税込整数円・整数数量を基本とし、日別・月別の集計切り替えと過去の売上参照を対象とする。
-- Day 0〜2は承認・mainへのマージ済み。Day 2はPR #1とday02タグで共有。Day 3はAuth Token設定後のLocalStackでもDynamoDB/S3を検証し、Cognitoの無料ライセンス制限を確認。MiniStackを採用する構成をレビュー対象とした。LocalStackのCognitoログイン以降・永続化・別ライセンス条件とAWSへのデプロイは未検証。
+- Day 0〜2は承認・mainへのマージ済み。Day 2はPR #1とday02タグで共有。Day 3はAuth Token設定後のLocalStackでもDynamoDB/S3を検証し、Cognitoの無料ライセンス制限を確認。MiniStack採用・Day 3実装・記事は2026-10-30にレビュー承認済み。PR作成・mainマージ・day03タグ作成を残す。LocalStackのCognitoログイン以降・永続化・別ライセンス条件とAWSへのデプロイは未検証。
 - 開発は毎日行う必要はなく、ユーザーの都合に合わせて進める。1回の作業は原則一つのDayを対象とし、実装・設定・設計などの成果物とMarkdown記事をセットで作成する。
 - 各Dayで検証を終えたらレビュー待ちにして停止する。対象Dayへの明示的な「レビューOK」とmainへのマージを経て、次のDayへ進む。
 - 次のDayへの着手には実装完了、必要な動作確認、記事Markdownの完成、レビュー承認が必要。Qiitaへの投稿・予約登録・公開完了は条件に含めない。修正指示はコードと記事の両方に反映する。

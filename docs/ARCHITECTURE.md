@@ -2,7 +2,7 @@
 
 作成日・公式資料確認日・レビュー承認日：2026-10-28（Asia/Tokyo）。[要件](REQUIREMENTS.md) を満たすための承認済み設計。候補技術の採否・バージョンは各Dayの検証で決定する。
 
-Day 3の採用変更：ローカルAWS環境はMiniStack 1.5.33を使う構成をレビュー対象とした。[比較・検証・接続先の分離](LOCAL_AWS.md) と [Day 3の確認記録](DAY3_REVIEW.md) を参照する。以下のLocalStack表記はDay 1時点の構成案を保持したもの。Next.js・Python・AWSの責務と業務要件は変更しない。
+Day 3の採用変更：ローカルAWS環境はMiniStack 1.5.33を採用し、2026-10-30にDay 3のレビュー承認を受けた。[比較・検証・接続先の分離](LOCAL_AWS.md) と [Day 3の確認記録](DAY3_REVIEW.md) を参照する。以下のLocalStack表記はDay 1時点の構成案を保持したもの。Next.js・Python・AWSの責務と業務要件は変更しない。
 
 ## 1. 今回決める境界
 
