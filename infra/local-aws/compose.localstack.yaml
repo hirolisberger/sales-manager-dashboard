@@ -1,0 +1,14 @@
+# Comparison only; never started by the default compose.yaml.
+name: sales-manager-dashboard-localstack-comparison
+
+services:
+  localstack:
+    image: localstack/localstack:2026.8.2@sha256:3fe5b51caec82b966a34485b5b43efd68075ff8161f9b0a34091fad9abb0ff82
+    ports:
+      - "127.0.0.1:4567:4566"
+    environment:
+      LOCALSTACK_AUTH_TOKEN: ${LOCALSTACK_AUTH_TOKEN:-}
+      SERVICES: dynamodb,s3,cognito-idp
+      AWS_DEFAULT_REGION: ap-northeast-1
+      DEBUG: "0"
+    stop_grace_period: 30s
