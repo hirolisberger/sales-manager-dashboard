@@ -6,6 +6,8 @@ Day 3の比較後はMiniStackでローカルAWS環境を構築した。起動・
 
 Day 4の契約・保存設計の検証は [DAY4_REVIEW.md](DAY4_REVIEW.md) を参照する。追加した任意の`contracts`依存グループはローカルAWS検証専用で、アプリの依存は変更していない。
 
+2026-10-30のDay 5更新：Python CLIはHTTPサーバーを起動する。FastAPIの採用・設定・共通エラーは [API_FOUNDATION.md](API_FOUNDATION.md)、コマンドと意味は [DAY5_COMMANDS.md](DAY5_COMMANDS.md)、結果は [DAY5_REVIEW.md](DAY5_REVIEW.md) を参照する。Day 2当時の起動確認記事は履歴として保持する。
+
 ## 採用バージョン
 
 | 対象 | 固定したバージョン | 管理するファイル |
@@ -19,6 +21,9 @@ Day 4の契約・保存設計の検証は [DAY4_REVIEW.md](DAY4_REVIEW.md) を�
 | Python | 3.14.9 | `apps/api/.python-version` |
 | uv / uv_build | 0.13.6 | `apps/api/pyproject.toml` |
 | Ruff | 0.17.3 | `apps/api/pyproject.toml`・`uv.lock` |
+| FastAPI / Starlette / Uvicorn | 0.162.0 / 1.10.0 / 0.54.0 | 同上 |
+| Pydantic / pydantic-settings | 2.14.2 / 2.16.2 | 同上 |
+| pytest / HTTPX2 | 9.2.0 / 2.16.0 | 同上、devグループ |
 
 直接依存はバージョンを完全指定し、間接依存はロックファイルに記録する。`packageManager` はnpmを自動で切り替える設定ではないため、`npm --version` も確認する。Pythonは3.14系を要件とし、普段の開発・検証では `.python-version` のパッチ版を使う。
 
@@ -97,7 +102,7 @@ cp -n apps/api/.env.example apps/api/.env
 ```
 
 - `apps/web/.env.local`：Next.js用。`API_BASE_URL` はDay 11のサーバー側通信で使う予定の見本で、Day 2にはAPI通信を実装していない。
-- `apps/api/.env`：Python用。設定の見本で、読み込みと検証はDay 5に実装する。Day 2の確認用コマンドはこのファイルを読み込まない。
+- `apps/api/.env`：Python用の任意設定。Day 5からCLIの`--env-file`で指定した場合に読み込む。OS環境変数が優先。見本を直接指定してもよい。
 - 見本にはローカル接続先とダミーの設定だけを置く。実際のトークン・メール・売上データは含めない。
 - `NEXT_PUBLIC_` 付きの値はブラウザーへ公開されるため、秘密情報を入れない。
 
@@ -112,10 +117,10 @@ npm --prefix apps/web run dev
 別のターミナルで、Pythonパッケージを実行する。
 
 ```sh
-uv run --project apps/api --locked sales-manager-api
+uv run --project apps/api --locked sales-manager-api --env-file apps/api/.env.example
 ```
 
-期待する出力は `sales-manager-api: development environment is ready.`。このコマンドはメッセージを出して終了する。HTTPサーバーやAWSへの接続は行わない。
+Day 5からは127.0.0.1:8000でHTTPサーバーが起動する。別のターミナルの`curl -i http://127.0.0.1:8000/health`で200とstatus=okを確認し、起動側でCtrl+Cを押して停止する。MiniStackや実AWSへは接続しない。ポート変更・異常系はDay 5のコマンド解説を参照する。
 
 ## 5. 変更を検証する
 
@@ -123,6 +128,7 @@ uv run --project apps/api --locked sales-manager-api
 npm --prefix apps/web run lint
 npm --prefix apps/web run typecheck
 npm --prefix apps/web run build
+uv run --project apps/api --locked pytest apps/api/tests -q
 uv run --project apps/api --locked ruff check apps/api
 uv run --project apps/api --locked ruff format --check apps/api
 uv lock --project apps/api --check

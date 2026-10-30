@@ -2,9 +2,9 @@
 
 小規模店舗の商品別売上を管理する `sales-manager-dashboard` を、Next.js、Python、ローカルAWS環境、AWSで開発します。Day 3ではMiniStackを採用する構成とし、LocalStackとの比較結果も記録します。開発過程はQiita Advent Calendar 2026向けの本編25記事と、追加のDay 0準備編として記録します。
 
-Day 0〜3は承認・mainへのマージ済みです。Day 2は [PR #1](https://github.com/hirolisberger/sales-manager-dashboard/pull/1)、Day 3は [PR #2](https://github.com/hirolisberger/sales-manager-dashboard/pull/2) でマージし、完成版は [day02](https://github.com/hirolisberger/sales-manager-dashboard/tree/day02)・[day03](https://github.com/hirolisberger/sales-manager-dashboard/tree/day03) タグから参照できます。
+Day 0〜4は承認・mainへのマージ済みです。Day 2は [PR #1](https://github.com/hirolisberger/sales-manager-dashboard/pull/1)、Day 3は [PR #2](https://github.com/hirolisberger/sales-manager-dashboard/pull/2)、Day 4は [PR #3](https://github.com/hirolisberger/sales-manager-dashboard/pull/3) でマージしました。完成版はday02〜day04タグで参照できます。
 
-**Day 4のデータモデル・OpenAPI YAML契約・MiniStackでの設計検証と記事は、2026-10-30にレビュー承認済みです。** 承認対象は`21307cc`で、ブラウザーでのPR作成・mainへのマージとday04タグ作成を残しています。[保存設計](docs/DATA_MODEL.md)、[API契約](docs/API_CONTRACT.md)、[検証・レビュー記録](docs/DAY4_REVIEW.md)、[記事](qiita/day04-data-model-and-api-contract.md) を参照してください。HTTP APIと製品用保存層は後続Dayで実装します。ローカルAWSの起動は [手順と比較](docs/LOCAL_AWS.md) に記載しています。
+**Day 5はFastAPIの土台・設定読込・共通エラー・要求ID・テストと記事が完成し、レビュー待ちです。** [API基盤の仕様](docs/API_FOUNDATION.md)、[起動・確認コマンド](docs/DAY5_COMMANDS.md)、[検証・レビュー記録](docs/DAY5_REVIEW.md)、[記事](qiita/day05-fastapi-foundation-and-tests.md) を参照してください。現在の実装済みパスはGET /healthです。商品・売上APIと保存処理は後続Dayで実装します。ローカルAWSの起動は [手順と比較](docs/LOCAL_AWS.md) に記載しています。
 
 ## 目指す機能
 
@@ -36,7 +36,7 @@ Day 0〜3は承認・mainへのマージ済みです。Day 2は [PR #1](https://
 | 領域 | 方針 |
 | --- | --- |
 | フロントエンド | Next.js / TypeScript |
-| バックエンド | Python。APIフレームワークはFastAPIを候補とする |
+| バックエンド | Python 3.14.9 / FastAPI 0.162.0 / Uvicorn 0.54.0。Day 5の基盤はレビュー待ち |
 | ローカルAWS環境 | MiniStack 1.5.33。Docker Compose・digest固定・名前付きボリューム。LocalStack 2026.8.2の比較条件は手順書に記録 |
 | AWS | DynamoDBによるデータ管理、S3によるCSV保存、Lambda / API GatewayによるAPI、Cognitoによる認証を候補とする |
 | フロントエンド配信 | Next.jsのレンダリング要件を確定した上でAWSの配信構成を選ぶ |
@@ -124,7 +124,7 @@ featureブランチはpush後にGitHubから確認でき、マージ後も原則
 
 各Dayの完了報告には、実装内容、変更ファイル、テスト・動作確認結果、記事保存先、レビュー確認項目、未解決事項、次のDayへ進める状態かどうかを記載します。
 
-Gitリポジトリのルートは `sales-manager-dashboard/` です。コミットの作者名とGitHub上の紐づけ先は `hirolisberger` とし、その個人アカウントのnoreplyを使用します。現在の作業ブランチは、main `4295718` から作成した `feature/day02` です。Day 2はレビュー承認済み・mainマージ前で、PR・タグの実績は確認記録とローカル台帳に残します。
+Gitリポジトリのルートは `sales-manager-dashboard/` です。コミットの作者名とGitHub上の紐づけ先は `hirolisberger` とし、その個人アカウントのnoreplyを使用します。現在の作業ブランチは、main/day04 `eda0c85` から作成した `feature/day05` です。Day 5はレビュー待ちで、PRは既定どおりブラウザーで作成します。PR・タグの実績は確認記録とローカル台帳に残します。
 
 GitHubの接続先は [hirolisberger/sales-manager-dashboard](https://github.com/hirolisberger/sales-manager-dashboard) です。承認済みのDay 0資料・記事を含むmainの初回pushを完了し、ローカルとGitHub側のコミットID一致を確認しています。個人環境の認証・復旧記録はローカル資料で管理し、公開リポジトリには含めません。
 
