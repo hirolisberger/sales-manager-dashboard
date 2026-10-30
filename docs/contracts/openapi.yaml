@@ -1,12 +1,12 @@
 # OpenAPIの正本。設計の変更はこのYAMLへ反映する。
 openapi: 3.1.0
 info:
-  title: Sales Manager API — Day 4 design contract
+  title: Sales Manager API
   version: 0.1.0
-  description: 設計用契約。現時点でHTTP APIは未実装。商品・売上・認証・CSVは該当Dayで実装する。
+  description: 開発用のAPI仕様書。Day 5ではhealthと共通エラー基盤を実装。商品・売上・認証・CSVは該当Dayで実装する。
 servers:
 - url: http://127.0.0.1:8000
-  description: ローカル用の予定URL。現在は起動しない。
+  description: Day 5のローカルAPI。現在の実装済みパスは /health のみ。
 security:
 - BearerAuth: []
 paths:
@@ -22,12 +22,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Health'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '400':
           description: 不正なJSON・カーソル
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '401':
           description: 未認証
           content:
@@ -39,42 +45,62 @@ paths:
               schema:
                 type: string
               description: Bearer
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '403':
           description: 権限不足
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '404':
           description: 対象なし
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '409':
           description: 業務または重複キーの競合
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '412':
           description: If-Match不一致
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '422':
           description: 入力・期間・日付の検証エラー
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '428':
           description: If-Match必須
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '503':
           description: 処理予算超過・一時失敗。部分結果は返さない
           content:
@@ -86,6 +112,10 @@ paths:
               schema:
                 type: integer
                 minimum: 1
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
       security: []
   /products:
     get:
@@ -105,12 +135,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProductPage'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '400':
           description: 不正なJSON・カーソル
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '401':
           description: 未認証
           content:
@@ -122,42 +158,62 @@ paths:
               schema:
                 type: string
               description: Bearer
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '403':
           description: 権限不足
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '404':
           description: 対象なし
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '409':
           description: 業務または重複キーの競合
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '412':
           description: If-Match不一致
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '422':
           description: 入力・期間・日付の検証エラー
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '428':
           description: If-Match必須
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '503':
           description: 処理予算超過・一時失敗。部分結果は返さない
           content:
@@ -169,6 +225,10 @@ paths:
               schema:
                 type: integer
                 minimum: 1
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
     post:
       operationId: createProduct
       summary: 商品登録
@@ -190,12 +250,17 @@ paths:
               description: 元の成功応答の再送か。
               schema:
                 type: boolean
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '400':
           description: 不正なJSON・カーソル
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '401':
           description: 未認証
           content:
@@ -207,42 +272,62 @@ paths:
               schema:
                 type: string
               description: Bearer
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '403':
           description: 権限不足
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '404':
           description: 対象なし
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '409':
           description: 業務または重複キーの競合
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '412':
           description: If-Match不一致
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '422':
           description: 入力・期間・日付の検証エラー
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '428':
           description: If-Match必須
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '503':
           description: 処理予算超過・一時失敗。部分結果は返さない
           content:
@@ -254,6 +339,10 @@ paths:
               schema:
                 type: integer
                 minimum: 1
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
       requestBody:
         required: true
         content:
@@ -283,12 +372,17 @@ paths:
               description: '当該リソースの最新版。例: "v2"。'
               schema:
                 type: string
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '400':
           description: 不正なJSON・カーソル
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '401':
           description: 未認証
           content:
@@ -300,42 +394,62 @@ paths:
               schema:
                 type: string
               description: Bearer
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '403':
           description: 権限不足
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '404':
           description: 対象なし
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '409':
           description: 業務または重複キーの競合
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '412':
           description: If-Match不一致
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '422':
           description: 入力・期間・日付の検証エラー
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '428':
           description: If-Match必須
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '503':
           description: 処理予算超過・一時失敗。部分結果は返さない
           content:
@@ -347,6 +461,10 @@ paths:
               schema:
                 type: integer
                 minimum: 1
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
     patch:
       operationId: patchProduct
       summary: 商品名・標準単価・有効状態の変更
@@ -375,12 +493,17 @@ paths:
               description: 元の成功応答の再送か。
               schema:
                 type: boolean
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '400':
           description: 不正なJSON・カーソル
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '401':
           description: 未認証
           content:
@@ -392,42 +515,62 @@ paths:
               schema:
                 type: string
               description: Bearer
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '403':
           description: 権限不足
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '404':
           description: 対象なし
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '409':
           description: 業務または重複キーの競合
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '412':
           description: If-Match不一致
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '422':
           description: 入力・期間・日付の検証エラー
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '428':
           description: If-Match必須
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '503':
           description: 処理予算超過・一時失敗。部分結果は返さない
           content:
@@ -439,6 +582,10 @@ paths:
               schema:
                 type: integer
                 minimum: 1
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
       requestBody:
         required: true
         content:
@@ -471,12 +618,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SalePage'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '400':
           description: 不正なJSON・カーソル
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '401':
           description: 未認証
           content:
@@ -488,42 +641,62 @@ paths:
               schema:
                 type: string
               description: Bearer
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '403':
           description: 権限不足
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '404':
           description: 対象なし
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '409':
           description: 業務または重複キーの競合
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '412':
           description: If-Match不一致
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '422':
           description: 入力・期間・日付の検証エラー
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '428':
           description: If-Match必須
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '503':
           description: 処理予算超過・一時失敗。部分結果は返さない
           content:
@@ -535,6 +708,10 @@ paths:
               schema:
                 type: integer
                 minimum: 1
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
     post:
       operationId: createSale
       summary: 売上登録
@@ -556,12 +733,17 @@ paths:
               description: 元の成功応答の再送か。
               schema:
                 type: boolean
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '400':
           description: 不正なJSON・カーソル
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '401':
           description: 未認証
           content:
@@ -573,42 +755,62 @@ paths:
               schema:
                 type: string
               description: Bearer
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '403':
           description: 権限不足
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '404':
           description: 対象なし
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '409':
           description: 業務または重複キーの競合
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '412':
           description: If-Match不一致
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '422':
           description: 入力・期間・日付の検証エラー
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '428':
           description: If-Match必須
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '503':
           description: 処理予算超過・一時失敗。部分結果は返さない
           content:
@@ -620,6 +822,10 @@ paths:
               schema:
                 type: integer
                 minimum: 1
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
       requestBody:
         required: true
         content:
@@ -649,12 +855,17 @@ paths:
               description: '当該リソースの最新版。例: "v2"。'
               schema:
                 type: string
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '400':
           description: 不正なJSON・カーソル
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '401':
           description: 未認証
           content:
@@ -666,42 +877,62 @@ paths:
               schema:
                 type: string
               description: Bearer
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '403':
           description: 権限不足
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '404':
           description: 対象なし
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '409':
           description: 業務または重複キーの競合
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '412':
           description: If-Match不一致
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '422':
           description: 入力・期間・日付の検証エラー
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '428':
           description: If-Match必須
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '503':
           description: 処理予算超過・一時失敗。部分結果は返さない
           content:
@@ -713,6 +944,10 @@ paths:
               schema:
                 type: integer
                 minimum: 1
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
     patch:
       operationId: patchSale
       summary: 計上日・全明細を一組として訂正
@@ -741,12 +976,17 @@ paths:
               description: 元の成功応答の再送か。
               schema:
                 type: boolean
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '400':
           description: 不正なJSON・カーソル
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '401':
           description: 未認証
           content:
@@ -758,42 +998,62 @@ paths:
               schema:
                 type: string
               description: Bearer
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '403':
           description: 権限不足
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '404':
           description: 対象なし
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '409':
           description: 業務または重複キーの競合
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '412':
           description: If-Match不一致
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '422':
           description: 入力・期間・日付の検証エラー
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '428':
           description: If-Match必須
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '503':
           description: 処理予算超過・一時失敗。部分結果は返さない
           content:
@@ -805,6 +1065,10 @@ paths:
               schema:
                 type: integer
                 minimum: 1
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
       requestBody:
         required: true
         content:
@@ -840,12 +1104,17 @@ paths:
               description: 元の成功応答の再送か。
               schema:
                 type: boolean
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '400':
           description: 不正なJSON・カーソル
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '401':
           description: 未認証
           content:
@@ -857,42 +1126,62 @@ paths:
               schema:
                 type: string
               description: Bearer
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '403':
           description: 権限不足
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '404':
           description: 対象なし
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '409':
           description: 業務または重複キーの競合
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '412':
           description: If-Match不一致
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '422':
           description: 入力・期間・日付の検証エラー
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '428':
           description: If-Match必須
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '503':
           description: 処理予算超過・一時失敗。部分結果は返さない
           content:
@@ -904,6 +1193,10 @@ paths:
               schema:
                 type: integer
                 minimum: 1
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
       requestBody:
         required: true
         content:
@@ -930,12 +1223,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RevisionPage'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '400':
           description: 不正なJSON・カーソル
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '401':
           description: 未認証
           content:
@@ -947,42 +1246,62 @@ paths:
               schema:
                 type: string
               description: Bearer
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '403':
           description: 権限不足
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '404':
           description: 対象なし
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '409':
           description: 業務または重複キーの競合
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '412':
           description: If-Match不一致
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '422':
           description: 入力・期間・日付の検証エラー
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '428':
           description: If-Match必須
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '503':
           description: 処理予算超過・一時失敗。部分結果は返さない
           content:
@@ -994,6 +1313,10 @@ paths:
               schema:
                 type: integer
                 minimum: 1
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
   /reports/sales:
     get:
       operationId: salesReport
@@ -1017,12 +1340,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SalesReport'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '400':
           description: 不正なJSON・カーソル
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '401':
           description: 未認証
           content:
@@ -1034,42 +1363,62 @@ paths:
               schema:
                 type: string
               description: Bearer
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '403':
           description: 権限不足
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '404':
           description: 対象なし
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '409':
           description: 業務または重複キーの競合
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '412':
           description: If-Match不一致
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '422':
           description: 入力・期間・日付の検証エラー
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '428':
           description: If-Match必須
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '503':
           description: 処理予算超過・一時失敗。部分結果は返さない
           content:
@@ -1081,6 +1430,10 @@ paths:
               schema:
                 type: integer
                 minimum: 1
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
   /reports/products:
     get:
       operationId: productReport
@@ -1096,12 +1449,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProductReport'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '400':
           description: 不正なJSON・カーソル
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '401':
           description: 未認証
           content:
@@ -1113,42 +1472,62 @@ paths:
               schema:
                 type: string
               description: Bearer
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '403':
           description: 権限不足
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '404':
           description: 対象なし
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '409':
           description: 業務または重複キーの競合
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '412':
           description: If-Match不一致
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '422':
           description: 入力・期間・日付の検証エラー
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '428':
           description: If-Match必須
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '503':
           description: 処理予算超過・一時失敗。部分結果は返さない
           content:
@@ -1160,6 +1539,10 @@ paths:
               schema:
                 type: integer
                 minimum: 1
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
   /exports/sales:
     post:
       operationId: createSalesExport
@@ -1178,12 +1561,17 @@ paths:
               description: 元の成功応答の再送か。
               schema:
                 type: boolean
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '400':
           description: 不正なJSON・カーソル
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '401':
           description: 未認証
           content:
@@ -1195,42 +1583,62 @@ paths:
               schema:
                 type: string
               description: Bearer
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '403':
           description: 権限不足
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '404':
           description: 対象なし
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '409':
           description: 業務または重複キーの競合
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '412':
           description: If-Match不一致
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '422':
           description: 入力・期間・日付の検証エラー
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '428':
           description: If-Match必須
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '503':
           description: 処理予算超過・一時失敗。部分結果は返さない
           content:
@@ -1242,6 +1650,10 @@ paths:
               schema:
                 type: integer
                 minimum: 1
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
       requestBody:
         required: true
         content:
@@ -1266,12 +1678,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ExportJob'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '400':
           description: 不正なJSON・カーソル
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '401':
           description: 未認証
           content:
@@ -1283,42 +1701,62 @@ paths:
               schema:
                 type: string
               description: Bearer
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '403':
           description: 権限不足
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '404':
           description: 対象なし
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '409':
           description: 業務または重複キーの競合
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '412':
           description: If-Match不一致
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '422':
           description: 入力・期間・日付の検証エラー
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '428':
           description: If-Match必須
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
         '503':
           description: 処理予算超過・一時失敗。部分結果は返さない
           content:
@@ -1330,6 +1768,10 @@ paths:
               schema:
                 type: integer
                 minimum: 1
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 components:
   schemas:
     ProductCreate:
@@ -2026,3 +2468,19 @@ components:
       scheme: bearer
       bearerFormat: JWT
       description: 管理者権限を別途検証。実装はDay 19。
+  headers:
+    RequestId:
+      description: サーバーが生成した要求UUID。エラー本文のrequest_idと一致する。
+      schema:
+        type: string
+        format: uuid
+  responses:
+    InternalServerError:
+      description: 予期しないサーバーエラー。内部情報は返さない。
+      headers:
+        X-Request-ID:
+          $ref: '#/components/headers/RequestId'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'

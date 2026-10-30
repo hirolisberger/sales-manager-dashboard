@@ -5,7 +5,7 @@
 - この表は計画であり、実施・承認・公開の実績ではない。個人用台帳はローカル専用の `docs/PROGRESS.md` で管理し、共有する状態はREADME・各Dayの確認記録・PRに残す。
 - 各記事のタイトル・概要案は [ARTICLE_PLAN.md](ARTICLE_PLAN.md) にまとめる。この表では開発テーマ・成果物・確認項目を管理する。
 - 業務要件は [REQUIREMENTS.md](REQUIREMENTS.md)、概要は [README.md](../README.md) を参照する。小規模店舗・管理者のみ・税込整数円・整数数量を基本とし、日別・月別の集計切り替えと過去の売上参照を対象とする。
-- Day 0〜3は承認・mainマージ済み。Day 3はPR #2とday03タグ（9cb473d）で共有し、MiniStackを採用。Day 4のデータモデル・OpenAPI YAML契約・設計検証・記事は2026-10-30に承認済み（21307cc）。PR作成・mainマージ・day04タグを残す。本APIはDay 5以降に実装し、マージ後の開始指示を待つ。
+- Day 0〜4は承認・mainマージ済み。Day 4はPR #3とday04タグ（eda0c85）で共有。Day 5のFastAPI基盤・設定・共通エラー・要求ID・テストと記事は2026-10-30に承認済み（6f52323）。PR作成・mainマージ・day05タグを残す。Day 6のSDK接続・保存層へはPRマージと開始指示を受けて進む。
 - 開発は毎日行う必要はなく、ユーザーの都合に合わせて進める。1回の作業は原則一つのDayを対象とし、実装・設定・設計などの成果物とMarkdown記事をセットで作成する。
 - 各Dayで検証を終えたらレビュー待ちにして停止する。対象Dayへの明示的な「レビューOK」とmainへのマージを経て、次のDayへ進む。
 - 次のDayへの着手には実装完了、必要な動作確認、記事Markdownの完成、レビュー承認が必要。Qiitaへの投稿・予約登録・公開完了は条件に含めない。修正指示はコードと記事の両方に反映する。
@@ -21,7 +21,9 @@ Day 0は本編25記事とは別の追加記事とし、公開日は未定。`fea
 
 ## Day 1〜25の到達点
 
-Day 1の成果物は [要件定義](REQUIREMENTS.md)、[全体設計](ARCHITECTURE.md)、[設計確認記録](DAY1_REVIEW.md)、[記事本文](../qiita/day01-requirements-and-architecture.md) に記録する。Day 2の導入・起動手順は [DEVELOPMENT.md](DEVELOPMENT.md)、確認結果は [DAY2_REVIEW.md](DAY2_REVIEW.md)、本文は [Day 2記事](../qiita/day02-nextjs-python-development-environment.md) に記録する。Day 3の比較と環境構築は [LOCAL_AWS.md](LOCAL_AWS.md)、確認結果は [DAY3_REVIEW.md](DAY3_REVIEW.md)、本文は [Day 3記事](../qiita/day03-ministack-localstack-local-aws.md) に記録する。Day 4の成果物は [保存設計](DATA_MODEL.md)、[API契約](API_CONTRACT.md)、[確認記録](DAY4_REVIEW.md)、[記事](../qiita/day04-data-model-and-api-contract.md) に記録する。以下の後続Dayでは、当初のLocalStack案をDay 3のMiniStack構成で検証する。
+Day 1の成果物は [要件定義](REQUIREMENTS.md)、[全体設計](ARCHITECTURE.md)、[設計確認記録](DAY1_REVIEW.md)、[記事本文](../qiita/day01-requirements-and-architecture.md) に記録する。Day 2の導入・起動手順は [DEVELOPMENT.md](DEVELOPMENT.md)、確認結果は [DAY2_REVIEW.md](DAY2_REVIEW.md)、本文は [Day 2記事](../qiita/day02-nextjs-python-development-environment.md) に記録する。Day 3の比較と環境構築は [LOCAL_AWS.md](LOCAL_AWS.md)、確認結果は [DAY3_REVIEW.md](DAY3_REVIEW.md)、本文は [Day 3記事](../qiita/day03-ministack-localstack-local-aws.md) に記録する。Day 4の成果物は [保存設計](DATA_MODEL.md)、[API仕様書](API_CONTRACT.md)、[確認記録](DAY4_REVIEW.md)、[記事](../qiita/day04-data-model-and-api-contract.md) に記録する。以下の後続Dayでは、当初のLocalStack案をDay 3のMiniStack構成で検証する。
+
+Day 5は [API基盤](API_FOUNDATION.md)、[コマンド解説](DAY5_COMMANDS.md)、[確認記録](DAY5_REVIEW.md)、[記事](../qiita/day05-fastapi-foundation-and-tests.md) に記録する。
 
 各行の実装成果物と記事の両方が完成し、確認項目の結果を記録できた時点でレビューを依頼する。
 
@@ -30,7 +32,7 @@ Day 1の成果物は [要件定義](REQUIREMENTS.md)、[全体設計](ARCHITECTU
 | 01 | 2026-12-01 | 売上管理システムの要件と全体設計を決める | 利用者・ユースケース・対象範囲・構成図・設計判断。金額、税、日付、売上の状態を定義 | 25日で扱う範囲と各機能の受け入れ条件を説明できる |
 | 02 | 2026-12-02 | Next.jsとPythonの開発環境をそろえる | ディレクトリ構成、採用バージョン、依存管理、ロックファイル、環境変数の見本 | 手順に従って依存関係を導入でき、秘密情報が含まれない |
 | 03 | 2026-12-03 | MiniStackとLocalStackを比較してローカルAWS環境を作る | 比較条件、Docker構成、ヘルスチェック、ローカル専用接続設定、起動・停止手順 | 起動・停止・再作成、DynamoDB/S3/Cognito、状態保持と接続先の分離を確認できる |
-| 04 | 2026-12-04 | 売上データとAPIの契約を設計する | データモデル、DynamoDB等のアクセスパターン、API契約、エラー形式、サンプルデータ | 検索・集計・訂正を含む主要な操作とデータの整合性を確認できる |
+| 04 | 2026-12-04 | 売上データとAPI仕様を設計する | データモデル、DynamoDB等のアクセスパターン、API仕様、エラー形式、サンプルデータ | 検索・集計・訂正を含む主要な操作とデータの整合性を確認できる |
 | 05 | 2026-12-05 | Python APIの土台とテストを作る | APIフレームワークの確定、ヘルスチェック、設定読込、例外処理、テスト環境 | 正常系・異常系の応答とAPI起動を検証できる |
 | 06 | 2026-12-06 | MiniStackにデータを保存する | テーブル等の初期化、リポジトリ層、架空データ投入・リセット手順 | MiniStackへの読み書き、初期化の再実行、データ保持方針を確認できる |
 | 07 | 2026-12-07 | 商品マスタのAPIを作る | 商品の登録・一覧・更新・無効化、入力検証 | 重複、不正価格、存在しないID、無効商品を検証できる |

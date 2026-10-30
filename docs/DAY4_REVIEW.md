@@ -1,16 +1,16 @@
-# Day 4：データモデル・API契約の検証とレビュー
+# Day 4：データモデル・API仕様の検証とレビュー
 
 確認日：2026-10-30（Asia/Tokyo）。ブランチ`feature/day04`、基点main / day03：`9cb473ddf23673b3d474537e18ce259f05547c7e`。Day 3はユーザー承認済みで、[PR #2](https://github.com/hirolisberger/sales-manager-dashboard/pull/2)のマージ・day03タグを確認して着手した。
 
-**設計・検証スクリプト・記事は実装完了、2026-10-30にユーザーレビュー承認済み。** 承認対象は`21307cc248fe0cb5ebd7220f21cd1b3eb733c2ec`。本API・製品用保存層は未実装。ブラウザーでのPR作成・mainマージとday04タグ作成は未完了。PRマージと別途の開始指示を受けるまでDay 5へ進まない。
+**設計・検証スクリプト・記事は実装完了、2026-10-30にユーザーレビュー承認済み。** 承認対象は`21307cc248fe0cb5ebd7220f21cd1b3eb733c2ec`。[PR #3](https://github.com/hirolisberger/sales-manager-dashboard/pull/3)でマージ済み、[day04タグ](https://github.com/hirolisberger/sales-manager-dashboard/tree/day04)は`eda0c85`を参照する。ユーザーの開始指示によりDay 5へ着手した。Day 4時点の未実装範囲は以下へ保持し、Day 5の基盤は別の確認記録に残す。
 
 ## 成果物
 
 - [DATA_MODEL.md](DATA_MODEL.md)：データ項目、単一テーブルのキー、検索・集計・訂正・再送、制限。
-- [API_CONTRACT.md](API_CONTRACT.md)と[OpenAPI YAML](contracts/openapi.yaml)：15操作、厳格な入力、ETag・要求キー、エラー、将来のCSV契約。
+- [API_CONTRACT.md](API_CONTRACT.md)と[OpenAPI YAML](contracts/openapi.yaml)：15操作、厳格な入力、ETag・要求キー、エラー、将来のCSV仕様。
 - [架空データ](examples/day04-fixtures.json)：Day 1と同じ売上・期待値、固定の架空時計。
 - `scripts/day04_design.py`：設計例の参照計算とトランザクション構成。アプリからはimportしない。
-- `scripts/verify_day04_contract.py`：文書契約と業務例の検証。
+- `scripts/verify_day04_contract.py`：API仕様書と業務例の検証。
 - `scripts/verify_day04_dynamodb.py`：MiniStackの一時テーブルで保存・競合・ページングを検証。
 - `infra/local-aws/pyproject.toml`と`uv.lock`：任意のcontractsグループ。jsonschema 4.26.0、openapi-spec-validator 0.9.0、PyYAML 6.0.3を固定。
 - [Day 4記事](../qiita/day04-data-model-and-api-contract.md)、README・計画・開発ルール・導線の更新。Day 3確認記録のPR/タグ情報だけを補完。
@@ -52,7 +52,7 @@ docker compose --env-file /dev/null -f compose.yaml down
 | 金額・CSV | 2,640→2,090→1,430円、紅茶330円、有効3明細・数量3・売上2件。CSVへ書出し/再読込して金額一致 |
 | 日付 | UTC/JSTの境界一致。別月訂正後、12月550円・1月880円 |
 | 保存上限の例 | 50種類・50明細・100文字の補助平面Unicode名称で、最大55アクション、最大項目153,333 bytes、要求JSON400,589 bytes（fixtureテーブル名） |
-| 契約検証の実行 | `verify_day04_contract.py`：6テストグループ成功 |
+| API仕様の検証の実行 | `verify_day04_contract.py`：6テストグループ成功 |
 | MiniStack・重複と原子性 | 商品コード競合で新商品が残らない。売上・履歴・参照・要求記録の一括保存と、重複要求キーによる全体ロールバックが成功 |
 | MiniStack・再送記録 | 最新880円への訂正後も、最初の応答1,430円・ETag v1を保持 |
 | MiniStack・商品競合 | 読取後の無効化/版変更で売上登録全体を拒否し、最新版・要求記録が残らない |
@@ -94,7 +94,7 @@ UV_CACHE_DIR="$PWD/.cache/uv" .tools/uv/bin/uv run \
 - 366日・大量売上の実用性能、料金、事前集計、DynamoDB厳密サイズ・実AWSの挙動、障害注入・並行負荷は未検証。
 - 参照スクリプトは固定の時計・店舗・明細ID生成を使う。製品コードへそのまま移植しない。
 - 認証ファイルと個人用運用資料はGit対象外を維持。過去コミットの履歴書き換えはしていない。
-- Day 4は2026-10-30にレビュー承認済み。公開APIでPR未作成を確認した。PRは既定どおりブラウザーで作成・マージし、実URLを記録する。mainマージ・day04タグ・Day 5・Qiita操作は未実施。
+- Day 4は2026-10-30に承認・PR #3マージ・day04タグpushが完了。feature/day04を保持。Day 5は後続の開始指示を受け着手した。Qiita操作は行っていない。
 - Qiita公開予定は2026-12-04（JST）。開発・レビュー・公開の状態は別々に管理する。
 
 ## 提出記録
@@ -109,21 +109,25 @@ UV_CACHE_DIR="$PWD/.cache/uv" .tools/uv/bin/uv run \
 
 ## 2026-10-30：OpenAPIの正本をYAMLへ統一
 
-ユーザーの依頼により契約の正本を`docs/contracts/openapi.yaml`へ統一し、JSON版を削除した。検証スクリプトはPyYAML 6.0.3の`safe_load`で読み込む。PyYAMLは既存の間接依存と同じバージョンをcontractsグループの直接依存として宣言し、ロックも更新した。AGENTS・API契約・コマンド解説・記事の形式説明と参照先を合わせた。
+ユーザーの依頼によりAPI仕様書を`docs/contracts/openapi.yaml`へ統一し、JSON版を削除した。検証スクリプトはPyYAML 6.0.3の`safe_load`で読み込む。PyYAMLは既存の間接依存と同じバージョンをcontractsグループの直接依存として宣言し、ロックも更新した。AGENTS・API仕様・コマンド解説・記事の形式説明と参照先を合わせた。
 
 | 今回の確認 | 結果 |
 | --- | --- |
 | 定義内容の同一性 | 変換前JSONと変換後YAMLを読み込んだ全内容が一致。正規化JSONでも比較し、文字列・数値・bool・nullの型が保持されることを確認 |
 | HTTP応答コード | 15操作のresponsesキーが文字列であることを確認。`'null'`などの型名も文字列として保持 |
-| 契約検証 | YAMLを読んで`verify_day04_contract.py`の6テストグループが成功。既存の実行コマンドは不変 |
+| API仕様の検証 | YAMLを読んで`verify_day04_contract.py`の6テストグループが成功。既存の実行コマンドは不変 |
 | 依存の固定 | 空の別venvへcontracts込みのlocked/offline導入とimportが成功。ロックのSHA-256が再導入前後で一致し、全パッケージのバージョンは変更前と同じ |
 | 静的検証 | scriptsのRuff check成功、6ファイルのformat --check成功 |
 | 文書・公開範囲 | Markdown23本・相対リンク115件・シェル56ブロック、表・フェンスと匿名化、実トークン混入なしを確認。公開対象に旧OpenAPIファイルパスの参照は残っていない |
 
-APIや保存処理の契約内容は変更していない。DynamoDB検証スクリプト・アプリ・Composeも変更していないため、MiniStackの再起動・保存検証の再実行は行わず、初回の10項目成功とユーザーの動作確認報告を保持する。この修正の提出時点ではDay 4をレビュー待ちとした。
+APIや保存処理の仕様内容は変更していない。DynamoDB検証スクリプト・アプリ・Composeも変更していないため、MiniStackの再起動・保存検証の再実行は行わず、初回の10項目成功とユーザーの動作確認報告を保持する。この修正の提出時点ではDay 4をレビュー待ちとした。
 
 ## 2026-10-30：ユーザーレビュー承認
 
 ユーザーの「day4のレビュー完了です。」をDay 4全体のレビュー承認として記録する。承認対象は`21307cc248fe0cb5ebd7220f21cd1b3eb733c2ec`。承認後は状態・提出・次のDayの条件だけを更新し、設計の内容・コード・設定・依存・記事内の実行コマンドは変更していない。
 
 PRは公開API確認時点で未作成。ブラウザーでmain向けPRを作成し、Create a merge commitでマージする。feature/day04は保持する。マージ後は実際のマージコミットへ注釈付きday04タグを作成・pushする。Day 5の開始とQiita操作は別の指示を待つ。
+
+## 2026-10-30：マージ・タグの補完記録
+
+PR #3は2026-10-30T13:53:29+09:00にマージされ、マージコミットは`eda0c85c9d2fd876f21a5110ea419c3a43c1ce52`。提出6bbdc4cとツリーが一致し、承認21307ccから実装・設定・依存・記事内コマンドが不変と確認した。同コミットに注釈付きday04を作成・pushし、公開リンク7件を確認した。Day 5ブランチで本完了記録だけを補完し、Day 4の記事本文・検証コード・架空データは変更していない。

@@ -1,8 +1,8 @@
-# Day 4：API契約
+# Day 4：API仕様書
 
-2026-10-30作成・レビュー承認済み（対象21307cc）。機械可読の正本はYAML形式の[OpenAPI 3.1.0](contracts/openapi.yaml)。**15操作の設計であり、HTTPサーバーはまだ実装していない。** Python APIの土台はDay 5、各機能はDay 7以降に実装する。[保存設計](DATA_MODEL.md)、[架空データ](examples/day04-fixtures.json)と対応させる。
+Day 4の設計は2026-10-30に承認済み（対象21307cc）。正本はYAML形式の[OpenAPI 3.1.0](contracts/openapi.yaml)。**Day 5でGET /healthと共通エラー基盤を実装し、要求IDヘッダーと共通500応答を仕様へ追加した。追加分も2026-10-30にDay 5でレビュー承認済み（対象6f52323）。** 全15操作のうち商品・売上などは後続Dayで実装する。[保存設計](DATA_MODEL.md)、[架空データ](examples/day04-fixtures.json)、[API基盤の仕様](API_FOUNDATION.md)を参照する。
 
-契約の編集対象は`docs/contracts/openapi.yaml`に統一し、JSON版は置かない。検証スクリプトはPyYAML 6.0.3の`yaml.safe_load`で読み込み、同じOpenAPI・JSON Schema検証へ渡す。HTTP応答コードのキー（例`'200'`）や型名`'null'`は文字列として引用符を保つ。転記時にYAMLの数値・nullへ変換しない。[PyYAML公式資料](https://pyyaml.org/wiki/PyYAMLDocumentation)
+仕様の編集対象は`docs/contracts/openapi.yaml`に統一し、JSON版は置かない。検証スクリプトはPyYAML 6.0.3の`yaml.safe_load`で読み込み、同じOpenAPI・JSON Schema検証へ渡す。HTTP応答コードのキー（例`'200'`）や型名`'null'`は文字列として引用符を保つ。転記時にYAMLの数値・nullへ変換しない。[PyYAML公式資料](https://pyyaml.org/wiki/PyYAMLDocumentation)
 
 ## エンドポイント
 
@@ -29,7 +29,7 @@
 ## 共通の境界
 
 - JSONの未知フィールドを拒否する。金額・数量・版は厳密な整数とし、`1.0`、bool、数値文字列も拒否する。
-- JSON Schemaの`integer`だけでは`1.0`の字句まで拒否できない。今回の検証には厳格な型チェッカーを追加した。本APIでもPythonの厳格な整数検証を実装し、HTTPを通した試験を行う。
+- JSON Schemaの`integer`だけでは`1.0`の字句まで拒否できない。設計検証には厳格な型チェッカーを追加した。Day 5で厳格な共通モデルと試験用HTTPルートを検証し、商品・売上の具体的な入力モデルは各Dayで実装する。
 - サーバーが明細ID・商品スナップショット・金額・状態・版・操作者・日時を確定する。クライアントは合計や操作者を指定できない。
 - 日付は`YYYY-MM-DD`、時刻はUTCのタイムゾーン付きISO 8601、IDはUUID。版は1〜2,147,483,647で上限到達時は更新を拒否する。
 - 商品単価・売上合計の上限は[保存設計](DATA_MODEL.md)を参照。集計結果もJavaScriptの安全な整数上限9,007,199,254,740,991を超えたらエラーにし、精度を落として返さない。
@@ -78,21 +78,23 @@ Idempotency-Key: 00000000-0000-4000-8000-000000000099
 | 400 | INVALID_JSON / INVALID_CURSOR / INVALID_HEADER |
 | 401 | UNAUTHENTICATED。WWW-Authenticateも返す |
 | 403 | FORBIDDEN |
-| 404 | PRODUCT_NOT_FOUND / SALE_NOT_FOUND / EXPORT_NOT_FOUND |
+| 404 | NOT_FOUND（Day 5の不明パス）/ PRODUCT_NOT_FOUND / SALE_NOT_FOUND / EXPORT_NOT_FOUND |
+| 405 | METHOD_NOT_ALLOWED。Allowを保持 |
 | 409 | PRODUCT_CODE_CONFLICT / IDEMPOTENCY_CONFLICT / PRODUCT_INACTIVE / SALE_CANCELLED |
 | 412 | VERSION_CONFLICT。取得していない商品の内部版競合は再検証し、必要なら409へ変換する |
 | 422 | VALIDATION_ERROR / PERIOD_TOO_LONG / FUTURE_SALE_DATE / AMOUNT_LIMIT_EXCEEDED |
 | 428 | PRECONDITION_REQUIRED |
 | 503 | TEMPORARILY_UNAVAILABLE / QUERY_BUDGET_EXCEEDED。再試行可能な場合はRetry-After |
+| 500 | INTERNAL_ERROR。内部の例外メッセージを返さない |
 
 detailsの各要素は`path`、`code`、`message`。内部スタック、トークン、AWS資格情報や入力全体をエラーへ返さない。OpenAPIの共通エラー応答は候補集合で、全操作がすべてのエラーを発生させる意味ではない。
 
-## CSVジョブの契約と未実装範囲
+## CSVジョブの仕様と未実装範囲
 
 受付時は検索条件を固定し202を返す。queued → running → completed/failedを想定し、完了時だけ期限付きdownload_url/expires_atを設定する。出力内容は明細単位、対象条件・生成日時を記録する。同時更新で整合性を保てなかった場合の再試行・失敗、URL期限とジョブ保持期間はDay 17で確定する。スキーマだけでは状態とnull項目の相関を保証しないため、ワーカーの検証も追加する。
 
-HTTP応答、認証、ETag/再送の制御、カーソル署名、非同期ワーカー、S3 URLはまだ動作しない。OpenAPIのserver URLは将来のローカルAPI用の設計値で、そこへ接続してもこの契約は実行できない。
+Day 5でhealthと共通エラーのHTTP応答が動作する。全応答にサーバー生成のX-Request-IDを付け、エラー本文のrequest_idと一致させる。認証、ETag/再送の制御、カーソル署名、非同期ワーカー、S3 URLは未実装。OpenAPIのserver URLでは起動中のGET /healthだけを確認でき、設計15操作全体が実装済みという意味ではない。
 
 ## 検証資料
 
-[DAY4_REVIEW.md](DAY4_REVIEW.md)にコマンド・期待値・確認範囲を記録する。契約は[OpenAPI 3.1.0仕様](https://spec.openapis.org/oas/v3.1.0.html)に従う。確認日は2026-10-30。
+[DAY4_REVIEW.md](DAY4_REVIEW.md)にコマンド・期待値・確認範囲を記録する。仕様は[OpenAPI 3.1.0仕様](https://spec.openapis.org/oas/v3.1.0.html)に従う。確認日は2026-10-30。
