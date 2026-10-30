@@ -1,4 +1,4 @@
-# Day 4：データモデル・API契約の検証とレビュー
+# Day 4：データモデル・API仕様の検証とレビュー
 
 確認日：2026-10-30（Asia/Tokyo）。ブランチ`feature/day04`、基点main / day03：`9cb473ddf23673b3d474537e18ce259f05547c7e`。Day 3はユーザー承認済みで、[PR #2](https://github.com/hirolisberger/sales-manager-dashboard/pull/2)のマージ・day03タグを確認して着手した。
 
@@ -7,10 +7,10 @@
 ## 成果物
 
 - [DATA_MODEL.md](DATA_MODEL.md)：データ項目、単一テーブルのキー、検索・集計・訂正・再送、制限。
-- [API_CONTRACT.md](API_CONTRACT.md)と[OpenAPI YAML](contracts/openapi.yaml)：15操作、厳格な入力、ETag・要求キー、エラー、将来のCSV契約。
+- [API_CONTRACT.md](API_CONTRACT.md)と[OpenAPI YAML](contracts/openapi.yaml)：15操作、厳格な入力、ETag・要求キー、エラー、将来のCSV仕様。
 - [架空データ](examples/day04-fixtures.json)：Day 1と同じ売上・期待値、固定の架空時計。
 - `scripts/day04_design.py`：設計例の参照計算とトランザクション構成。アプリからはimportしない。
-- `scripts/verify_day04_contract.py`：文書契約と業務例の検証。
+- `scripts/verify_day04_contract.py`：API仕様書と業務例の検証。
 - `scripts/verify_day04_dynamodb.py`：MiniStackの一時テーブルで保存・競合・ページングを検証。
 - `infra/local-aws/pyproject.toml`と`uv.lock`：任意のcontractsグループ。jsonschema 4.26.0、openapi-spec-validator 0.9.0、PyYAML 6.0.3を固定。
 - [Day 4記事](../qiita/day04-data-model-and-api-contract.md)、README・計画・開発ルール・導線の更新。Day 3確認記録のPR/タグ情報だけを補完。
@@ -52,7 +52,7 @@ docker compose --env-file /dev/null -f compose.yaml down
 | 金額・CSV | 2,640→2,090→1,430円、紅茶330円、有効3明細・数量3・売上2件。CSVへ書出し/再読込して金額一致 |
 | 日付 | UTC/JSTの境界一致。別月訂正後、12月550円・1月880円 |
 | 保存上限の例 | 50種類・50明細・100文字の補助平面Unicode名称で、最大55アクション、最大項目153,333 bytes、要求JSON400,589 bytes（fixtureテーブル名） |
-| 契約検証の実行 | `verify_day04_contract.py`：6テストグループ成功 |
+| API仕様の検証の実行 | `verify_day04_contract.py`：6テストグループ成功 |
 | MiniStack・重複と原子性 | 商品コード競合で新商品が残らない。売上・履歴・参照・要求記録の一括保存と、重複要求キーによる全体ロールバックが成功 |
 | MiniStack・再送記録 | 最新880円への訂正後も、最初の応答1,430円・ETag v1を保持 |
 | MiniStack・商品競合 | 読取後の無効化/版変更で売上登録全体を拒否し、最新版・要求記録が残らない |
@@ -109,18 +109,18 @@ UV_CACHE_DIR="$PWD/.cache/uv" .tools/uv/bin/uv run \
 
 ## 2026-10-30：OpenAPIの正本をYAMLへ統一
 
-ユーザーの依頼により契約の正本を`docs/contracts/openapi.yaml`へ統一し、JSON版を削除した。検証スクリプトはPyYAML 6.0.3の`safe_load`で読み込む。PyYAMLは既存の間接依存と同じバージョンをcontractsグループの直接依存として宣言し、ロックも更新した。AGENTS・API契約・コマンド解説・記事の形式説明と参照先を合わせた。
+ユーザーの依頼によりAPI仕様書を`docs/contracts/openapi.yaml`へ統一し、JSON版を削除した。検証スクリプトはPyYAML 6.0.3の`safe_load`で読み込む。PyYAMLは既存の間接依存と同じバージョンをcontractsグループの直接依存として宣言し、ロックも更新した。AGENTS・API仕様・コマンド解説・記事の形式説明と参照先を合わせた。
 
 | 今回の確認 | 結果 |
 | --- | --- |
 | 定義内容の同一性 | 変換前JSONと変換後YAMLを読み込んだ全内容が一致。正規化JSONでも比較し、文字列・数値・bool・nullの型が保持されることを確認 |
 | HTTP応答コード | 15操作のresponsesキーが文字列であることを確認。`'null'`などの型名も文字列として保持 |
-| 契約検証 | YAMLを読んで`verify_day04_contract.py`の6テストグループが成功。既存の実行コマンドは不変 |
+| API仕様の検証 | YAMLを読んで`verify_day04_contract.py`の6テストグループが成功。既存の実行コマンドは不変 |
 | 依存の固定 | 空の別venvへcontracts込みのlocked/offline導入とimportが成功。ロックのSHA-256が再導入前後で一致し、全パッケージのバージョンは変更前と同じ |
 | 静的検証 | scriptsのRuff check成功、6ファイルのformat --check成功 |
 | 文書・公開範囲 | Markdown23本・相対リンク115件・シェル56ブロック、表・フェンスと匿名化、実トークン混入なしを確認。公開対象に旧OpenAPIファイルパスの参照は残っていない |
 
-APIや保存処理の契約内容は変更していない。DynamoDB検証スクリプト・アプリ・Composeも変更していないため、MiniStackの再起動・保存検証の再実行は行わず、初回の10項目成功とユーザーの動作確認報告を保持する。この修正の提出時点ではDay 4をレビュー待ちとした。
+APIや保存処理の仕様内容は変更していない。DynamoDB検証スクリプト・アプリ・Composeも変更していないため、MiniStackの再起動・保存検証の再実行は行わず、初回の10項目成功とユーザーの動作確認報告を保持する。この修正の提出時点ではDay 4をレビュー待ちとした。
 
 ## 2026-10-30：ユーザーレビュー承認
 

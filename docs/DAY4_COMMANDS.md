@@ -31,7 +31,7 @@ UV_CACHE_DIR="$PWD/.cache/uv" .tools/uv/bin/uv sync \
   --project infra/local-aws --group contracts --locked
 ```
 
-全体としては「ローカルAWS検証用の仮想環境を、契約検証のライブラリも含めて、保存済みのロックに合わせる」という意味になる。
+全体としては「ローカルAWS検証用の仮想環境を、API仕様を検証するライブラリも含めて、保存済みのロックに合わせる」という意味になる。
 
 | 部分 | 意味 |
 | --- | --- |
@@ -46,7 +46,7 @@ UV_CACHE_DIR="$PWD/.cache/uv" .tools/uv/bin/uv sync \
 
 uvが`infra/local-aws/.venv/`を作成・再利用する。アプリ本体の`apps/api/.venv/`とは別の環境である。続くコマンドも`uv run --project infra/local-aws`を使うため、手動の`python -m venv`や`source .../activate`は不要になる。必要なPython本体が見つからない場合のuvによる自動取得は、パッケージ用仮想環境とは別の処理となる。[uvのプロジェクト実行](https://docs.astral.sh/uv/concepts/projects/run/)
 
-## 2. API契約・入力条件・金額の設計例を確認する
+## 2. API仕様・入力条件・金額の設計例を確認する
 
 ```sh
 UV_CACHE_DIR="$PWD/.cache/uv" .tools/uv/bin/uv run \
@@ -59,11 +59,11 @@ UV_CACHE_DIR="$PWD/.cache/uv" .tools/uv/bin/uv run \
 | `run` | 対象プロジェクトの依存環境を確認し、その環境で後続のプログラムを実行する |
 | `--project`・`--group`・`--locked` | 1と同じ環境・依存グループ・ロック条件を使う |
 | `python` | uvが選んだ仮想環境のPythonで実行する |
-| `scripts/verify_day04_contract.py` | このリポジトリの契約検証スクリプトを指定する |
+| `scripts/verify_day04_contract.py` | このリポジトリのAPI仕様の検証スクリプトを指定する |
 
 `--project`はPythonプロジェクトを選ぶ指定で、作業ディレクトリを移動する指定ではない。そのため、`scripts/...`は引き続きリポジトリのルートから解釈される。[uv runの公式説明](https://docs.astral.sh/uv/reference/cli/#uv-run)
 
-契約ファイルの正本は [openapi.yaml](contracts/openapi.yaml)。スクリプトはPyYAMLの`safe_load`で読み込んでから検証するため、実行コマンドはそのままでよい。初回や依存更新後は1の`sync --locked`を実行する。
+API仕様書の正本は [openapi.yaml](contracts/openapi.yaml)。スクリプトはPyYAMLの`safe_load`で読み込んでから検証するため、実行コマンドはそのままでよい。初回や依存更新後は1の`sync --locked`を実行する。
 
 [スクリプト](../scripts/verify_day04_contract.py)は次の6グループを確認する。
 

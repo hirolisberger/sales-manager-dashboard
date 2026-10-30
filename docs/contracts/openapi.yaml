@@ -3,7 +3,7 @@ openapi: 3.1.0
 info:
   title: Sales Manager API
   version: 0.1.0
-  description: 開発用契約。Day 5ではhealthと共通エラー基盤を実装。商品・売上・認証・CSVは該当Dayで実装する。
+  description: 開発用のAPI仕様書。Day 5ではhealthと共通エラー基盤を実装。商品・売上・認証・CSVは該当Dayで実装する。
 servers:
 - url: http://127.0.0.1:8000
   description: Day 5のローカルAPI。現在の実装済みパスは /health のみ。

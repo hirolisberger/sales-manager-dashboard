@@ -6,7 +6,7 @@
 
 ## はじめに
 
-[Day 4](https://github.com/hirolisberger/sales-manager-dashboard/blob/day04/qiita/day04-data-model-and-api-contract.md)では、売上のデータモデルとAPI契約を決めました。今回はPythonでHTTP要求を受け付ける土台を作ります。
+[Day 4](https://github.com/hirolisberger/sales-manager-dashboard/blob/day04/qiita/day04-data-model-and-api-contract.md)では、売上のデータモデルとAPI仕様を決めました。今回はPythonでHTTP要求を受け付ける土台を作ります。
 
 **実装するのは`GET /health`、設定読込、共通エラー、要求ID、起動CLIとテストです。** 商品登録や売上保存、認証は後続Dayで追加します。まず正常時と失敗時に何を返すかをそろえ、実装を増やす前に確認できる状態にします。
 
@@ -103,9 +103,11 @@ local/testで明示できるURLは、HTTPの127.0.0.1またはlocalhostの4566�
 
 ログは要求ID・メソッド・ステータスと、失敗した例外の型名に絞りました。本文・Authorization・クエリ・例外メッセージは記録せず、CLIではUvicornのアクセスログも無効にしています。
 
-## 5. 契約の正本はYAMLに保つ
+## 5. API仕様書はYAMLで管理する
 
-Day 4の`docs/contracts/openapi.yaml`へ共通500応答と要求IDヘッダーを追加しました。JSONの契約ファイルは追加しません。
+APIのURL、入力条件、応答形式をまとめた仕様書を、`docs/contracts/openapi.yaml`で管理しています。今回は、Day 4で作ったこの仕様書へ共通500応答と要求IDヘッダーを追加しました。
+
+仕様書はYAMLで記述し、APIが通信で返すデータはJSONを使います。
 
 今回のアプリでは自動OpenAPI URL・Swagger UI・ReDocを無効にしています。設計には将来の15操作がありますが、現時点で動くパスはhealthだけです。APIの応答モデルをテストし、読み込んだYAMLのHealth/Errorスキーマへ照合します。
 

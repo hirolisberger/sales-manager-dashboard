@@ -125,7 +125,7 @@ LocalStackのAuth Token・利用条件はDay 3で確認する。必要なトー�
 
 | Day 1の成果物 | 後続Dayで行うこと |
 | --- | --- |
-| [REQUIREMENTS.md](REQUIREMENTS.md)：業務ルール・画面・受け入れ条件 | Day 2の開発環境、Day 4のデータ/API契約、Day 7以降の業務実装 |
+| [REQUIREMENTS.md](REQUIREMENTS.md)：業務ルール・画面・受け入れ条件 | Day 2の開発環境、Day 4のデータ/API仕様、Day 7以降の業務実装 |
 | この構成図・責務・設計判断 | Day 3のLocalStack、Day 6の保存処理、Day 19の認証、Day 22・23のAWS構成 |
 | [DAY1_REVIEW.md](DAY1_REVIEW.md)：要件の対応と架空例の確認 | 該当Dayで受け入れテストを実装し、実環境の動作を確認 |
 | [Day 1記事](../qiita/day01-requirements-and-architecture.md) | レビュー承認後にmainへマージし、2026-12-01の公開を別途管理 |

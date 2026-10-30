@@ -21,7 +21,7 @@ Day 0は本編25記事とは別の追加記事とし、公開日は未定。`fea
 
 ## Day 1〜25の到達点
 
-Day 1の成果物は [要件定義](REQUIREMENTS.md)、[全体設計](ARCHITECTURE.md)、[設計確認記録](DAY1_REVIEW.md)、[記事本文](../qiita/day01-requirements-and-architecture.md) に記録する。Day 2の導入・起動手順は [DEVELOPMENT.md](DEVELOPMENT.md)、確認結果は [DAY2_REVIEW.md](DAY2_REVIEW.md)、本文は [Day 2記事](../qiita/day02-nextjs-python-development-environment.md) に記録する。Day 3の比較と環境構築は [LOCAL_AWS.md](LOCAL_AWS.md)、確認結果は [DAY3_REVIEW.md](DAY3_REVIEW.md)、本文は [Day 3記事](../qiita/day03-ministack-localstack-local-aws.md) に記録する。Day 4の成果物は [保存設計](DATA_MODEL.md)、[API契約](API_CONTRACT.md)、[確認記録](DAY4_REVIEW.md)、[記事](../qiita/day04-data-model-and-api-contract.md) に記録する。以下の後続Dayでは、当初のLocalStack案をDay 3のMiniStack構成で検証する。
+Day 1の成果物は [要件定義](REQUIREMENTS.md)、[全体設計](ARCHITECTURE.md)、[設計確認記録](DAY1_REVIEW.md)、[記事本文](../qiita/day01-requirements-and-architecture.md) に記録する。Day 2の導入・起動手順は [DEVELOPMENT.md](DEVELOPMENT.md)、確認結果は [DAY2_REVIEW.md](DAY2_REVIEW.md)、本文は [Day 2記事](../qiita/day02-nextjs-python-development-environment.md) に記録する。Day 3の比較と環境構築は [LOCAL_AWS.md](LOCAL_AWS.md)、確認結果は [DAY3_REVIEW.md](DAY3_REVIEW.md)、本文は [Day 3記事](../qiita/day03-ministack-localstack-local-aws.md) に記録する。Day 4の成果物は [保存設計](DATA_MODEL.md)、[API仕様書](API_CONTRACT.md)、[確認記録](DAY4_REVIEW.md)、[記事](../qiita/day04-data-model-and-api-contract.md) に記録する。以下の後続Dayでは、当初のLocalStack案をDay 3のMiniStack構成で検証する。
 
 Day 5は [API基盤](API_FOUNDATION.md)、[コマンド解説](DAY5_COMMANDS.md)、[確認記録](DAY5_REVIEW.md)、[記事](../qiita/day05-fastapi-foundation-and-tests.md) に記録する。
 
@@ -32,7 +32,7 @@ Day 5は [API基盤](API_FOUNDATION.md)、[コマンド解説](DAY5_COMMANDS.md)
 | 01 | 2026-12-01 | 売上管理システムの要件と全体設計を決める | 利用者・ユースケース・対象範囲・構成図・設計判断。金額、税、日付、売上の状態を定義 | 25日で扱う範囲と各機能の受け入れ条件を説明できる |
 | 02 | 2026-12-02 | Next.jsとPythonの開発環境をそろえる | ディレクトリ構成、採用バージョン、依存管理、ロックファイル、環境変数の見本 | 手順に従って依存関係を導入でき、秘密情報が含まれない |
 | 03 | 2026-12-03 | MiniStackとLocalStackを比較してローカルAWS環境を作る | 比較条件、Docker構成、ヘルスチェック、ローカル専用接続設定、起動・停止手順 | 起動・停止・再作成、DynamoDB/S3/Cognito、状態保持と接続先の分離を確認できる |
-| 04 | 2026-12-04 | 売上データとAPIの契約を設計する | データモデル、DynamoDB等のアクセスパターン、API契約、エラー形式、サンプルデータ | 検索・集計・訂正を含む主要な操作とデータの整合性を確認できる |
+| 04 | 2026-12-04 | 売上データとAPI仕様を設計する | データモデル、DynamoDB等のアクセスパターン、API仕様、エラー形式、サンプルデータ | 検索・集計・訂正を含む主要な操作とデータの整合性を確認できる |
 | 05 | 2026-12-05 | Python APIの土台とテストを作る | APIフレームワークの確定、ヘルスチェック、設定読込、例外処理、テスト環境 | 正常系・異常系の応答とAPI起動を検証できる |
 | 06 | 2026-12-06 | MiniStackにデータを保存する | テーブル等の初期化、リポジトリ層、架空データ投入・リセット手順 | MiniStackへの読み書き、初期化の再実行、データ保持方針を確認できる |
 | 07 | 2026-12-07 | 商品マスタのAPIを作る | 商品の登録・一覧・更新・無効化、入力検証 | 重複、不正価格、存在しないID、無効商品を検証できる |

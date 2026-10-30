@@ -4,7 +4,7 @@
 
 Day 3の比較後はMiniStackでローカルAWS環境を構築した。起動・停止・検証専用の仮想環境・状態保持は [LOCAL_AWS.md](LOCAL_AWS.md)、検証結果は [DAY3_REVIEW.md](DAY3_REVIEW.md) を参照する。この手順書のNext.js・アプリPythonの採用版と依存関係はDay 2から変更しない。
 
-Day 4の契約・保存設計の検証は [DAY4_REVIEW.md](DAY4_REVIEW.md) を参照する。追加した任意の`contracts`依存グループはローカルAWS検証専用で、アプリの依存は変更していない。
+Day 4のAPI仕様・保存設計の検証は [DAY4_REVIEW.md](DAY4_REVIEW.md) を参照する。追加した任意の`contracts`依存グループはローカルAWS検証専用で、アプリの依存は変更していない。
 
 2026-10-30のDay 5更新：Python CLIはHTTPサーバーを起動する。FastAPIの採用・設定・共通エラーは [API_FOUNDATION.md](API_FOUNDATION.md)、コマンドと意味は [DAY5_COMMANDS.md](DAY5_COMMANDS.md)、結果は [DAY5_REVIEW.md](DAY5_REVIEW.md) を参照する。Day 2当時の起動確認記事は履歴として保持する。
 

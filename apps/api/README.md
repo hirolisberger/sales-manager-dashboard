@@ -25,6 +25,6 @@ uv run --project apps/api --locked ruff check apps/api
 uv run --project apps/api --locked ruff format --check apps/api
 ```
 
-CLIは`127.0.0.1`だけで待ち受けます。`--port 8001`でポートを変更できます。`.env`の読込は明示的な`--env-file`指定が必要で、OS環境変数を優先します。設定の見本は [.env.example](.env.example)、契約の正本は [openapi.yaml](../../docs/contracts/openapi.yaml) です。
+CLIは`127.0.0.1`だけで待ち受けます。`--port 8001`でポートを変更できます。`.env`の読込は明示的な`--env-file`指定が必要で、OS環境変数を優先します。設定の見本は [.env.example](.env.example)、API仕様書は [openapi.yaml](../../docs/contracts/openapi.yaml) です。
 
 詳しい手順と各指定の意味は [DAY5_COMMANDS.md](../../docs/DAY5_COMMANDS.md)、設定・エラーの仕様は [API_FOUNDATION.md](../../docs/API_FOUNDATION.md)、確認結果は [DAY5_REVIEW.md](../../docs/DAY5_REVIEW.md) を参照してください。採用バージョンとフロント環境は [DEVELOPMENT.md](../../docs/DEVELOPMENT.md) に記録しています。

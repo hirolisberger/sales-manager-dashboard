@@ -1,4 +1,4 @@
-# 【Day 04】売上データとAPIを設計する：DynamoDBのキーと更新契約
+# 【Day 04】売上データとAPIを設計する：DynamoDBのキーと更新ルール
 
 シリーズ：**Next.js・Python・AWSで作る売上管理システム**
 
@@ -16,7 +16,7 @@
 
 - 商品・売上・履歴の関係と、取引時の値を保存する理由を説明する
 - 日付検索・集計・訂正をDynamoDBのキーへ対応させる
-- 入力、更新競合、再送、エラーのAPI契約を決める
+- 入力、更新競合、再送、エラーのAPI仕様を決める
 - MiniStackで一括保存と失敗時の整合性を確認する
 
 リポジトリは [sales-manager-dashboard](https://github.com/hirolisberger/sales-manager-dashboard) です。この回の完成版は [`day04`タグ](https://github.com/hirolisberger/sales-manager-dashboard/tree/day04) で共有する予定です。レビュー承認済みで、mainマージ後にタグを作成するため、現時点でタグは未作成です。以降の文書リンクも同タグを前提とし、Qiita公開前に存在を確認します。
@@ -95,7 +95,7 @@ API側のlimitは返す件数です。内部のQueryを複数回実行するこ�
 
 APIの設計では次を使います。
 
-| 目的 | 契約 |
+| 目的 | 実装するルール |
 | --- | --- |
 | 古い画面からの上書きを防ぐ | 詳細取得のETagをIf-Matchに指定する |
 | 同じ要求の二重登録を防ぐ | POST/PATCHにIdempotency-Keyを指定する |
@@ -103,13 +103,13 @@ APIの設計では次を使います。
 
 If-Matchがない更新は428、現在版と合わない初回更新は412にします。コード重複、取消済み売上の再訂正、違う内容での要求キー再利用は409です。[RFC 9110](https://www.rfc-editor.org/rfc/rfc9110.html#name-if-match)、[RFC 6585](https://www.rfc-editor.org/rfc/rfc6585.html#section-3)
 
-再送用の記録には最初の成功応答を残します。登録後に880円へ訂正していても、最初の1,430円の登録要求を再送したら、その登録時の応答を返す契約です。現在の金額は改めてGETで取得します。
+再送用の記録には最初の成功応答を残します。登録後に880円へ訂正していても、最初の1,430円の登録要求を再送したら、その登録時の応答を返す仕様です。現在の金額は改めてGETで取得します。
 
 Day 4では、この記録が更新後も残ることと、同じキーの二重保存が他項目を巻き込んで失敗することを確認しました。HTTPでのハッシュ比較・認証・再送応答は、これから実装します。
 
 ## 6. OpenAPIで入力と応答を共有する
 
-API契約はOpenAPI 3.1.0のYAMLにしました。読みながらレビューし、コメントも付けられるよう、`docs/contracts/openapi.yaml`を正本として編集します。主な操作は次のとおりで、ヘルスチェックや履歴などを含めて15操作あります。
+APIのURL、入力条件、応答形式を記した仕様書を、OpenAPI 3.1.0に従うYAML形式で作りました。読みながらレビューし、コメントも付けられるよう、`docs/contracts/openapi.yaml`で管理します。主な操作は次のとおりで、ヘルスチェックや履歴などを含めて15操作あります。
 
 検証スクリプトはPyYAML 6.0.3の`yaml.safe_load`で読み込みます。HTTP応答コードの`'200'`や型名の`'null'`は文字列として引用符を保ちます。読み込んだ定義には、これまでと同じOpenAPI・JSON Schema検証を適用します。[PyYAML公式資料](https://pyyaml.org/wiki/PyYAMLDocumentation)
 
@@ -143,7 +143,7 @@ UV_CACHE_DIR="$PWD/.cache/uv" .tools/uv/bin/uv run \
   python scripts/verify_day04_contract.py
 ```
 
-契約、入力拒否、スナップショット、金額とCSV、保存上限など**6テストグループが成功**しました。新しい検証依存はアプリ側へ追加せず、ローカルAWS検証用の任意グループ`contracts`に固定しています。
+API仕様書の整合性、入力拒否、スナップショット、金額とCSV、保存上限など**6テストグループが成功**しました。新しい検証依存はアプリ側へ追加せず、ローカルAWS検証用の任意グループ`contracts`に固定しています。
 
 MiniStackへの保存確認は次のとおりです。
 
@@ -176,10 +176,10 @@ docker compose --env-file /dev/null -f compose.yaml down
 
 この設計の強い整合性は、複数のQueryを一つの過去時点へ固定する保証ではありません。同時更新がなければ画面・集計・CSVを一致させる、という初期条件です。366日分を読むコスト、ページ間の同時更新、事前集計、CSVワーカー、実AWSでの挙動は後続Dayで確認します。
 
-詳細は完成版の[保存設計](https://github.com/hirolisberger/sales-manager-dashboard/blob/day04/docs/DATA_MODEL.md)、[API契約](https://github.com/hirolisberger/sales-manager-dashboard/blob/day04/docs/API_CONTRACT.md)、[検証記録](https://github.com/hirolisberger/sales-manager-dashboard/blob/day04/docs/DAY4_REVIEW.md)にまとめます。これらはday04タグの作成後に参照可能になります。
+詳細は完成版の[保存設計](https://github.com/hirolisberger/sales-manager-dashboard/blob/day04/docs/DATA_MODEL.md)、[API仕様書](https://github.com/hirolisberger/sales-manager-dashboard/blob/day04/docs/API_CONTRACT.md)、[検証記録](https://github.com/hirolisberger/sales-manager-dashboard/blob/day04/docs/DAY4_REVIEW.md)にまとめます。これらはday04タグの作成後に参照可能になります。
 
 ## まとめと次回
 
-今回は売上のデータモデルをキーとトランザクションへ落とし込み、APIの入力・更新・再送・エラー契約を決めました。MiniStackで設計を試すことで、日付訂正と空ページの扱いを確認できました。
+今回は売上のデータモデルをキーとトランザクションへ落とし込み、APIの入力条件、更新・再送のルール、エラーの応答形式を決めました。MiniStackで設計を試すことで、日付訂正と空ページの扱いを確認できました。
 
 Day 4の設計・検証・記事はユーザーレビュー承認を受けました。PRをmainへマージし、day04タグを作成してから、開始指示を受けてDay 5でPython APIの土台を作ります。Qiitaへの公開予定日は2026年12月4日で、投稿・予約操作は別途行います。

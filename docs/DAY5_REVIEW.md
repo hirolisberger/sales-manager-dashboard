@@ -31,7 +31,7 @@ UV_CACHE_DIR="$PWD/.cache/uv" .tools/uv/bin/uv run \
   --project apps/api --locked ruff format --check --config apps/api/pyproject.toml apps/api scripts
 ```
 
-起動と手動のHTTP確認は[コマンド解説](DAY5_COMMANDS.md)のターミナルA/Bの手順を使う。実装したHealth/Errorと設計YAMLの一致はpytestでも確認する。契約全体は次で確認できる。
+起動と手動のHTTP確認は[コマンド解説](DAY5_COMMANDS.md)のターミナルA/Bの手順を使う。実装したHealth/Errorと設計YAMLの一致はpytestでも確認する。仕様全体は次で確認できる。
 
 ```sh
 UV_CACHE_DIR="$PWD/.cache/uv" .tools/uv/bin/uv run \
@@ -55,12 +55,12 @@ UV_CACHE_DIR="$PWD/.cache/uv" .tools/uv/bin/uv run \
 | 要求IDと内部情報 | 成功/失敗ともサーバーUUIDを返し、エラー本文とヘッダーが一致。送信された要求IDは不採用。例外メッセージ・Authorization・クエリの値が応答とアプリ要求ログに出ない |
 | 実HTTP | CLIを一時ポートで実行し、GET /health=200、GET /missing=404、POST /health=405、要求IDとAllowを確認 |
 | 待受・停止 | lsofで127.0.0.1だけの待受を確認。SIGINTによる終了コード0・待受ポートの接続拒否を確認 |
-| 契約の回帰 | 更新したYAMLで既存6テストグループ成功。15操作を維持 |
+| API仕様の回帰確認 | 更新したYAMLで既存6テストグループ成功。15操作を維持 |
 | lint・書式 | apps/apiとscriptsのRuff check成功、format --checkは18ファイル成功 |
 | 配布物 | sdistからwheel作成成功。秘密設定・テストを含まず、APIの各モジュールを含むことを確認 |
 | ロック再導入 | 空の別venvにruntimeだけをlocked/offline導入しwheelへ入替。リポジトリ外の作業ディレクトリからimport・アプリ生成成功。pytestなしで動作し、ロックSHA-256は前後一致 |
 | 文書と公開情報 | 公開Markdown27本・相対リンク145件・シェル69ブロック、表・フェンス・YAML/JSONを確認。実トークン混入なしと個人用2資料・認証ファイルのGit除外を確認 |
-| 既存範囲 | Next.js・Node指定・Compose・ローカルAWS検証環境・設計検証スクリプト・架空データ・Day 0〜4記事はday04から不変。変更のないフロントのビルドとMiniStack検証は再実行していない |
+| 既存範囲 | 初回実装ではNext.js・Node指定・Compose・ローカルAWS検証環境・設計検証スクリプト・架空データ・Day 0〜4記事がday04から不変と確認。後続の用語修正ではDay 3・4の記事もAPI関連の表現だけ更新した。変更のないフロントのビルドとMiniStack検証は再実行していない |
 
 最新StarletteのTestClientが旧HTTPX利用を非推奨としていたため、テスト依存をHTTPX2へ合わせてから最終確認した。警告を抑制する設定は追加していない。
 
@@ -70,7 +70,7 @@ UV_CACHE_DIR="$PWD/.cache/uv" .tools/uv/bin/uv run \
 2. OS環境優先、dotenv明示指定、モード別のURL拒否と、SDK接続をDay 6へ分ける方針。
 3. 404/405・400/422・500の形式、要求ID、内部情報を返さないメッセージとログ。
 4. `sales-manager-api`がHTTPサーバーを起動するようになった変更と、127.0.0.1限定・Ctrl+C停止の手順。
-5. 契約の正本をYAMLのまま保ち、追加した500と要求ID、将来の未実装操作を区別していること。
+5. API仕様書をYAMLのまま保ち、追加した500と要求ID、将来の未実装操作を区別していること。
 
 ## 未実装・未検証
 
@@ -82,4 +82,12 @@ SDKクライアント・DynamoDB保存はDay 6以降、商品/売上APIはDay 7�
 
 ## 提出記録
 
-実装・契約・記事のレビュー対象は`2704649cdaa47ad3825be8f47bc9f76e75c30013`。この記録を追加する次のコミットは本節のみで、検証対象は変更しない。レビューは未承認。feature/day05をpushし、既定どおりブラウザーでmain向けPRを作成する。作成後に実URLを記録する。
+初回の実装・API仕様・記事のレビュー対象は`2704649cdaa47ad3825be8f47bc9f76e75c30013`。その直後の提出記録コミットは本節のみの追加だった。以下の用語修正もレビュー対象に含める。レビューは未承認。feature/day05をpushし、既定どおりブラウザーでmain向けPRを作成する。作成後に実URLを記録する。
+
+## 2026-10-30：APIを説明する用語を改善
+
+ユーザーの指摘を受け、APIの入出力の取り決めは「API仕様」、記述するファイルは「API仕様書」、更新・再送の条件は「ルール」と表記する。Day 5記事にはAPI仕様書の意味と、仕様書はYAML・応答データはJSONという説明を加えた。
+
+関連資料とDay 3・4記事のAPI関連表現も合わせた。ファイル名・リンク先・実行コマンドは維持し、OpenAPIは説明文だけを更新した。APIの動作・スキーマ・コード・依存関係は変更していない。過去のタグは変更していない。
+
+公開Markdown27本・相対リンク145件・シェル69ブロック、表・フェンス・用語・匿名化と実トークン混入なしを確認した。コードブロックと機能実装は変更前と一致し、OpenAPIはinfo.description以外が一致する。文章だけの修正のため機能テストの再実行やサーバー起動は行っていない。

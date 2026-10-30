@@ -1,6 +1,6 @@
 # Day 5：Python APIの土台
 
-2026-10-30作成、レビュー待ち。Day 4の[API契約](API_CONTRACT.md)を実装し始める。現在の公開ルートは`GET /health`だけで、商品・売上・認証・CSVは各Dayで追加する。
+2026-10-30作成、レビュー待ち。Day 4の[API仕様書](API_CONTRACT.md)を実装し始める。現在の公開ルートは`GET /health`だけで、商品・売上・認証・CSVは各Dayで追加する。
 
 ## 採用した構成
 
@@ -46,11 +46,11 @@ local/testの空URL、実AWS URL、資格情報入りURL、他ポート、パス
 
 設定不正・指定ファイル不在はCLIが終了コード2で停止する。値や例外全文をそのまま表示せず、確認する設定名を案内する。設定を検証しても、**Day 5ではAWSクライアントを作成・接続しない**。SDKの資格情報・接続先の隔離と保存層はDay 6の実装対象。
 
-## ヘルスチェックと契約
+## ヘルスチェックと仕様
 
 `GET /health`は200と`{"status":"ok"}`を返す。認証情報とMiniStackの稼働を必要としない。これはプロセスの生存確認であり、データベース接続・Cognitoログイン・AWSへの配備成功を表すものではない。
 
-契約の正本は [openapi.yaml](contracts/openapi.yaml)。API応答のJSONとは役割が異なる。Day 5では自動OpenAPI URL・Swagger UI・ReDocを無効にし、編集する契約をYAMLに一本化する。`/docs`と`/openapi.json`も他の未実装パスと同じ404になる。
+APIのURL・入力条件・応答形式をまとめた仕様書は [openapi.yaml](contracts/openapi.yaml) で管理する。仕様書はYAMLで記述し、API応答のデータはJSONで返す。Day 5では自動OpenAPI URL・Swagger UI・ReDocを無効にし、API仕様書をこのYAMLに一本化する。`/docs`と`/openapi.json`も他の未実装パスと同じ404になる。
 
 Day 5でYAMLへ追加したのは、共通500応答と`X-Request-ID`ヘッダー。全15操作の設計は維持し、実装済みルートはhealthだけと明記する。実装のHealth・Error応答はYAMLのスキーマと照合する。
 

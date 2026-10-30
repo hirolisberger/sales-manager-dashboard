@@ -1,8 +1,8 @@
-# Day 4：API契約
+# Day 4：API仕様書
 
-Day 4の設計は2026-10-30に承認済み（対象21307cc）。正本はYAML形式の[OpenAPI 3.1.0](contracts/openapi.yaml)。**Day 5でGET /healthと共通エラー基盤を実装し、要求IDヘッダーと共通500応答を契約へ追加した。追加分はDay 5のレビュー待ち。** 全15操作のうち商品・売上などは後続Dayで実装する。[保存設計](DATA_MODEL.md)、[架空データ](examples/day04-fixtures.json)、[API基盤の仕様](API_FOUNDATION.md)を参照する。
+Day 4の設計は2026-10-30に承認済み（対象21307cc）。正本はYAML形式の[OpenAPI 3.1.0](contracts/openapi.yaml)。**Day 5でGET /healthと共通エラー基盤を実装し、要求IDヘッダーと共通500応答を仕様へ追加した。追加分はDay 5のレビュー待ち。** 全15操作のうち商品・売上などは後続Dayで実装する。[保存設計](DATA_MODEL.md)、[架空データ](examples/day04-fixtures.json)、[API基盤の仕様](API_FOUNDATION.md)を参照する。
 
-契約の編集対象は`docs/contracts/openapi.yaml`に統一し、JSON版は置かない。検証スクリプトはPyYAML 6.0.3の`yaml.safe_load`で読み込み、同じOpenAPI・JSON Schema検証へ渡す。HTTP応答コードのキー（例`'200'`）や型名`'null'`は文字列として引用符を保つ。転記時にYAMLの数値・nullへ変換しない。[PyYAML公式資料](https://pyyaml.org/wiki/PyYAMLDocumentation)
+仕様の編集対象は`docs/contracts/openapi.yaml`に統一し、JSON版は置かない。検証スクリプトはPyYAML 6.0.3の`yaml.safe_load`で読み込み、同じOpenAPI・JSON Schema検証へ渡す。HTTP応答コードのキー（例`'200'`）や型名`'null'`は文字列として引用符を保つ。転記時にYAMLの数値・nullへ変換しない。[PyYAML公式資料](https://pyyaml.org/wiki/PyYAMLDocumentation)
 
 ## エンドポイント
 
@@ -89,7 +89,7 @@ Idempotency-Key: 00000000-0000-4000-8000-000000000099
 
 detailsの各要素は`path`、`code`、`message`。内部スタック、トークン、AWS資格情報や入力全体をエラーへ返さない。OpenAPIの共通エラー応答は候補集合で、全操作がすべてのエラーを発生させる意味ではない。
 
-## CSVジョブの契約と未実装範囲
+## CSVジョブの仕様と未実装範囲
 
 受付時は検索条件を固定し202を返す。queued → running → completed/failedを想定し、完了時だけ期限付きdownload_url/expires_atを設定する。出力内容は明細単位、対象条件・生成日時を記録する。同時更新で整合性を保てなかった場合の再試行・失敗、URL期限とジョブ保持期間はDay 17で確定する。スキーマだけでは状態とnull項目の相関を保証しないため、ワーカーの検証も追加する。
 
@@ -97,4 +97,4 @@ Day 5でhealthと共通エラーのHTTP応答が動作する。全応答にサ�
 
 ## 検証資料
 
-[DAY4_REVIEW.md](DAY4_REVIEW.md)にコマンド・期待値・確認範囲を記録する。契約は[OpenAPI 3.1.0仕様](https://spec.openapis.org/oas/v3.1.0.html)に従う。確認日は2026-10-30。
+[DAY4_REVIEW.md](DAY4_REVIEW.md)にコマンド・期待値・確認範囲を記録する。仕様は[OpenAPI 3.1.0仕様](https://spec.openapis.org/oas/v3.1.0.html)に従う。確認日は2026-10-30。

@@ -76,7 +76,7 @@ UV_CACHE_DIR="$PWD/.cache/uv" .tools/uv/bin/uv run \
 
 pytestは設定・HTTP応答・CLIを確認する。`-q`は表示を簡潔にし、成功の目印は`39 passed`。Ruffのcheckは静的検証、format --checkは書式の検査で、ファイルを自動修正しない。テスト実行時にHTTPサーバーを別途起動しておく必要はない。
 
-Day 4の設計用契約も確認する場合は、専用環境で実行する。
+Day 4の設計用仕様も確認する場合は、専用環境で実行する。
 
 ```sh
 UV_CACHE_DIR="$PWD/.cache/uv" .tools/uv/bin/uv run \
