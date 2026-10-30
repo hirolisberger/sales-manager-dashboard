@@ -2,9 +2,9 @@
 
 小規模店舗の商品別売上を管理する `sales-manager-dashboard` を、Next.js、Python、ローカルAWS環境、AWSで開発します。Day 3ではMiniStackを採用する構成とし、LocalStackとの比較結果も記録します。開発過程はQiita Advent Calendar 2026向けの本編25記事と、追加のDay 0準備編として記録します。
 
-Day 0〜5は承認・mainへのマージ済みです。Day 5は [PR #4](https://github.com/hirolisberger/sales-manager-dashboard/pull/4) でマージし、[day05タグ](https://github.com/hirolisberger/sales-manager-dashboard/tree/day05)は`2a1354f`を参照します。Day 2〜4も対応するPRとday02〜day04タグで共有しています。
+Day 0〜6は承認・mainへのマージ済みです。Day 6は [PR #5](https://github.com/hirolisberger/sales-manager-dashboard/pull/5) でマージし、[day06タグ](https://github.com/hirolisberger/sales-manager-dashboard/tree/day06)は`b92b01f`を参照します。Day 2〜5も対応するPRとday02〜day05タグで共有しています。
 
-**Day 6のSDK接続境界・保存層・初期化・架空データ投入・リセット・テストと記事は、2026-10-30にレビュー承認済みです（対象`c5d4c9d`）。** PR作成・mainマージ・day06タグ作成を残しています。 [保存層の仕様](docs/PERSISTENCE.md)、[各コマンドの解説](docs/DAY6_COMMANDS.md)、[検証・レビュー記録](docs/DAY6_REVIEW.md)、[記事](qiita/day06-ministack-persistence-and-seed-data.md) を参照してください。HTTPの実装済みルートは引き続きGET /healthだけです。商品・売上APIは後続Dayで追加します。
+**Day 7の商品登録・一覧・詳細・更新/無効化・要求キーと版条件・ページング・テストと記事は実装完了し、レビュー待ちです。** [商品API仕様](docs/PRODUCT_API.md)、[各コマンドの解説](docs/DAY7_COMMANDS.md)、[検証・レビュー記録](docs/DAY7_REVIEW.md)、[記事](qiita/day07-product-master-api.md) を参照してください。healthと商品4操作を実装し、商品APIはlocal/test専用です。
 
 ## 目指す機能
 
@@ -80,6 +80,9 @@ AdventCalendar_2026/
     │   ├── PERSISTENCE.md   # Day 6の保存層・初期データの仕様
     │   ├── DAY6_COMMANDS.md # Day 6の全コマンドと各指定の意味
     │   ├── DAY6_REVIEW.md   # Day 6の検証とレビュー項目
+    │   ├── PRODUCT_API.md   # Day 7の商品API仕様
+    │   ├── DAY7_COMMANDS.md # Day 7の全コマンドと各指定の意味
+    │   ├── DAY7_REVIEW.md   # Day 7の検証とレビュー項目
     │   └── ROADMAP.md       # Day 1〜25の開発・記事計画
     └── qiita/
         ├── day00-project-setup-and-github.md # Qiita向けDay 0記事
@@ -88,7 +91,8 @@ AdventCalendar_2026/
         ├── day03-ministack-localstack-local-aws.md # Qiita向けDay 3記事
         ├── day04-data-model-and-api-contract.md # Qiita向けDay 4記事
         ├── day05-fastapi-foundation-and-tests.md # Qiita向けDay 5記事
-        └── day06-ministack-persistence-and-seed-data.md # Qiita向けDay 6記事
+        ├── day06-ministack-persistence-and-seed-data.md # Qiita向けDay 6記事
+        └── day07-product-master-api.md # Qiita向けDay 7記事
 ```
 
 `AdventCalendar_2026/` の直下にある `sales-manager-dashboard/` が、プロジェクトとGitのルートです。これまでの成果物と `.git` をすべてこの中に移動しました。今後作成するソースコード、記事、設定、ドキュメントもこの中に配置します。
@@ -134,7 +138,7 @@ featureブランチはpush後にGitHubから確認でき、マージ後も原則
 
 各Dayの完了報告には、実装内容、変更ファイル、テスト・動作確認結果、記事保存先、レビュー確認項目、未解決事項、次のDayへ進める状態かどうかを記載します。
 
-Gitリポジトリのルートは `sales-manager-dashboard/` です。コミットの作者名とGitHub上の紐づけ先は `hirolisberger` とし、その個人アカウントのnoreplyを使用します。現在の作業ブランチは、main/day05 `2a1354f` から作成した `feature/day06` です。Day 6はレビュー承認済みで、PRは既定どおりブラウザーで作成・マージします。PR・タグの実績は確認記録とローカル台帳に残します。
+Gitリポジトリのルートは `sales-manager-dashboard/` です。コミットの作者名とGitHub上の紐づけ先は `hirolisberger` とし、その個人アカウントのnoreplyを使用します。現在の作業ブランチは、main/day06 `b92b01f` から作成した `feature/day07` です。Day 7はレビュー待ちで、PRは既定どおりブラウザーで作成し、承認後にマージします。PR・タグの実績は確認記録とローカル台帳に残します。
 
 GitHubの接続先は [hirolisberger/sales-manager-dashboard](https://github.com/hirolisberger/sales-manager-dashboard) です。承認済みのDay 0資料・記事を含むmainの初回pushを完了し、ローカルとGitHub側のコミットID一致を確認しています。個人環境の認証・復旧記録はローカル資料で管理し、公開リポジトリには含めません。
 

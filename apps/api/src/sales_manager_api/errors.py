@@ -5,6 +5,7 @@ from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException
 from starlette.responses import JSONResponse
 
+from sales_manager_api.repository import StorageError
 from sales_manager_api.schemas import ErrorBody, ErrorDetail, ErrorResponse
 
 HTTP_ERRORS = {
@@ -82,4 +83,20 @@ def install_error_handlers(app: FastAPI) -> None:
     async def application_error(
         request: Request, exc: ApplicationError
     ) -> JSONResponse:
-        return error_response(request, exc.status_code, exc.code, exc.public_message)
+        return error_response(
+            request,
+            exc.status_code,
+            exc.code,
+            exc.public_message,
+            headers={"Retry-After": "1"} if exc.status_code == 503 else None,
+        )
+
+    @app.exception_handler(StorageError)
+    async def storage_error(request: Request, exc: StorageError) -> JSONResponse:
+        return error_response(
+            request,
+            503,
+            "TEMPORARILY_UNAVAILABLE",
+            "保存先を利用できません。",
+            headers={"Retry-After": "1"},
+        )

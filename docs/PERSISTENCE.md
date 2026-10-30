@@ -2,6 +2,8 @@
 
 2026-10-30作成。Day 5の承認・[PR #4](https://github.com/hirolisberger/sales-manager-dashboard/pull/4)マージと[day05タグ](https://github.com/hirolisberger/sales-manager-dashboard/tree/day05)を確認して、main `2a1354f`から着手した。Day 6は2026-10-30にレビュー承認済み（対象c5d4c9d）。HTTPの実装済みルートは引き続き`GET /health`だけ。
 
+Day 7の追加：この保存層を使う [商品API](PRODUCT_API.md) を実装した。以下のHTTP未実装・後続Dayの記載はDay 6時点の境界を示す。Day 6はPR #5でマージ・day06タグ作成済み。
+
 ## 実装した責務
 
 | ファイル（apps/api/src/sales_manager_api/配下） | 担当 |

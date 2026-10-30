@@ -3,10 +3,10 @@ openapi: 3.1.0
 info:
   title: Sales Manager API
   version: 0.1.0
-  description: 開発用のAPI仕様書。Day 5ではhealthと共通エラー基盤を実装。商品・売上・認証・CSVは該当Dayで実装する。
+  description: 開発用のAPI仕様書。Day 7ではhealthと商品登録・一覧・詳細・更新を実装。商品のETag・再送・署名付きカーソルに対応。売上・認証・CSVは後続Dayで実装する。BearerAuthはDay 19の最終設計で、現在の商品APIはlocal/test専用。
 servers:
 - url: http://127.0.0.1:8000
-  description: Day 5のローカルAPI。現在の実装済みパスは /health のみ。
+  description: Day 7のローカルAPI。healthと商品4操作を実装。認証は未実装で、商品APIはawsモードでは拒否する。
 security:
 - BearerAuth: []
 paths:

@@ -6,6 +6,8 @@ Day 3の採用変更：ローカルAWS環境はMiniStack 1.5.33を採用し、20
 
 Day 5の具体化：FastAPI・Uvicornでhealthと設定・共通エラー・要求IDを実装し、2026-10-30にレビュー承認済み（対象6f52323）。[API基盤の仕様](API_FOUNDATION.md)と[検証記録](DAY5_REVIEW.md)を参照する。Day 5はPR #4でマージ・day05タグ作成済み。Day 6でSDK接続境界と保存層を実装し、[保存仕様](PERSISTENCE.md)と[確認記録](DAY6_REVIEW.md)にまとめた。Day 6は2026-10-30にレビュー承認済み（対象c5d4c9d）。AWS配備方式はDay 22〜23で検証する。
 
+Day 7の具体化：商品4操作と入力検証、条件付き保存、成功応答の再送、商品一覧の署名付き継続を [PRODUCT_API.md](PRODUCT_API.md) に実装した。Day 7はレビュー待ち。local/test専用とし、認証導入前のawsモードでは商品APIを拒否する。Day 6はPR #5でマージ・day06タグ作成済み。
+
 ## 1. 今回決める境界
 
 Next.js / TypeScriptが画面を、Python APIが業務ルールを担当する。LocalStackはローカル検証用のAWS API接続先として使い、実AWSとは環境を分離する。今日は構成と責務を整理し、アプリの起動・AWSへのデプロイは行わない。

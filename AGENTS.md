@@ -25,7 +25,8 @@ Next.js、Python、ローカルAWSエミュレーター、AWSを使用した売�
 - Day 3は2026-10-30に承認され、PR #2でmainへマージ済み。mainとday03タグは `9cb473d`、保持したfeature/day03は `13053c7`。ローカルAWS環境はMiniStack 1.5.33を採用する。機能検証・限定した起動測定の条件と制限は `docs/DAY3_REVIEW.md` と `docs/LOCAL_AWS.md` を参照する。
 - Day 4は2026-10-30に承認され、PR #3でmainへマージ済み。main/day04の基点は `eda0c85`、feature/day04は `6bbdc4c` を保持。OpenAPIの正本はYAML。完了記録は `docs/DAY4_REVIEW.md` を参照する。
 - Day 5は2026-10-30に承認され、PR #4でmainへマージ済み。main/day05の基点は `2a1354f`、feature/day05は `416fd04` を保持。承認対象は `6f52323`。確認記録は `docs/DAY5_REVIEW.md`。
-- Day 6のSDK接続境界・保存層・テーブル初期化・架空データ・リセット・テストと記事は2026-10-30にレビュー承認済み（対象 `c5d4c9d`）。PRは既定どおりブラウザーで作成・マージし、mainマージ・day06タグは未完了。feature/day06はmain/day05 `2a1354f` が基点。仕様は `docs/PERSISTENCE.md`、手順は `docs/DAY6_COMMANDS.md`、確認記録は `docs/DAY6_REVIEW.md`。Day 7の商品APIへはPRマージと別途の開始指示を受けるまで着手しない。
+- Day 6は2026-10-30に承認され、PR #5でmainへマージ済み。main/day06は `b92b01f`、feature/day06は `fdb3fe1` を保持。承認対象は `c5d4c9d`。確認記録は `docs/DAY6_REVIEW.md`。
+- Day 7の商品登録・一覧・詳細・更新/無効化・要求キー/版条件・商品カーソル・テストと記事は実装完了・レビュー待ち。feature/day07はmain/day06 `b92b01f` が基点。仕様は `docs/PRODUCT_API.md`、手順は `docs/DAY7_COMMANDS.md`、確認記録は `docs/DAY7_REVIEW.md`。商品APIは認証導入前のlocal/test専用で、awsモードではSDK生成前に拒否する。Day 8へは承認・PRマージと別途の開始指示を受けるまで着手しない。
 - 全25日分の計画は `docs/ROADMAP.md`、実際の状況は `docs/PROGRESS.md` を正とする。
 - 計画の記載や公開予定日の到来を、開発・承認・公開の完了として扱わない。
 
