@@ -17,7 +17,7 @@
 - 条件付きの複数項目保存が失敗したとき、途中だけ保存されない
 - コンテナを再起動・再作成しても、名前付きボリュームのデータが残る
 
-リポジトリは [sales-manager-dashboard](https://github.com/hirolisberger/sales-manager-dashboard) です。完成版は承認・mainマージ後に[`day06`タグ](https://github.com/hirolisberger/sales-manager-dashboard/tree/day06)で共有します。現在はレビュー待ちで、day06タグは未作成です。
+リポジトリは [sales-manager-dashboard](https://github.com/hirolisberger/sales-manager-dashboard) です。完成版は承認・mainマージ後に[`day06`タグ](https://github.com/hirolisberger/sales-manager-dashboard/tree/day06)で共有します。レビュー承認済みで、mainマージとday06タグ作成を待つ状態です。day06タグは現時点では未作成です。
 
 確認日：2026-10-30。macOS ARM64、Python 3.14.9、uv 0.13.6、MiniStack 1.5.33の固定構成で検証しました。以下のコマンドはすべてプロジェクトルートで実行します。`.tools/uv/bin/uv`は今回のuv配置先なので、別の場所に導入した場合は自身の`uv`へ置き換えてください。
 
@@ -143,4 +143,4 @@ SDKの通信なしのテストでAWS用クライアントの接続先は確認�
 
 Day 6では、保存層と明示的な初期化・seed・resetを作り、再実行時の上書き拒否とデータ保持を確認しました。次のDay 7で、この保存層を使って商品マスタのHTTP APIを作ります。
 
-Day 6の実装とこの記事はレビュー待ちです。承認・mainマージと開始指示を受けてからDay 7へ進みます。各コマンドの詳しい説明は[DAY6_COMMANDS.md](https://github.com/hirolisberger/sales-manager-dashboard/blob/day06/docs/DAY6_COMMANDS.md)、仕様は[PERSISTENCE.md](https://github.com/hirolisberger/sales-manager-dashboard/blob/day06/docs/PERSISTENCE.md)、結果は[DAY6_REVIEW.md](https://github.com/hirolisberger/sales-manager-dashboard/blob/day06/docs/DAY6_REVIEW.md)にまとめます。これらのday06リンクはタグ作成後に参照可能になります。
+Day 6の実装とこの記事はユーザーレビュー承認を受けました。PRをmainへマージし、day06タグを作成した後、開始指示を受けてDay 7へ進みます。各コマンドの詳しい説明は[DAY6_COMMANDS.md](https://github.com/hirolisberger/sales-manager-dashboard/blob/day06/docs/DAY6_COMMANDS.md)、仕様は[PERSISTENCE.md](https://github.com/hirolisberger/sales-manager-dashboard/blob/day06/docs/PERSISTENCE.md)、結果は[DAY6_REVIEW.md](https://github.com/hirolisberger/sales-manager-dashboard/blob/day06/docs/DAY6_REVIEW.md)にまとめます。これらのday06リンクはタグ作成後に参照可能になります。

@@ -1,6 +1,6 @@
 # Day 6：MiniStackへの保存と初期データ
 
-2026-10-30作成。Day 5の承認・[PR #4](https://github.com/hirolisberger/sales-manager-dashboard/pull/4)マージと[day05タグ](https://github.com/hirolisberger/sales-manager-dashboard/tree/day05)を確認して、main `2a1354f`から着手した。Day 6はレビュー待ち。HTTPの実装済みルートは引き続き`GET /health`だけ。
+2026-10-30作成。Day 5の承認・[PR #4](https://github.com/hirolisberger/sales-manager-dashboard/pull/4)マージと[day05タグ](https://github.com/hirolisberger/sales-manager-dashboard/tree/day05)を確認して、main `2a1354f`から着手した。Day 6は2026-10-30にレビュー承認済み（対象c5d4c9d）。HTTPの実装済みルートは引き続き`GET /health`だけ。
 
 ## 実装した責務
 

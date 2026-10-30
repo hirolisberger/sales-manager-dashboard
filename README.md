@@ -4,7 +4,7 @@
 
 Day 0〜5は承認・mainへのマージ済みです。Day 5は [PR #4](https://github.com/hirolisberger/sales-manager-dashboard/pull/4) でマージし、[day05タグ](https://github.com/hirolisberger/sales-manager-dashboard/tree/day05)は`2a1354f`を参照します。Day 2〜4も対応するPRとday02〜day04タグで共有しています。
 
-**Day 6のSDK接続境界・保存層・初期化・架空データ投入・リセット・テストと記事は実装完了し、レビュー待ちです。** [保存層の仕様](docs/PERSISTENCE.md)、[各コマンドの解説](docs/DAY6_COMMANDS.md)、[検証・レビュー記録](docs/DAY6_REVIEW.md)、[記事](qiita/day06-ministack-persistence-and-seed-data.md) を参照してください。HTTPの実装済みルートは引き続きGET /healthだけです。商品・売上APIは後続Dayで追加します。
+**Day 6のSDK接続境界・保存層・初期化・架空データ投入・リセット・テストと記事は、2026-10-30にレビュー承認済みです（対象`c5d4c9d`）。** PR作成・mainマージ・day06タグ作成を残しています。 [保存層の仕様](docs/PERSISTENCE.md)、[各コマンドの解説](docs/DAY6_COMMANDS.md)、[検証・レビュー記録](docs/DAY6_REVIEW.md)、[記事](qiita/day06-ministack-persistence-and-seed-data.md) を参照してください。HTTPの実装済みルートは引き続きGET /healthだけです。商品・売上APIは後続Dayで追加します。
 
 ## 目指す機能
 
@@ -134,7 +134,7 @@ featureブランチはpush後にGitHubから確認でき、マージ後も原則
 
 各Dayの完了報告には、実装内容、変更ファイル、テスト・動作確認結果、記事保存先、レビュー確認項目、未解決事項、次のDayへ進める状態かどうかを記載します。
 
-Gitリポジトリのルートは `sales-manager-dashboard/` です。コミットの作者名とGitHub上の紐づけ先は `hirolisberger` とし、その個人アカウントのnoreplyを使用します。現在の作業ブランチは、main/day05 `2a1354f` から作成した `feature/day06` です。Day 6はレビュー待ちで、PRは既定どおりブラウザーで作成し、承認後にマージします。PR・タグの実績は確認記録とローカル台帳に残します。
+Gitリポジトリのルートは `sales-manager-dashboard/` です。コミットの作者名とGitHub上の紐づけ先は `hirolisberger` とし、その個人アカウントのnoreplyを使用します。現在の作業ブランチは、main/day05 `2a1354f` から作成した `feature/day06` です。Day 6はレビュー承認済みで、PRは既定どおりブラウザーで作成・マージします。PR・タグの実績は確認記録とローカル台帳に残します。
 
 GitHubの接続先は [hirolisberger/sales-manager-dashboard](https://github.com/hirolisberger/sales-manager-dashboard) です。承認済みのDay 0資料・記事を含むmainの初回pushを完了し、ローカルとGitHub側のコミットID一致を確認しています。個人環境の認証・復旧記録はローカル資料で管理し、公開リポジトリには含めません。
 
