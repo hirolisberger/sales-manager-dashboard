@@ -37,7 +37,7 @@ UV_CACHE_DIR="$PWD/.cache/uv" .tools/uv/bin/uv sync \
 | --- | --- |
 | `sync` | 必要な依存パッケージを仮想環境へ導入・同期する |
 | `--project infra/local-aws` | このフォルダのPythonプロジェクトを対象にする |
-| `--group contracts` | 通常のSDK依存に加え、contractsグループのjsonschemaとopenapi-spec-validatorも導入する |
+| `--group contracts` | 通常のSDK依存に加え、contractsグループのjsonschema・openapi-spec-validator・PyYAMLも導入する |
 | `--locked` | ロックが不足・不整合なら失敗させる。uv.lockを自動更新して先へ進まない |
 
 依存定義は [pyproject.toml](../infra/local-aws/pyproject.toml)、固定した解決結果は [uv.lock](../infra/local-aws/uv.lock) にある。ダウンロードが必要な初回実行ではネットワークを使う。[uv syncの公式説明](https://docs.astral.sh/uv/reference/cli/#uv-sync)
@@ -62,6 +62,8 @@ UV_CACHE_DIR="$PWD/.cache/uv" .tools/uv/bin/uv run \
 | `scripts/verify_day04_contract.py` | このリポジトリの契約検証スクリプトを指定する |
 
 `--project`はPythonプロジェクトを選ぶ指定で、作業ディレクトリを移動する指定ではない。そのため、`scripts/...`は引き続きリポジトリのルートから解釈される。[uv runの公式説明](https://docs.astral.sh/uv/reference/cli/#uv-run)
+
+契約ファイルの正本は [openapi.yaml](contracts/openapi.yaml)。スクリプトはPyYAMLの`safe_load`で読み込んでから検証するため、実行コマンドはそのままでよい。初回や依存更新後は1の`sync --locked`を実行する。
 
 [スクリプト](../scripts/verify_day04_contract.py)は次の6グループを確認する。
 

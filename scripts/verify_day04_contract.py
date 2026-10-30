@@ -9,6 +9,7 @@ from datetime import datetime
 from uuid import UUID
 from zoneinfo import ZoneInfo
 
+import yaml
 from day04_design import (
     FIXTURES,
     ROOT,
@@ -26,7 +27,9 @@ from jsonschema import Draft202012Validator, FormatChecker, ValidationError, val
 from openapi_spec_validator import validate as validate_openapi
 from referencing import Registry, Resource
 
-SPEC = json.loads((ROOT / "docs/contracts/openapi.json").read_text())
+SPEC = yaml.safe_load(
+    (ROOT / "docs/contracts/openapi.yaml").read_text(encoding="utf-8")
+)
 SCHEMA_URI = "urn:sales-manager:day04"
 REGISTRY = Registry().with_resource(
     SCHEMA_URI,

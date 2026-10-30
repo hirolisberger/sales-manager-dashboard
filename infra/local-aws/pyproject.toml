@@ -13,6 +13,7 @@ dependencies = [
 contracts = [
     "jsonschema==4.26.0",
     "openapi-spec-validator==0.9.0",
+    "PyYAML==6.0.3",
 ]
 
 [tool.uv]

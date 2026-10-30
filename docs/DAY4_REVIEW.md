@@ -7,12 +7,12 @@
 ## 成果物
 
 - [DATA_MODEL.md](DATA_MODEL.md)：データ項目、単一テーブルのキー、検索・集計・訂正・再送、制限。
-- [API_CONTRACT.md](API_CONTRACT.md)と[OpenAPI](contracts/openapi.json)：15操作、厳格な入力、ETag・要求キー、エラー、将来のCSV契約。
+- [API_CONTRACT.md](API_CONTRACT.md)と[OpenAPI YAML](contracts/openapi.yaml)：15操作、厳格な入力、ETag・要求キー、エラー、将来のCSV契約。
 - [架空データ](examples/day04-fixtures.json)：Day 1と同じ売上・期待値、固定の架空時計。
 - `scripts/day04_design.py`：設計例の参照計算とトランザクション構成。アプリからはimportしない。
 - `scripts/verify_day04_contract.py`：文書契約と業務例の検証。
 - `scripts/verify_day04_dynamodb.py`：MiniStackの一時テーブルで保存・競合・ページングを検証。
-- `infra/local-aws/pyproject.toml`と`uv.lock`：任意のcontractsグループ。jsonschema 4.26.0、openapi-spec-validator 0.9.0を固定。
+- `infra/local-aws/pyproject.toml`と`uv.lock`：任意のcontractsグループ。jsonschema 4.26.0、openapi-spec-validator 0.9.0、PyYAML 6.0.3を固定。
 - [Day 4記事](../qiita/day04-data-model-and-api-contract.md)、README・計画・開発ルール・導線の更新。Day 3確認記録のPR/タグ情報だけを補完。
 
 ## 再現手順
@@ -106,3 +106,18 @@ UV_CACHE_DIR="$PWD/.cache/uv" .tools/uv/bin/uv run \
 ユーザーから「動作確認ができました」と報告を受けた。実行出力は未受領で、レビュー承認とは別に記録する。続く質問を受け [DAY4_COMMANDS.md](DAY4_COMMANDS.md) に5コマンドと各指定の解説を追加し、記事と本記録からリンクした。設計・検証コード・依存・記事内の実行コマンドは変更していない。
 
 追加文書の確認：公開Markdown23本・相対リンク114件・シェル56ブロックの構文、表・フェンス、匿名化と実トークン混入なしを確認。既存記事/本記録の実行コードブロックと、設計・アプリ・検証コード・依存・Composeに差分なし。文書の追加のため機能テストやコンテナの再起動は行っていない。
+
+## 2026-10-30：OpenAPIの正本をYAMLへ統一
+
+ユーザーの依頼により契約の正本を`docs/contracts/openapi.yaml`へ統一し、JSON版を削除した。検証スクリプトはPyYAML 6.0.3の`safe_load`で読み込む。PyYAMLは既存の間接依存と同じバージョンをcontractsグループの直接依存として宣言し、ロックも更新した。AGENTS・API契約・コマンド解説・記事の形式説明と参照先を合わせた。
+
+| 今回の確認 | 結果 |
+| --- | --- |
+| 定義内容の同一性 | 変換前JSONと変換後YAMLを読み込んだ全内容が一致。正規化JSONでも比較し、文字列・数値・bool・nullの型が保持されることを確認 |
+| HTTP応答コード | 15操作のresponsesキーが文字列であることを確認。`'null'`などの型名も文字列として保持 |
+| 契約検証 | YAMLを読んで`verify_day04_contract.py`の6テストグループが成功。既存の実行コマンドは不変 |
+| 依存の固定 | 空の別venvへcontracts込みのlocked/offline導入とimportが成功。ロックのSHA-256が再導入前後で一致し、全パッケージのバージョンは変更前と同じ |
+| 静的検証 | scriptsのRuff check成功、6ファイルのformat --check成功 |
+| 文書・公開範囲 | Markdown23本・相対リンク115件・シェル56ブロック、表・フェンスと匿名化、実トークン混入なしを確認。公開対象に旧OpenAPIファイルパスの参照は残っていない |
+
+APIや保存処理の契約内容は変更していない。DynamoDB検証スクリプト・アプリ・Composeも変更していないため、MiniStackの再起動・保存検証の再実行は行わず、初回の10項目成功とユーザーの動作確認報告を保持する。修正後もDay 4はレビュー待ちで、Day 5へ進まない。

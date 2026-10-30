@@ -109,7 +109,9 @@ Day 4では、この記録が更新後も残ることと、同じキーの二重
 
 ## 6. OpenAPIで入力と応答を共有する
 
-API契約はOpenAPI 3.1.0のJSONにしました。主な操作は次のとおりで、ヘルスチェックや履歴などを含めて15操作あります。
+API契約はOpenAPI 3.1.0のYAMLにしました。読みながらレビューし、コメントも付けられるよう、`docs/contracts/openapi.yaml`を正本として編集します。主な操作は次のとおりで、ヘルスチェックや履歴などを含めて15操作あります。
+
+検証スクリプトはPyYAML 6.0.3の`yaml.safe_load`で読み込みます。HTTP応答コードの`'200'`や型名の`'null'`は文字列として引用符を保ちます。読み込んだ定義には、これまでと同じOpenAPI・JSON Schema検証を適用します。[PyYAML公式資料](https://pyyaml.org/wiki/PyYAMLDocumentation)
 
 | パス | 主な操作 |
 | --- | --- |
