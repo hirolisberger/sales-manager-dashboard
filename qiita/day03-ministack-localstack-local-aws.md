@@ -28,6 +28,7 @@
 - MiniStackでは、DynamoDB・S3の読み書きと、Cognitoのログイン・JWT署名検証が成功した
 - コンテナの再起動・再作成後も、データ・ユーザー・署名鍵の保持を確認できた
 - LocalStackも認証・起動とDynamoDB・S3の検証に成功したが、Cognitoは今回の無料ライセンス対象外として拒否された
+- DynamoDB・S3に限定した追加測定でも、今回の環境では起動待ちとアイドルメモリが小さかった
 
 この結果から、今回の要件に合うMiniStackを選びました。以降の起動・停止・接続の手順はMiniStackを標準とし、LocalStackの構成は比較用として残します。実AWSへのデプロイはDay 22・23で別途検証します。
 
@@ -219,6 +220,40 @@ docker compose --env-file /dev/null -f compose.yaml down
 ```
 
 ローカルデータをすべて破棄する場合だけ `down --volumes` を使います。通常の停止とデータ初期化を分けます。[Docker Composeの削除対象](https://docs.docker.com/reference/cli/docker/compose/down/)
+
+## 起動の速さと軽量性も測ってみる
+
+MiniStackには軽量という利点もあるのか、2026年10月30日に同じDocker環境で測りました。提供元の公式サイトにも起動やメモリの小ささが記載されていますが、ここでは手元の実測値を使います。[MiniStack公式](https://ministack.org/)
+
+両者ともDynamoDB・S3だけを有効にし、CPU 2コア・メモリ1GiBを上限に、新しいコンテナで各3回起動しました。イメージは取得済みとし、コンテナ作成後の `docker start` から計測します。製品の実行順を交互に変え、同時起動はしていません。
+
+| 指標（3回の中央値） | MiniStack 1.5.33 | LocalStack 2026.8.2 |
+| --- | --- | --- |
+| HTTP 200まで | 0.692秒 | 7.386秒 |
+| DynamoDB・S3のAPI成功まで | 1.065秒 | 8.607秒 |
+| API初回呼出し後のアイドルメモリ | 51.56MiB | 405.3MiB |
+| アイドルCPU使用率 | 0.00% | 0.07% |
+| イメージのDocker報告値（`.Size`） | 64.8MiB | 429.1MiB |
+
+この条件では、MiniStackのAPI準備時間とアイドルメモリはLocalStackの約1/8でした。CPUはどちらも小さな値で、今回の短い測定から負荷時の処理性能までは判断しません。
+
+HTTPは外部から0.1秒間隔で確認し、API成功はListTables・ListBucketsが使えた時点です。LocalStack側はライセンス認証の有効化も含むため、通信状況でも時間が変わります。Composeのhealthcheck間隔の差が結果に入らないよう、測定用の内蔵healthcheckは無効にしました。
+
+メモリ・CPUはAPI成功の5秒後から `docker stats --no-stream` で3回取得し、試行内の中央値を使います。メモリはDocker CLIの値であり、Mac全体の使用量ではありません。イメージの`.Size`もDocker APIの報告値で、ダウンロード時間や重複排除後のディスク消費量とは区別します。[Docker statsの説明](https://docs.docker.com/reference/cli/docker/container/stats/)
+
+再現する場合は、検証用の依存と `.env.localstack` を準備してから実行します。既存のComposeデータには触れず、測定専用コンテナを作成・削除します。
+
+```sh
+uv run --project infra/local-aws --locked python scripts/benchmark_local_aws.py --output .cache/day03-benchmark.json
+```
+
+[6試行すべての測定値と条件](https://github.com/hirolisberger/sales-manager-dashboard/blob/day03/docs/benchmarks/day03-local-aws-20261030.json) も保存しています。今回の測定は永続化を無効にしたDynamoDB・S3だけの条件です。Cognito・Lambdaを使った場合や、データが増えた場合、他OS・他バージョンで同じ差が出るかは未検証です。
+
+### 軽量性以外にも導入を簡単にできる
+
+今回の構成では、エミュレーター利用のアカウント登録とAuth Tokenの配布が不要でした。読者が同じ環境を用意しやすく、将来CIへ組み込む際もLocalStack用トークンの管理を省けます。CIでの実際の検証はDay 21に行います。
+
+また、MiniStack 1.5.33はMITライセンスでソースが公開されているため、採用版の内部実装を参照して挙動を調べられます。[固定版のライセンス](https://github.com/ministackorg/ministack/blob/v1.5.33/LICENSE)
 
 ## AWSへデプロイするときに同じになるもの・別に確認するもの
 

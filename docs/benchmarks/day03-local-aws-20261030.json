@@ -1,0 +1,196 @@
+{
+  "docker_engine": "29.1.2",
+  "images": {
+    "ministack": {
+      "reference": "ministackorg/ministack:1.5.33@sha256:b58186186515a372798ccf0ca9975c295db219b5a811975337d6967b968e07b4",
+      "architecture": "arm64",
+      "docker_inspect_size_bytes": 67912499
+    },
+    "localstack": {
+      "reference": "localstack/localstack:2026.8.2@sha256:3fe5b51caec82b966a34485b5b43efd68075ff8161f9b0a34091fad9abb0ff82",
+      "architecture": "arm64",
+      "docker_inspect_size_bytes": 449925572
+    }
+  },
+  "method": {
+    "services": [
+      "dynamodb",
+      "s3"
+    ],
+    "cpu_limit": 2,
+    "memory_limit_mib": 1024,
+    "trials_per_emulator": 3,
+    "start": "Before docker start; image pull and container creation excluded",
+    "http_ready": "First HTTP 200, external polling every 0.1s",
+    "api_ready": "License active (LocalStack), ListTables and ListBuckets succeed",
+    "idle": "5s after API readiness, three docker stats --no-stream samples",
+    "healthchecks": "Disabled; common external readiness checks used instead",
+    "persistence": "Disabled; new container and empty data for each trial",
+    "execution_order": [
+      "ministack",
+      "localstack",
+      "localstack",
+      "ministack",
+      "ministack",
+      "localstack"
+    ],
+    "image_size": "docker image inspect .Size; not download time or deduplicated disk usage"
+  },
+  "trials": [
+    {
+      "emulator": "ministack",
+      "trial": 1,
+      "http_ready_seconds": 0.718,
+      "api_ready_seconds": 1.176,
+      "idle_samples": [
+        {
+          "memory_mib": 69.09,
+          "cpu_percent": 0.0
+        },
+        {
+          "memory_mib": 68.83,
+          "cpu_percent": 0.0
+        },
+        {
+          "memory_mib": 68.36,
+          "cpu_percent": 0.03
+        }
+      ],
+      "idle_memory_mib_median": 68.83,
+      "idle_cpu_percent_median": 0.0
+    },
+    {
+      "emulator": "localstack",
+      "trial": 1,
+      "http_ready_seconds": 8.09,
+      "api_ready_seconds": 9.877,
+      "idle_samples": [
+        {
+          "memory_mib": 469.8,
+          "cpu_percent": 0.19
+        },
+        {
+          "memory_mib": 469.6,
+          "cpu_percent": 0.04
+        },
+        {
+          "memory_mib": 469.6,
+          "cpu_percent": 0.08
+        }
+      ],
+      "idle_memory_mib_median": 469.6,
+      "idle_cpu_percent_median": 0.08
+    },
+    {
+      "emulator": "localstack",
+      "trial": 2,
+      "http_ready_seconds": 7.279,
+      "api_ready_seconds": 8.496,
+      "idle_samples": [
+        {
+          "memory_mib": 405.5,
+          "cpu_percent": 0.37
+        },
+        {
+          "memory_mib": 405.3,
+          "cpu_percent": 0.04
+        },
+        {
+          "memory_mib": 405.3,
+          "cpu_percent": 0.07
+        }
+      ],
+      "idle_memory_mib_median": 405.3,
+      "idle_cpu_percent_median": 0.07
+    },
+    {
+      "emulator": "ministack",
+      "trial": 2,
+      "http_ready_seconds": 0.68,
+      "api_ready_seconds": 1.057,
+      "idle_samples": [
+        {
+          "memory_mib": 51.81,
+          "cpu_percent": 0.0
+        },
+        {
+          "memory_mib": 51.56,
+          "cpu_percent": 0.0
+        },
+        {
+          "memory_mib": 51.28,
+          "cpu_percent": 0.03
+        }
+      ],
+      "idle_memory_mib_median": 51.56,
+      "idle_cpu_percent_median": 0.0
+    },
+    {
+      "emulator": "ministack",
+      "trial": 3,
+      "http_ready_seconds": 0.692,
+      "api_ready_seconds": 1.065,
+      "idle_samples": [
+        {
+          "memory_mib": 51.34,
+          "cpu_percent": 0.0
+        },
+        {
+          "memory_mib": 51.31,
+          "cpu_percent": 0.0
+        },
+        {
+          "memory_mib": 51.29,
+          "cpu_percent": 0.03
+        }
+      ],
+      "idle_memory_mib_median": 51.31,
+      "idle_cpu_percent_median": 0.0
+    },
+    {
+      "emulator": "localstack",
+      "trial": 3,
+      "http_ready_seconds": 7.386,
+      "api_ready_seconds": 8.607,
+      "idle_samples": [
+        {
+          "memory_mib": 404.1,
+          "cpu_percent": 0.38
+        },
+        {
+          "memory_mib": 403.6,
+          "cpu_percent": 0.05
+        },
+        {
+          "memory_mib": 403.6,
+          "cpu_percent": 0.07
+        }
+      ],
+      "idle_memory_mib_median": 403.6,
+      "idle_cpu_percent_median": 0.07
+    }
+  ],
+  "summary_medians": {
+    "ministack": {
+      "http_ready_seconds": 0.692,
+      "api_ready_seconds": 1.065,
+      "idle_memory_mib_median": 51.56,
+      "idle_cpu_percent_median": 0.0
+    },
+    "localstack": {
+      "http_ready_seconds": 7.386,
+      "api_ready_seconds": 8.607,
+      "idle_memory_mib_median": 405.3,
+      "idle_cpu_percent_median": 0.07
+    }
+  },
+  "measurement_date": "2026-10-30",
+  "host_environment": "macOS / Apple Silicon; Docker linux/arm64",
+  "limitations": [
+    "One host, three new-container trials per emulator, already-cached images.",
+    "DynamoDB and S3 only; persistence and container healthchecks disabled.",
+    "LocalStack license activation/network latency included; no inference about contract plan or expiry.",
+    "No API load/TPS, startup peak memory, Cognito/Lambda workload, or real AWS comparison.",
+    "docker stats CLI memory excludes inactive file cache on the Linux daemon; not host-wide RAM."
+  ]
+}

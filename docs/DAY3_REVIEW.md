@@ -12,9 +12,10 @@
 - `infra/local-aws/pyproject.toml`・`uv.lock`・`.python-version`：検証専用SDK・JWT依存とPythonを固定。アプリ本体の依存は変更しない。
 - `scripts/verify_local_aws.py`：架空データのSDK検証、Cognito/JWKS/RS256検証、任意の再起動・再作成確認と検証リソースの削除。再比較でデータ専用の `--data-only` を追加し、省略したCognitoは `not_requested` と記録。
 - `scripts/test_local_aws.py`：外部URL拒否、既存AWSプロファイル・資格情報・プロキシの分離を確認。
+- `scripts/benchmark_local_aws.py` と [全6試行の測定値](benchmarks/day03-local-aws-20261030.json)：独立したコンテナでの起動・アイドル負荷比較。
 - [手順と比較](LOCAL_AWS.md)、[記事](../qiita/day03-ministack-localstack-local-aws.md)、README・計画・開発ルールの更新。
 
-MiniStackを採用する構成をレビュー対象とする。レビュー中の再比較依頼に対応し、LocalStackでもAuth Token設定後の起動とDynamoDB・S3の同じSDK検証に成功した。Cognitoは現在の無料ライセンス対象外としてCreateUserPoolを拒否した。無料でCognitoも含めて検証する目的に対してMiniStackを推奨する。性能比較・別ライセンス・AWSへのデプロイは未検証。条件と固定イメージは手順書に記録する。
+MiniStackを採用する構成をレビュー対象とする。レビュー中の再比較依頼に対応し、LocalStackでもAuth Token設定後の起動とDynamoDB・S3の同じSDK検証に成功した。Cognitoは現在の無料ライセンス対象外としてCreateUserPoolを拒否した。無料でCognitoも含めて検証する目的に対してMiniStackを推奨する。2026-10-30にはDynamoDB・S3限定で起動とアイドル負荷を追加測定した。API負荷性能・別ライセンス・AWSへのデプロイは未検証。条件と固定イメージは手順書に記録する。
 
 ## 実施した確認
 
@@ -41,7 +42,7 @@ MiniStackを採用する構成をレビュー対象とする。レビュー中�
 | ロックからの再導入 | 別の空の仮想環境へ `uv sync --locked --offline` で導入し、SDK・JWT・暗号ライブラリをimport。ロックのSHA-256は再導入前後で一致 |
 | 静的検証・書式 | `uv run --project apps/api --locked ruff check --config infra/local-aws/pyproject.toml scripts` と同設定の `ruff format --check` が成功 |
 | アプリへの影響 | `git diff --exit-code day02 -- apps .nvmrc` が成功。アプリのコード・依存・ロックはDay 2から変更なし |
-| 文書と公開情報 | 再比較後はMarkdown 18本、相対リンク77件、シェルブロック44件の構文、表・フェンス、記事YAMLとComposeの完全一致を確認。公開対象に実トークンが含まれないことと、匿名化・実設定ファイルのGit除外を確認 |
+| 文書と公開情報 | 認証付き再比較時はMarkdown 18本・相対リンク77件・シェル44ブロック。起動測定の追記後は18本・79件・46ブロックの構文、表・フェンス、記事YAMLとComposeの完全一致を確認した。公開対象への実トークン混入なし、匿名化・実設定ファイルのGit除外も確認した |
 | 接続範囲・終了状態 | HTTP 200・バージョン1.5.33・127.0.0.1公開・Dockerソケット非マウントを確認。再比較したLocalStackもComposeのhealthyを確認し、両構成をdown。4566・4567番への接続拒否を確認。MiniStackの名前付きボリュームは保持 |
 
 スクリプトの最終結果は次のとおり。JWT、パスワード、個人用の資格情報は含めない。
@@ -72,11 +73,19 @@ MiniStackを採用する構成をレビュー対象とする。レビュー中�
 
 レビュー指摘を受け、冒頭とまとめの採用方針を強調し、「結論：このプロジェクトではMiniStackを採用する」の節を追加した。無料でCognitoと状態保持まで確認できたことを理由とし、Day 4以降もMiniStackを標準にする方針を明記する。これは記事で説明する技術選定であり、ユーザーのレビュー承認や次のDayの開始を完了したとは扱わない。
 
-本日の変更は記事の説明とレビュー記録のみ。実装・Compose・依存関係・記事内コードブロック・検証結果は2026-10-29の提出内容から変更せず、文書差分・書式・リンクを確認する。実行環境の再検証は行わない。
+この結論明確化の修正では、記事の説明とレビュー記録のみ変更した。実装・Compose・依存関係・記事内コードブロック・検証結果は2026-10-29の提出内容から変更せず、文書差分・書式・リンクを確認した。当該修正では実行環境の再検証を行わなかった。起動・アイドル負荷の追加測定は次節に分けて記録する。
+
+## 2026-10-30：起動・アイドル負荷と追加の利点を確認
+
+`uv run --project infra/local-aws --locked python scripts/benchmark_local_aws.py --output .cache/day03-benchmark-20261030.json` を実行し、両製品を各3回測定した。DynamoDB・S3、CPU 2コア・メモリ1GiB、空の新規コンテナ、永続化無効、外部HTTPポーリング、キャッシュ済みイメージという共通条件にそろえた。既存のComposeデータ・設定は変更していない。
+
+中央値は、HTTP 200までMiniStack 0.692秒 / LocalStack 7.386秒、API成功まで1.065秒 / 8.607秒、アイドルメモリ51.56MiB / 405.3MiB、CPU 0.00% / 0.07%。全6試行の値と集計を照合し、測定用コンテナがすべて削除されたことを確認した。新しい測定スクリプトのRuffも成功。
+
+公式の軽量性の説明と今回の実測値を分け、記事と手順書へ条件・制限を追記した。アカウント・Auth Tokenが不要な導入と、固定版のMITライセンスによるソース公開も利点として整理する。API負荷時の性能、Cognito・Lambda利用時の使用量、他環境での再現、CIは今回未検証。既存の機能検証を再実行したとは扱わない。
 
 ## 未検証・残件とレビュー状態
 
-- LocalStackのAuth Token設定後の起動・DynamoDB・S3・Cognitoのライセンス拒否は確認済み。Cognitoのログイン以降、永続化構成、別のライセンス条件、両製品の性能比較は未実施。有効期限は未特定。
+- LocalStackのAuth Token設定後の起動・DynamoDB・S3・Cognitoのライセンス拒否は確認済み。Cognitoのログイン以降、永続化構成、別のライセンス条件、API負荷性能は未検証。起動・アイドル負荷は上記の条件だけで比較済み。有効期限は未特定。
 - 他OS・amd64実行、ブラウザー認証・MFA等、DynamoDBトランザクション等の業務要件、IaC・AWSへのデプロイは今回の対象外。[手順書の未検証一覧](LOCAL_AWS.md) を参照する。
 - アプリのHTTP API・ローカル/AWS設定の読込は未実装。今回の検証ツールにだけ接続先の拒否条件を実装した。
 - `day03` タグは承認・PRマージ後に作成するため、記事のタグURLはまだ有効性を確認していない。

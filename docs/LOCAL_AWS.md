@@ -18,7 +18,7 @@ LocalStack 2026.8.2は、最初にAuth Tokenなしで起動して終了コード
 | CPU | 今回はlinux/arm64で実行。配布manifestにはamd64も存在 | 同左。APIの同等性を意味しない |
 | AWSへの移行 | 標準AWS SDKを使用。実AWSでは接続設定・資格情報・IaCを別途検証 | 標準AWS SDKとIaC向けの公式案内あり。今回はデプロイ未検証 |
 
-これは今回の利用資格・構成で確認した比較であり、性能測定や全API互換性、有料プランを含めた製品全体の優劣は判定していない。LocalStackのCognitoと永続化は、現行公式資料ではBase・Ultimateが対象。別の利用資格では結果が変わり得る。[Cognito資料](https://docs.localstack.cloud/aws/services/cognito-idp/)、[永続化資料](https://docs.localstack.cloud/aws/developer-tools/snapshots/persistence/)
+これは今回の利用資格・構成で確認した比較であり、全API互換性や有料プランを含めた製品全体の優劣は判定していない。2026-10-30には、後述の条件で起動時間とアイドル時の使用量も測定した。APIの負荷性能は未測定。LocalStackのCognitoと永続化は、現行公式資料ではBase・Ultimateが対象。別の利用資格では結果が変わり得る。[Cognito資料](https://docs.localstack.cloud/aws/services/cognito-idp/)、[永続化資料](https://docs.localstack.cloud/aws/developer-tools/snapshots/persistence/)
 
 ローカルの情報APIでは `is_license_activated=true` を確認したが、契約プラン名と有効期限は応答に含まれなかった。`edition=pro` を有料契約の証拠として扱わず、期限が無期限とも推測しない。利用資格・期限の詳細は管理画面で確認する。
 
@@ -134,6 +134,40 @@ docker compose --env-file /dev/null -f infra/local-aws/compose.localstack.yaml d
 ```
 
 この最初の条件では `No credentials were found in the environment` により終了コード55となった。上記の再比較で、Auth Tokenの設定により起動できることを確認した。
+
+## 起動時間とアイドル負荷の追加測定
+
+測定日：2026-10-30（Asia/Tokyo）。[匿名化した全6試行と中央値](benchmarks/day03-local-aws-20261030.json) を保存した。再現用コードは `scripts/benchmark_local_aws.py`。
+
+同じDocker環境のlinux/arm64イメージを使用し、DynamoDB・S3だけを有効にした。各コンテナの上限はCPU 2コア・メモリ1GiB。各製品3試行を直列に実行し、順番はMiniStack→LocalStack→LocalStack→MiniStack→MiniStack→LocalStackとした。毎回新しいコンテナと空のデータを使い、既存のComposeボリュームには接続していない。
+
+| 指標（3試行の中央値） | MiniStack 1.5.33 | LocalStack 2026.8.2 |
+| --- | --- | --- |
+| HTTP 200まで | 0.692秒 | 7.386秒 |
+| DynamoDB・S3のAPI成功まで | 1.065秒 | 8.607秒 |
+| API初回呼出し後のアイドルメモリ | 51.56MiB | 405.3MiB |
+| 同時点のCPU使用率 | 0.00% | 0.07% |
+| イメージのDocker報告値（`.Size`） | 64.8MiB | 429.1MiB |
+
+起動時間は `docker start` の直前から測り、HTTPは外部から0.1秒間隔で確認する。API成功までの時間はLocalStackの認証有効化と、両者のListTables・ListBucketsの成功までを含む。イメージ取得・コンテナ作成は計測外。Composeのhealthcheck間隔の違いを避けるため、測定用コンテナでは内蔵healthcheckを無効にした。
+
+メモリ・CPUはAPI成功の5秒後から `docker stats --no-stream` で3回取得し、その中央値を試行の代表値とした。表はさらに3試行の中央値である。メモリはLinuxのDocker CLIがキャッシュを控除した値で、Mac全体の使用量ではない。CPUの0.00%は表示精度と短い採取期間による値で、常にCPUを使わないという意味ではない。[Docker statsの定義](https://docs.docker.com/reference/cli/docker/container/stats/)
+
+今回の条件では、MiniStackのAPI準備時間とアイドルメモリはLocalStackの約1/8だった。LocalStackのライセンス認証にかかる通信、キャッシュ、ホストの負荷でも変わるため、全環境・全バージョンに一般化しない。永続化を両者とも無効にし、Cognito・Lambda・業務データ・負荷試験は含めていない。`.Size` はDocker APIの報告値であり、取得時間や重複排除後のディスク消費量ではない。
+
+`.env.localstack` と検証専用の依存を準備した後、プロジェクトルートで再測定できる。毎回6個の測定用コンテナを順に作成・削除する。LocalStackの利用資格は実行時点で有効なものが必要。
+
+```sh
+uv run --project infra/local-aws --locked python scripts/benchmark_local_aws.py --output .cache/day03-benchmark.json
+```
+
+## 軽量性以外の利点
+
+- エミュレーター利用のアカウント登録やAuth Tokenを用意せずに起動できる。読者の環境構築や、将来のCIでLocalStack用トークンを配布・管理する作業を省ける。CI自体の導入・検証はDay 21で行う。
+- MiniStack 1.5.33はMITライセンスでソースを公開している。採用版の内部実装を参照して、挙動や制限を調べられる。[固定版のライセンス](https://github.com/ministackorg/ministack/blob/v1.5.33/LICENSE)
+- 今回の構成では、Cognitoの基本操作と通常停止時の状態保持を無料で検証できた。対応APIが増えても実AWSとの差は各Dayで確認する。
+
+公式にも起動・メモリの小ささやアカウント不要という説明があるが、上の表には提供元の宣伝値ではなく今回の実測値を使った。[MiniStack公式](https://ministack.org/)
 
 ## AWSへのデプロイに向けて残す境界
 
