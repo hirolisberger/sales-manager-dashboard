@@ -28,7 +28,7 @@ Day 1までの準備記録は [DAY0_SETUP.md](DAY0_SETUP.md)、公開用のDay 0
 - 公開予定日：未定。記事の作成・レビューと実際の投稿は分けて管理する。
 
 
-Day 4はPR #3でマージし、day04タグを作成済み。Day 5の本文は [day05-fastapi-foundation-and-tests.md](../qiita/day05-fastapi-foundation-and-tests.md) に作成し、FastAPIの土台・設定・エラー・テストとともにレビュー待ちとする。
+Day 4はPR #3でマージし、day04タグを作成済み。Day 5の本文は [day05-fastapi-foundation-and-tests.md](../qiita/day05-fastapi-foundation-and-tests.md) に作成し、FastAPIの土台・設定・エラー・テストとともに2026-10-30にレビュー承認済み。PR作成・mainマージ・day05タグは未完了。
 
 ## 本編25記事
 

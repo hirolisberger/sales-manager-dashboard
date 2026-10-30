@@ -17,7 +17,7 @@
 - ローカルとAWSの接続設定を混ぜない入力条件を設ける
 - エラー形式と要求IDをそろえ、設計YAMLとテストで照合する
 
-リポジトリは [sales-manager-dashboard](https://github.com/hirolisberger/sales-manager-dashboard) です。この回の完成版は [`day05`タグ](https://github.com/hirolisberger/sales-manager-dashboard/tree/day05) で共有する予定です。レビュー承認とmainマージ後に作成するため、現時点では未作成です。以降のday05文書リンクも公開前に存在を確認します。
+リポジトリは [sales-manager-dashboard](https://github.com/hirolisberger/sales-manager-dashboard) です。この回の完成版は [`day05`タグ](https://github.com/hirolisberger/sales-manager-dashboard/tree/day05) で共有する予定です。レビュー承認済みで、mainマージ後に作成するため、現時点では未作成です。以降のday05文書リンクも公開前に存在を確認します。
 
 確認日は2026-10-30。macOS ARM64、Python 3.14.9、uv 0.13.6で検証しました。
 
@@ -160,4 +160,4 @@ UV_CACHE_DIR="$PWD/.cache/uv" .tools/uv/bin/uv run \
 
 Day 5では、HTTP要求を受け付ける土台を作り、設定とエラーの扱いをそろえました。APIが返すJSONを設計YAMLへ照合し、起動から停止まで手元で確認できるようになりました。
 
-この実装と記事のレビュー承認・mainマージ後、開始指示を受けてDay 6の保存層へ進みます。公開予定日は2026年12月5日で、投稿・予約操作は開発・レビューと別に管理します。
+この実装と記事はユーザーレビュー承認を受けました。PRをmainへマージし、day05タグを作成した後、開始指示を受けてDay 6の保存層へ進みます。公開予定日は2026年12月5日で、投稿・予約操作は開発・レビューと別に管理します。

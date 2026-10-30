@@ -24,7 +24,7 @@ Next.js、Python、ローカルAWSエミュレーター、AWSを使用した売�
 - Day 2の開発環境と記事は、2026-10-29に承認済み。承認対象は `b5cd821`。ユーザーがブラウザーでPR #1をマージし、mainと `day02` タグはマージコミット `b302057` を参照する。feature/day02もGitHubに保持済み。
 - Day 3は2026-10-30に承認され、PR #2でmainへマージ済み。mainとday03タグは `9cb473d`、保持したfeature/day03は `13053c7`。ローカルAWS環境はMiniStack 1.5.33を採用する。機能検証・限定した起動測定の条件と制限は `docs/DAY3_REVIEW.md` と `docs/LOCAL_AWS.md` を参照する。
 - Day 4は2026-10-30に承認され、PR #3でmainへマージ済み。main/day04の基点は `eda0c85`、feature/day04は `6bbdc4c` を保持。OpenAPIの正本はYAML。完了記録は `docs/DAY4_REVIEW.md` を参照する。
-- Day 5は開始指示を受け、main/day04 `eda0c85` から作成したfeature/day05でFastAPIの土台・設定読込・共通エラー・要求ID・テストと記事を作成し、レビュー待ち。確認結果は `docs/DAY5_REVIEW.md`。SDKクライアントの資格情報隔離と製品用保存層はDay 6で実装する。Day 6へは承認・PRマージと別途の開始指示を受けるまで進めない。
+- Day 5のFastAPI基盤・設定読込・共通エラー・要求ID・テスト・記事は2026-10-30にレビュー承認済み。承認対象は `6f52323`。feature/day05はmain/day04 `eda0c85` が基点。PRは既定どおりブラウザーで作成・マージし、mainマージ・day05タグは未完了。確認記録は `docs/DAY5_REVIEW.md`。SDKクライアント境界と製品用保存層はDay 6で実装し、PRマージと別途の開始指示を受けるまで着手しない。
 - 全25日分の計画は `docs/ROADMAP.md`、実際の状況は `docs/PROGRESS.md` を正とする。
 - 計画の記載や公開予定日の到来を、開発・承認・公開の完了として扱わない。
 

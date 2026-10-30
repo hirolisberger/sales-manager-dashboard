@@ -1,6 +1,6 @@
 # Day 4：API仕様書
 
-Day 4の設計は2026-10-30に承認済み（対象21307cc）。正本はYAML形式の[OpenAPI 3.1.0](contracts/openapi.yaml)。**Day 5でGET /healthと共通エラー基盤を実装し、要求IDヘッダーと共通500応答を仕様へ追加した。追加分はDay 5のレビュー待ち。** 全15操作のうち商品・売上などは後続Dayで実装する。[保存設計](DATA_MODEL.md)、[架空データ](examples/day04-fixtures.json)、[API基盤の仕様](API_FOUNDATION.md)を参照する。
+Day 4の設計は2026-10-30に承認済み（対象21307cc）。正本はYAML形式の[OpenAPI 3.1.0](contracts/openapi.yaml)。**Day 5でGET /healthと共通エラー基盤を実装し、要求IDヘッダーと共通500応答を仕様へ追加した。追加分も2026-10-30にDay 5でレビュー承認済み（対象6f52323）。** 全15操作のうち商品・売上などは後続Dayで実装する。[保存設計](DATA_MODEL.md)、[架空データ](examples/day04-fixtures.json)、[API基盤の仕様](API_FOUNDATION.md)を参照する。
 
 仕様の編集対象は`docs/contracts/openapi.yaml`に統一し、JSON版は置かない。検証スクリプトはPyYAML 6.0.3の`yaml.safe_load`で読み込み、同じOpenAPI・JSON Schema検証へ渡す。HTTP応答コードのキー（例`'200'`）や型名`'null'`は文字列として引用符を保つ。転記時にYAMLの数値・nullへ変換しない。[PyYAML公式資料](https://pyyaml.org/wiki/PyYAMLDocumentation)
 

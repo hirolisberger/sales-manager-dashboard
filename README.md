@@ -4,7 +4,7 @@
 
 Day 0〜4は承認・mainへのマージ済みです。Day 2は [PR #1](https://github.com/hirolisberger/sales-manager-dashboard/pull/1)、Day 3は [PR #2](https://github.com/hirolisberger/sales-manager-dashboard/pull/2)、Day 4は [PR #3](https://github.com/hirolisberger/sales-manager-dashboard/pull/3) でマージしました。完成版はday02〜day04タグで参照できます。
 
-**Day 5はFastAPIの土台・設定読込・共通エラー・要求ID・テストと記事が完成し、レビュー待ちです。** [API基盤の仕様](docs/API_FOUNDATION.md)、[起動・確認コマンド](docs/DAY5_COMMANDS.md)、[検証・レビュー記録](docs/DAY5_REVIEW.md)、[記事](qiita/day05-fastapi-foundation-and-tests.md) を参照してください。現在の実装済みパスはGET /healthです。商品・売上APIと保存処理は後続Dayで実装します。ローカルAWSの起動は [手順と比較](docs/LOCAL_AWS.md) に記載しています。
+**Day 5のFastAPI基盤・設定読込・共通エラー・要求ID・テストと記事は、2026-10-30にレビュー承認済みです。** 承認対象は`6f52323`で、PR作成・mainマージ・day05タグ作成を残しています。 [API基盤の仕様](docs/API_FOUNDATION.md)、[起動・確認コマンド](docs/DAY5_COMMANDS.md)、[検証・レビュー記録](docs/DAY5_REVIEW.md)、[記事](qiita/day05-fastapi-foundation-and-tests.md) を参照してください。現在の実装済みパスはGET /healthです。商品・売上APIと保存処理は後続Dayで実装します。ローカルAWSの起動は [手順と比較](docs/LOCAL_AWS.md) に記載しています。
 
 ## 目指す機能
 
@@ -124,7 +124,7 @@ featureブランチはpush後にGitHubから確認でき、マージ後も原則
 
 各Dayの完了報告には、実装内容、変更ファイル、テスト・動作確認結果、記事保存先、レビュー確認項目、未解決事項、次のDayへ進める状態かどうかを記載します。
 
-Gitリポジトリのルートは `sales-manager-dashboard/` です。コミットの作者名とGitHub上の紐づけ先は `hirolisberger` とし、その個人アカウントのnoreplyを使用します。現在の作業ブランチは、main/day04 `eda0c85` から作成した `feature/day05` です。Day 5はレビュー待ちで、PRは既定どおりブラウザーで作成します。PR・タグの実績は確認記録とローカル台帳に残します。
+Gitリポジトリのルートは `sales-manager-dashboard/` です。コミットの作者名とGitHub上の紐づけ先は `hirolisberger` とし、その個人アカウントのnoreplyを使用します。現在の作業ブランチは、main/day04 `eda0c85` から作成した `feature/day05` です。Day 5はレビュー承認済みで、PRは既定どおりブラウザーで作成・マージします。PR・タグの実績は確認記録とローカル台帳に残します。
 
 GitHubの接続先は [hirolisberger/sales-manager-dashboard](https://github.com/hirolisberger/sales-manager-dashboard) です。承認済みのDay 0資料・記事を含むmainの初回pushを完了し、ローカルとGitHub側のコミットID一致を確認しています。個人環境の認証・復旧記録はローカル資料で管理し、公開リポジトリには含めません。
 

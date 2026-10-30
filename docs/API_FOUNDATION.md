@@ -1,6 +1,6 @@
 # Day 5：Python APIの土台
 
-2026-10-30作成、レビュー待ち。Day 4の[API仕様書](API_CONTRACT.md)を実装し始める。現在の公開ルートは`GET /health`だけで、商品・売上・認証・CSVは各Dayで追加する。
+2026-10-30作成・レビュー承認済み（対象6f52323）。Day 4の[API仕様書](API_CONTRACT.md)を実装し始める。現在の公開ルートは`GET /health`だけで、商品・売上・認証・CSVは各Dayで追加する。
 
 ## 採用した構成
 
