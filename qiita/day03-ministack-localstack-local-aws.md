@@ -8,7 +8,7 @@
 
 [Day 2](https://github.com/hirolisberger/sales-manager-dashboard/blob/day02/qiita/day02-nextjs-python-development-environment.md)では、Next.jsとPythonを同じリポジトリで起動できるようにしました。今回は、そのPythonから接続するローカルAWS環境を用意します。
 
-当初はLocalStackを使う計画でしたが、Cognitoも含めてローカルで検証したいため、MiniStackと比較することにしました。LocalStackはAuth Tokenを設定してから起動とAPIを再確認しました。その結果、今回の無料ライセンス条件ではCognitoが対象外だったため、以後のローカル開発にはMiniStack 1.5.33を使う構成にしています。以前の記事は企画時のLocalStackを含むシリーズ表記のまま残し、この回から採用した構成を説明します。
+当初はLocalStackを使う計画でしたが、Cognitoも含めてローカルで検証したいため、MiniStackと比較しました。**比較の結論として、このプロジェクトのローカルAWS環境にはMiniStack 1.5.33を採用します。** LocalStackはAuth Token設定後の起動とAPIも確認し、利用できた範囲を整理しました。以前の記事は企画時のLocalStackを含むシリーズ表記のまま残し、この回から採用した構成を説明します。
 
 リポジトリは [sales-manager-dashboard](https://github.com/hirolisberger/sales-manager-dashboard) です。この回の完成版は [`day03`タグ](https://github.com/hirolisberger/sales-manager-dashboard/tree/day03) で共有する予定です。タグはレビュー承認とmainへのマージ後に作成するため、記事公開前にリンクを確認します。
 
@@ -20,6 +20,16 @@
 - 再起動・再作成後の状態保持と、実AWSへ接続しない境界を確認する
 
 公式資料と配布情報の確認日は2026年10月29日です。検証環境はmacOS・Apple Silicon、Docker 29.1.2、Compose v2.40.3-desktop.1、Python 3.14.9、uv 0.13.6です。売上APIとログイン画面の実装は後続Dayで行います。
+
+## 結論：このプロジェクトではMiniStackを採用する
+
+**Day 4以降のローカル開発も、MiniStack 1.5.33を前提に進めます。** 判断基準は「Cognitoを含むAWSの基本機能とデータ保持を、無料で検証できること」です。
+
+- MiniStackでは、DynamoDB・S3の読み書きと、Cognitoのログイン・JWT署名検証が成功した
+- コンテナの再起動・再作成後も、データ・ユーザー・署名鍵の保持を確認できた
+- LocalStackも認証・起動とDynamoDB・S3の検証に成功したが、Cognitoは今回の無料ライセンス対象外として拒否された
+
+この結果から、今回の要件に合うMiniStackを選びました。以降の起動・停止・接続の手順はMiniStackを標準とし、LocalStackの構成は比較用として残します。実AWSへのデプロイはDay 22・23で別途検証します。
 
 ## 1. どちらを採用するか、起動して確かめる
 
@@ -220,7 +230,9 @@ AWS環境ではローカル用URLとダミー資格情報を使わず、IAMロ�
 
 ## まとめと次回
 
-LocalStackもAuth Tokenの設定後に起動し、DynamoDB・S3の基本操作を確認できました。Cognitoは今回の無料ライセンスの対象外だったため、無料でCognitoと状態保持も検証できたMiniStackでローカルAWS環境を用意しました。署名検証や接続先の分離まで確認した範囲と、実AWS・別ライセンス等の未検証範囲を分けて記録しました。
+**今回の採用技術はMiniStack 1.5.33です。Day 4以降もMiniStackでローカル開発を進めます。** 無料でCognitoと状態保持まで確認できたことが採用理由です。
+
+LocalStackもAuth Token設定後の起動とDynamoDB・S3の基本操作には成功しましたが、Cognitoは今回の無料ライセンスの対象外でした。比較用の設定と結果を残し、実AWS・別ライセンス等の未検証範囲は後続の検証事項として分けています。
 
 手順と比較条件は [LOCAL_AWS.md](https://github.com/hirolisberger/sales-manager-dashboard/blob/day03/docs/LOCAL_AWS.md)、検証記録は [DAY3_REVIEW.md](https://github.com/hirolisberger/sales-manager-dashboard/blob/day03/docs/DAY3_REVIEW.md) にまとめています。これらのタグURLも承認・マージ・タグ作成後に公開前確認を行います。
 
