@@ -130,6 +130,8 @@ API契約はOpenAPI 3.1.0のJSONにしました。主な操作は次のとおり
 
 プロジェクトルート`sales-manager-dashboard/`で実行します。Day 2のuvとPython、Day 3のDocker環境が必要です。以下はプロジェクト内のuvを使う例で、グローバルにuvを準備した場合は`.tools/uv/bin/uv`を`uv`に置き換えられます。
 
+`$PWD`、uvの仮想環境や各オプション、Dockerの起動・停止を一つずつ確認したい場合は、[動作確認コマンドの解説](https://github.com/hirolisberger/sales-manager-dashboard/blob/day04/docs/DAY4_COMMANDS.md) を参照してください。このリンクもday04タグ作成後に参照可能になります。
+
 ```sh
 UV_CACHE_DIR="$PWD/.cache/uv" .tools/uv/bin/uv sync \
   --project infra/local-aws --group contracts --locked
