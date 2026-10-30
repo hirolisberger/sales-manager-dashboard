@@ -27,6 +27,9 @@ Day 1までの準備記録は [DAY0_SETUP.md](DAY0_SETUP.md)、公開用のDay 0
 - 記事ファイル：`qiita/day00-project-setup-and-github.md`
 - 公開予定日：未定。記事の作成・レビューと実際の投稿は分けて管理する。
 
+
+Day 4の本文は [day04-data-model-and-api-contract.md](../qiita/day04-data-model-and-api-contract.md) に作成し、設計・契約・MiniStack検証をレビュー待ちとする。HTTP APIは後続Dayで実装する。
+
 ## 本編25記事
 
 表のタイトルには、公開時に `【Day 01】` などのDay番号を付ける。

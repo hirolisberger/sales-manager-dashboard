@@ -1,0 +1,88 @@
+{
+  "reference_today": "2027-01-05",
+  "reference_now": "2027-01-05T00:00:00Z",
+  "ids": {
+    "coffee": "00000000-0000-4000-8000-000000000001",
+    "tea": "00000000-0000-4000-8000-000000000002",
+    "s1": "00000000-0000-4000-8000-000000000003",
+    "s2": "00000000-0000-4000-8000-000000000004",
+    "s3": "00000000-0000-4000-8000-000000000005",
+    "move": "00000000-0000-4000-8000-000000000006",
+    "actor": "00000000-0000-4000-8000-000000000007"
+  },
+  "products": [
+    {
+      "id": "00000000-0000-4000-8000-000000000001",
+      "code": "COFFEE",
+      "name": "コーヒー",
+      "default_unit_price_yen": 550,
+      "is_active": true,
+      "version": 1
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000002",
+      "code": "TEA",
+      "name": "紅茶",
+      "default_unit_price_yen": 330,
+      "is_active": true,
+      "version": 1
+    }
+  ],
+  "sales": [
+    {
+      "id": "00000000-0000-4000-8000-000000000003",
+      "request": {
+        "sale_date": "2026-12-01",
+        "lines": [
+          {
+            "product_id": "00000000-0000-4000-8000-000000000001",
+            "unit_price_yen": 550,
+            "quantity": 2
+          },
+          {
+            "product_id": "00000000-0000-4000-8000-000000000002",
+            "unit_price_yen": 330,
+            "quantity": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000004",
+      "request": {
+        "sale_date": "2026-12-01",
+        "lines": [
+          {
+            "product_id": "00000000-0000-4000-8000-000000000002",
+            "unit_price_yen": 330,
+            "quantity": 2
+          }
+        ]
+      }
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000005",
+      "request": {
+        "sale_date": "2026-12-02",
+        "lines": [
+          {
+            "product_id": "00000000-0000-4000-8000-000000000001",
+            "unit_price_yen": 550,
+            "quantity": 1
+          }
+        ]
+      }
+    }
+  ],
+  "expected": {
+    "initial_total": 2640,
+    "after_correction": 2090,
+    "after_cancellation": 1430,
+    "tea_total": 330,
+    "valid_line_count": 3,
+    "valid_sale_count": 2,
+    "valid_quantity": 3,
+    "after_date_move_december": 550,
+    "after_date_move_january": 880
+  }
+}
