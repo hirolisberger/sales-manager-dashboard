@@ -4,7 +4,7 @@
 
 Day 3の採用変更：ローカルAWS環境はMiniStack 1.5.33を採用し、2026-10-30にDay 3のレビュー承認を受けた。[比較・検証・接続先の分離](LOCAL_AWS.md) と [Day 3の確認記録](DAY3_REVIEW.md) を参照する。以下のLocalStack表記はDay 1時点の構成案を保持したもの。Next.js・Python・AWSの責務と業務要件は変更しない。
 
-Day 5の具体化：FastAPI・Uvicornでhealthと設定・共通エラー・要求IDを実装し、2026-10-30にレビュー承認済み（対象6f52323）。[API基盤の仕様](API_FOUNDATION.md)と[検証記録](DAY5_REVIEW.md)を参照する。SDK接続と保存はDay 6、AWS配備方式はDay 22〜23で検証する。
+Day 5の具体化：FastAPI・Uvicornでhealthと設定・共通エラー・要求IDを実装し、2026-10-30にレビュー承認済み（対象6f52323）。[API基盤の仕様](API_FOUNDATION.md)と[検証記録](DAY5_REVIEW.md)を参照する。Day 5はPR #4でマージ・day05タグ作成済み。Day 6でSDK接続境界と保存層を実装し、[保存仕様](PERSISTENCE.md)と[確認記録](DAY6_REVIEW.md)にまとめた。Day 6は2026-10-30にレビュー承認済み（対象c5d4c9d）。AWS配備方式はDay 22〜23で検証する。
 
 ## 1. 今回決める境界
 

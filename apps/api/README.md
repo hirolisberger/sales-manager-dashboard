@@ -1,6 +1,6 @@
 # sales-manager-api
 
-Day 5でFastAPI・UvicornによるHTTP APIの土台を作りました。`GET /health`、設定読込、共通エラー、要求IDを実装しています。商品・売上の保存処理と認証は後続Dayで実装します。
+Day 5でFastAPI・UvicornによるHTTP APIの土台を作りました。`GET /health`、設定読込、共通エラー、要求IDを実装しています。Day 6でDynamoDBクライアント・保存層・初期化CLIを追加しました。商品・売上のHTTP APIと認証は後続Dayで実装します。
 
 プロジェクトルートから実行します。Pythonの指定は [.python-version](.python-version)、依存関係は [pyproject.toml](pyproject.toml) と [uv.lock](uv.lock) で管理します。
 
@@ -28,3 +28,5 @@ uv run --project apps/api --locked ruff format --check apps/api
 CLIは`127.0.0.1`だけで待ち受けます。`--port 8001`でポートを変更できます。`.env`の読込は明示的な`--env-file`指定が必要で、OS環境変数を優先します。設定の見本は [.env.example](.env.example)、API仕様書は [openapi.yaml](../../docs/contracts/openapi.yaml) です。
 
 詳しい手順と各指定の意味は [DAY5_COMMANDS.md](../../docs/DAY5_COMMANDS.md)、設定・エラーの仕様は [API_FOUNDATION.md](../../docs/API_FOUNDATION.md)、確認結果は [DAY5_REVIEW.md](../../docs/DAY5_REVIEW.md) を参照してください。採用バージョンとフロント環境は [DEVELOPMENT.md](../../docs/DEVELOPMENT.md) に記録しています。
+
+保存層の仕様は [PERSISTENCE.md](../../docs/PERSISTENCE.md)、MiniStack起動・データ初期化・各コマンドの意味は [DAY6_COMMANDS.md](../../docs/DAY6_COMMANDS.md)、結果は [DAY6_REVIEW.md](../../docs/DAY6_REVIEW.md) を参照してください。`sales-manager-data`はlocal/test専用で、API起動時に自動で実行されません。

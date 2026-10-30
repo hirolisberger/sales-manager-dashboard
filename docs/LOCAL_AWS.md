@@ -66,7 +66,7 @@ uv run --project infra/local-aws --locked python scripts/verify_local_aws.py
 
 CognitoのJWTにAWS形式のissuerが入っていても、そのURLへ公開鍵を取得しに行かない。検証スクリプトは同じローカル接続先のJWKSを取得し、署名・有効期限・issuer・token_use・アプリクライアントを検証する。ホストのhostsファイルや証明書ストアを変更しない。[AWSのJWT検証資料](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-tokens-verifying-a-jwt.html)
 
-これらはDay 3の検証ツールの境界である。アプリAPIの設定読込・ローカル/AWS切替の拒否条件はDay 5で実装・テストする。Docker内の別サービスから接続する場合はサービス名を使う設定が必要となり、今回のホスト用許可リストをそのまま流用しない。
+これらはDay 3の検証ツールの境界である。アプリAPIの設定読込はDay 5、SDK境界と保存層はDay 6で実装・テストした。Day 6の [保存仕様](PERSISTENCE.md) と [操作手順](DAY6_COMMANDS.md) を参照する。Docker内の別サービスから接続する場合はサービス名を使う設定が必要となり、今回のホスト用許可リストをそのまま流用しない。
 
 ## 停止・再起動・データ保持
 

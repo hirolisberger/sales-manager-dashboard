@@ -8,6 +8,8 @@ Day 4のAPI仕様・保存設計の検証は [DAY4_REVIEW.md](DAY4_REVIEW.md) �
 
 2026-10-30のDay 5更新：Python CLIはHTTPサーバーを起動する。FastAPIの採用・設定・共通エラーは [API_FOUNDATION.md](API_FOUNDATION.md)、コマンドと意味は [DAY5_COMMANDS.md](DAY5_COMMANDS.md)、結果は [DAY5_REVIEW.md](DAY5_REVIEW.md) を参照する。Day 2当時の起動確認記事は履歴として保持する。
 
+2026-10-30のDay 6更新：API用の依存にBoto3 / botocore 1.43.121を追加。SDK境界と保存層は [PERSISTENCE.md](PERSISTENCE.md)、初期化・seed・参照・リセットの全コマンドは [DAY6_COMMANDS.md](DAY6_COMMANDS.md)、結果は [DAY6_REVIEW.md](DAY6_REVIEW.md) を参照する。
+
 ## 採用バージョン
 
 | 対象 | 固定したバージョン | 管理するファイル |

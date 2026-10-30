@@ -2,7 +2,7 @@
 
 確認日：2026-10-30（Asia/Tokyo）。ブランチ`feature/day05`、基点main / day04：`eda0c85c9d2fd876f21a5110ea419c3a43c1ce52`。Day 4の承認・[PR #3](https://github.com/hirolisberger/sales-manager-dashboard/pull/3)マージ・注釈付きday04タグと最新mainの一致を確認して着手した。
 
-**Day 5は実装・記事・必要なローカル確認が完了し、2026-10-30にユーザーレビュー承認済み。** 承認対象は`6f523234a0064184c3ba9e552082c68a6f0d28e4`。PR作成・mainマージ・day05タグは未完了。Day 6へはPRマージと別途の開始指示を受けるまで進めない。
+**Day 5は2026-10-30にレビュー承認され、PR #4マージ・day05タグpushまで完了。** 承認対象は`6f523234a0064184c3ba9e552082c68a6f0d28e4`、main/day05は`2a1354f`。末尾に完了記録を補完した。Day 6は別途の開始指示を受けて着手し、以下の未実装範囲はDay 5当時の状態として保持する。
 
 ## 成果物
 
@@ -97,3 +97,7 @@ SDKクライアント・DynamoDB保存はDay 6以降、商品/売上APIはDay 7�
 ユーザーの「Day5のレビューを完了とします。」をDay 5全体のレビュー承認として記録する。承認対象は`6f523234a0064184c3ba9e552082c68a6f0d28e4`。承認後は状態・提出・次回条件の記録だけを更新し、実装・API仕様・依存・記事内の実行コマンドは変更していない。
 
 公開APIでPR未作成を確認した。ブラウザーでmain向けPRを作成し、Create a merge commitでマージする。feature/day05は保持し、実際のマージコミットへ注釈付きday05タグを作成・pushする。Day 6開始とQiita操作は別の指示を待つ。
+
+## 2026-10-30：マージ・タグの補完記録
+
+[PR #4](https://github.com/hirolisberger/sales-manager-dashboard/pull/4)は2026-10-30T16:22:50+09:00にマージ済み。マージコミット`2a1354f832dc0f4df8356ea5e328e9bdb7c162b5`は提出`416fd04`とツリーが一致し、承認対象`6f52323`から実装・API仕様・依存・記事内コマンドが不変だった。mainをff-only同期し、同コミットへ注釈付き[day05タグ](https://github.com/hirolisberger/sales-manager-dashboard/tree/day05)を作成・push、公開リンク7件HTTP 200を確認。feature/day05を保持。Day 6の開始指示後に、本完了記録だけを補完した。Day 5記事本文と過去タグは変更しない。
