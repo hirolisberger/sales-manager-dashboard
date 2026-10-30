@@ -1,6 +1,6 @@
 # Day 4：API契約
 
-2026-10-30作成、レビュー待ち。機械可読の正本はYAML形式の[OpenAPI 3.1.0](contracts/openapi.yaml)。**15操作の設計であり、HTTPサーバーはまだ実装していない。** Python APIの土台はDay 5、各機能はDay 7以降に実装する。[保存設計](DATA_MODEL.md)、[架空データ](examples/day04-fixtures.json)と対応させる。
+2026-10-30作成・レビュー承認済み（対象21307cc）。機械可読の正本はYAML形式の[OpenAPI 3.1.0](contracts/openapi.yaml)。**15操作の設計であり、HTTPサーバーはまだ実装していない。** Python APIの土台はDay 5、各機能はDay 7以降に実装する。[保存設計](DATA_MODEL.md)、[架空データ](examples/day04-fixtures.json)と対応させる。
 
 契約の編集対象は`docs/contracts/openapi.yaml`に統一し、JSON版は置かない。検証スクリプトはPyYAML 6.0.3の`yaml.safe_load`で読み込み、同じOpenAPI・JSON Schema検証へ渡す。HTTP応答コードのキー（例`'200'`）や型名`'null'`は文字列として引用符を保つ。転記時にYAMLの数値・nullへ変換しない。[PyYAML公式資料](https://pyyaml.org/wiki/PyYAMLDocumentation)
 

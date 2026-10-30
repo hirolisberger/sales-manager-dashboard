@@ -19,7 +19,7 @@
 - 入力、更新競合、再送、エラーのAPI契約を決める
 - MiniStackで一括保存と失敗時の整合性を確認する
 
-リポジトリは [sales-manager-dashboard](https://github.com/hirolisberger/sales-manager-dashboard) です。この回の完成版は [`day04`タグ](https://github.com/hirolisberger/sales-manager-dashboard/tree/day04) で共有する予定です。レビュー承認・mainマージ前のため、現時点でタグは未作成です。以降の文書リンクも同タグを前提とし、Qiita公開前に存在を確認します。
+リポジトリは [sales-manager-dashboard](https://github.com/hirolisberger/sales-manager-dashboard) です。この回の完成版は [`day04`タグ](https://github.com/hirolisberger/sales-manager-dashboard/tree/day04) で共有する予定です。レビュー承認済みで、mainマージ後にタグを作成するため、現時点でタグは未作成です。以降の文書リンクも同タグを前提とし、Qiita公開前に存在を確認します。
 
 公式資料の確認日は2026-10-30。実行環境はmacOS ARM64、Python 3.14.9、uv 0.13.6、Docker 29.1.2、MiniStack 1.5.33です。Day 3のdigest固定Composeを使います。
 
@@ -182,4 +182,4 @@ docker compose --env-file /dev/null -f compose.yaml down
 
 今回は売上のデータモデルをキーとトランザクションへ落とし込み、APIの入力・更新・再送・エラー契約を決めました。MiniStackで設計を試すことで、日付訂正と空ページの扱いを確認できました。
 
-Day 4の設計・検証・記事をレビューしてから、Day 5でPython APIの土台を作ります。レビュー承認前には次のDayへ進みません。Qiitaへの公開予定日は2026年12月4日で、投稿・予約操作は別途行います。
+Day 4の設計・検証・記事はユーザーレビュー承認を受けました。PRをmainへマージし、day04タグを作成してから、開始指示を受けてDay 5でPython APIの土台を作ります。Qiitaへの公開予定日は2026年12月4日で、投稿・予約操作は別途行います。
