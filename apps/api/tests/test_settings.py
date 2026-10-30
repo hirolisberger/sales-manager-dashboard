@@ -90,3 +90,19 @@ def test_missing_or_unknown_dotenv_is_a_sanitized_error(tmp_path):
         load_settings(path)
     assert "private-marker" not in str(error.value)
     assert "UNEXPECTED_TOKEN" not in str(error.value)
+
+
+@pytest.mark.parametrize(
+    "values",
+    [
+        {"DYNAMODB_TABLE": ""},
+        {"DYNAMODB_TABLE": "x"},
+        {"DYNAMODB_TABLE": "table/invalid"},
+        {"STORE_ID": "other#store"},
+        {"STORE_ID": ""},
+        {"STORE_ID": "x" * 33},
+    ],
+)
+def test_invalid_storage_settings(values):
+    with pytest.raises(ValidationError):
+        Settings(**values)

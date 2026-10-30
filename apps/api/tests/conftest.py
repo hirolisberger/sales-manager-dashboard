@@ -7,7 +7,14 @@ from jsonschema import Draft202012Validator, FormatChecker
 
 @pytest.fixture(autouse=True)
 def isolated_settings(monkeypatch):
-    for name in ("APP_ENV", "LOG_LEVEL", "AWS_REGION", "AWS_ENDPOINT_URL"):
+    for name in (
+        "APP_ENV",
+        "LOG_LEVEL",
+        "AWS_REGION",
+        "AWS_ENDPOINT_URL",
+        "DYNAMODB_TABLE",
+        "STORE_ID",
+    ):
         monkeypatch.delenv(name, raising=False)
 
 

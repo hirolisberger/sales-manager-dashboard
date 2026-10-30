@@ -28,7 +28,7 @@ Day 1までの準備記録は [DAY0_SETUP.md](DAY0_SETUP.md)、公開用のDay 0
 - 公開予定日：未定。記事の作成・レビューと実際の投稿は分けて管理する。
 
 
-Day 4はPR #3でマージし、day04タグを作成済み。Day 5の本文は [day05-fastapi-foundation-and-tests.md](../qiita/day05-fastapi-foundation-and-tests.md) に作成し、FastAPIの土台・設定・エラー・テストとともに2026-10-30にレビュー承認済み。PR作成・mainマージ・day05タグは未完了。
+Day 5までmainへマージ済み。Day 5はPR #4とday05タグ（2a1354f）で共有。Day 6の本文は [day06-ministack-persistence-and-seed-data.md](../qiita/day06-ministack-persistence-and-seed-data.md) に作成し、SDK境界・保存層・初期化・架空データとともにレビュー待ち。
 
 ## 本編25記事
 

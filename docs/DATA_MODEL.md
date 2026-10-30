@@ -1,6 +1,6 @@
 # Day 4：データモデルとDynamoDBアクセス設計
 
-2026-10-30作成・レビュー承認済み（対象21307cc）。Day 1の[要件](REQUIREMENTS.md)を、保存・検索・訂正できる形へ具体化する。ここでのPythonは設計例とMiniStack検証用であり、アプリのリポジトリ層はDay 6以降に実装する。
+2026-10-30作成・レビュー承認済み（対象21307cc）。Day 1の[要件](REQUIREMENTS.md)を、保存・検索・訂正できる形へ具体化する。ここでのPythonは設計例とMiniStack検証用。Day 6のアプリ用SDK境界・リポジトリ・初期データは [PERSISTENCE.md](PERSISTENCE.md) に分けて実装し、レビュー待ち。売上の保存計画・業務検証はDay 8以降。
 
 ## 1. 業務データ
 

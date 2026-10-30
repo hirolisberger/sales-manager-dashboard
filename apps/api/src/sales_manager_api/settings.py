@@ -1,4 +1,4 @@
-"""Explicit configuration loading. AWS clients are implemented from Day 6."""
+"""Explicit configuration loading with local/AWS storage boundaries."""
 
 from pathlib import Path
 from typing import Literal, Self
@@ -38,6 +38,14 @@ class Settings(BaseSettings):
     aws_endpoint_url: str | None = Field(
         default=None, validation_alias="AWS_ENDPOINT_URL"
     )
+    dynamodb_table: str = Field(
+        default="sales-manager-local",
+        validation_alias="DYNAMODB_TABLE",
+        pattern=r"^[A-Za-z0-9_.-]{3,255}$",
+    )
+    store_id: str = Field(
+        default="demo", validation_alias="STORE_ID", pattern=r"^[a-z0-9-]{1,32}$"
+    )
 
     @model_validator(mode="after")
     def check_environment_boundary(self) -> Self:
@@ -69,5 +77,5 @@ def load_settings(env_file: Path | None = None) -> Settings:
     except ValueError, OSError:
         raise ConfigurationError(
             "設定を読み込めません。指定ファイルとAPP_ENV・LOG_LEVEL・"
-            "AWS_REGION・AWS_ENDPOINT_URLを確認してください。"
+            "AWS_REGION・AWS_ENDPOINT_URL・DYNAMODB_TABLE・STORE_IDを確認してください。"
         ) from None

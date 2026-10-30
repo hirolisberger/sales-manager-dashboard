@@ -2,6 +2,8 @@
 
 2026-10-30作成・レビュー承認済み（対象6f52323）。Day 4の[API仕様書](API_CONTRACT.md)を実装し始める。現在の公開ルートは`GET /health`だけで、商品・売上・認証・CSVは各Dayで追加する。
 
+Day 6の追加：SDKクライアントと保存層・管理CLIを [PERSISTENCE.md](PERSISTENCE.md) に実装した。以下の「Day 5では未実装」はDay 5時点の境界を示す。healthの通信不要・API仕様YAMLの正本は維持する。
+
 ## 採用した構成
 
 | 役割 | 固定したバージョン・方針 |
