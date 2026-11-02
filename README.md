@@ -4,7 +4,7 @@
 
 Day 0〜6は承認・mainへのマージ済みです。Day 6は [PR #5](https://github.com/hirolisberger/sales-manager-dashboard/pull/5) でマージし、[day06タグ](https://github.com/hirolisberger/sales-manager-dashboard/tree/day06)は`b92b01f`を参照します。Day 2〜5も対応するPRとday02〜day05タグで共有しています。
 
-**Day 7の商品登録・一覧・詳細・更新/無効化・要求キーと版条件・ページング・テストと記事は実装完了し、レビュー待ちです。** [商品API仕様](docs/PRODUCT_API.md)、[各コマンドの解説](docs/DAY7_COMMANDS.md)、[検証・レビュー記録](docs/DAY7_REVIEW.md)、[記事](qiita/day07-product-master-api.md) を参照してください。healthと商品4操作を実装し、商品APIはlocal/test専用です。
+**Day 7の商品登録・一覧・詳細・更新/無効化・要求キーと版条件・ページング・テストと記事は実装完了し、2026-11-02にレビュー承認済みです（対象a627210）。** ブラウザーでのPR作成・mainマージ・day07タグ作成/pushが残っています。[商品API仕様](docs/PRODUCT_API.md)、[各コマンドの解説](docs/DAY7_COMMANDS.md)、[検証・レビュー記録](docs/DAY7_REVIEW.md)、[記事](qiita/day07-product-master-api.md) を参照してください。healthと商品4操作を実装し、商品APIはlocal/test専用です。
 
 ## 目指す機能
 

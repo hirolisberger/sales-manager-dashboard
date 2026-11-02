@@ -17,7 +17,7 @@
 - 古い版での更新と、同じ要求の二重登録を防ぐ
 - 利用可否の絞り込みと、継続キーを使った一覧取得を確認する
 
-リポジトリは [sales-manager-dashboard](https://github.com/hirolisberger/sales-manager-dashboard) です。Day 7はレビュー待ちで、完成版の[`day07`タグ](https://github.com/hirolisberger/sales-manager-dashboard/tree/day07)は承認・mainマージ後に作成します。以下のday07文書リンクもタグ作成後に参照可能になります。
+リポジトリは [sales-manager-dashboard](https://github.com/hirolisberger/sales-manager-dashboard) です。Day 7は2026-11-02にレビュー承認済みで、完成版の[`day07`タグ](https://github.com/hirolisberger/sales-manager-dashboard/tree/day07)はmainマージ後に作成します。以下のday07文書リンクもタグ作成後に参照可能になります。
 
 確認日：2026-10-30。macOS ARM64、Python 3.14.9、uv 0.13.6、MiniStack 1.5.33で検証しました。Day 5〜6の固定依存を使い、今回ライブラリの更新・追加はしていません。
 
@@ -155,6 +155,6 @@ UV_CACHE_DIR="$PWD/.cache/uv" .tools/uv/bin/uv run \
 
 ## まとめと次回
 
-Day 7では、商品APIと厳格な入力検証を作り、無効化・版条件・最初の成功応答の再送まで確認しました。Day 7はレビュー待ちで、承認・mainマージ・開始指示を受けてからDay 8の売上登録APIへ進みます。
+Day 7では、商品APIと厳格な入力検証を作り、無効化・版条件・最初の成功応答の再送まで確認しました。Day 7は2026-11-02にレビュー承認済みで、mainマージ・day07タグ作成/pushと開始指示を受けてからDay 8の売上登録APIへ進みます。
 
 仕様は[PRODUCT_API.md](https://github.com/hirolisberger/sales-manager-dashboard/blob/day07/docs/PRODUCT_API.md)、テスト内容・結果は[DAY7_REVIEW.md](https://github.com/hirolisberger/sales-manager-dashboard/blob/day07/docs/DAY7_REVIEW.md)を参照してください。Qiitaへの投稿・予約・公開は開発と別に管理します。
