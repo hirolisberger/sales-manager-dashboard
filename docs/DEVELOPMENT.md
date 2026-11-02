@@ -10,6 +10,8 @@ Day 4のAPI仕様・保存設計の検証は [DAY4_REVIEW.md](DAY4_REVIEW.md) �
 
 2026-10-30のDay 6更新：API用の依存にBoto3 / botocore 1.43.121を追加。SDK境界と保存層は [PERSISTENCE.md](PERSISTENCE.md)、初期化・seed・参照・リセットの全コマンドは [DAY6_COMMANDS.md](DAY6_COMMANDS.md)、結果は [DAY6_REVIEW.md](DAY6_REVIEW.md) を参照する。
 
+2026-10-30のDay 7更新：商品4操作を実装。初期化・API起動・curlによる登録/更新/無効化と各指定の意味は [DAY7_COMMANDS.md](DAY7_COMMANDS.md)、仕様は [PRODUCT_API.md](PRODUCT_API.md)、結果は [DAY7_REVIEW.md](DAY7_REVIEW.md) を参照する。依存とロックの更新はない。
+
 ## 採用バージョン
 
 | 対象 | 固定したバージョン | 管理するファイル |

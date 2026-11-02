@@ -78,7 +78,7 @@ def test_health_has_no_network_dependency(monkeypatch):
         assert test_client.get("/health").json() == {"status": "ok"}
 
 
-@pytest.mark.parametrize("path", ["/missing", "/products", "/docs", "/openapi.json"])
+@pytest.mark.parametrize("path", ["/missing", "/sales", "/docs", "/openapi.json"])
 def test_unimplemented_routes_use_common_404(client, contract_validator, path):
     assert_error(client.get(path), 404, "NOT_FOUND", contract_validator)
 

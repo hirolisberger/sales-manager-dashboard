@@ -28,7 +28,7 @@ Day 1までの準備記録は [DAY0_SETUP.md](DAY0_SETUP.md)、公開用のDay 0
 - 公開予定日：未定。記事の作成・レビューと実際の投稿は分けて管理する。
 
 
-Day 5までmainへマージ済み。Day 5はPR #4とday05タグ（2a1354f）で共有。Day 6の本文は [day06-ministack-persistence-and-seed-data.md](../qiita/day06-ministack-persistence-and-seed-data.md) に作成し、SDK境界・保存層・初期化・架空データとともに2026-10-30にレビュー承認済み（対象c5d4c9d）。PR作成・mainマージ・day06タグは未完了。
+Day 6までmainへマージ済み。Day 6はPR #5とday06タグ（b92b01f）で共有。Day 7本文は [day07-product-master-api.md](../qiita/day07-product-master-api.md) に作成し、商品API・入力検証・要求キー/版条件・ページングとともに2026-11-02にレビュー承認済み（対象a627210）。ブラウザーでのPR作成・mainマージ・day07タグ作成/pushが残っている。Qiita操作とDay 8開始は別の指示を待つ。
 
 ## 本編25記事
 
