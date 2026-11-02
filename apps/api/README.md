@@ -1,6 +1,6 @@
 # sales-manager-api
 
-Day 5でFastAPI・UvicornによるHTTP APIの土台を作りました。`GET /health`、設定読込、共通エラー、要求IDを実装しています。Day 6でDynamoDBクライアント・保存層・初期化CLIを追加しました。Day 7で商品登録・一覧・詳細・更新/無効化と要求キー・版条件・商品ページングを追加しました。商品APIはlocal/test専用で、売上APIと認証は後続Dayです。
+Day 5でFastAPI・UvicornによるHTTP APIの土台を作りました。`GET /health`、設定読込、共通エラー、要求IDを実装しています。Day 6でDynamoDBクライアント・保存層・初期化CLIを追加しました。Day 7で商品登録・一覧・詳細・更新/無効化と要求キー・版条件・商品ページング、Day 8で売上登録・整数金額計算・JST計上日・原子的保存・再送を追加しました。商品・売上APIはlocal/test専用で、売上検索/詳細・訂正/取消・認証は後続Dayです。
 
 プロジェクトルートから実行します。Pythonの指定は [.python-version](.python-version)、依存関係は [pyproject.toml](pyproject.toml) と [uv.lock](uv.lock) で管理します。
 

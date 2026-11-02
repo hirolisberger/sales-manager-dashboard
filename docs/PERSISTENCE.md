@@ -4,6 +4,8 @@
 
 Day 7の追加：この保存層を使う [商品API](PRODUCT_API.md) を実装した。以下のHTTP未実装・後続Dayの記載はDay 6時点の境界を示す。Day 6はPR #5でマージ・day06タグ作成済み。
 
+Day 8の追加：同じ保存層で [売上登録](SALE_REGISTRATION.md)を実装した。CURRENT・日付別コピー・版1履歴・応答記録と商品条件確認を同一トランザクションで確定する。既存のSDK境界・型変換・サイズガードは変更していない。
+
 ## 実装した責務
 
 | ファイル（apps/api/src/sales_manager_api/配下） | 担当 |

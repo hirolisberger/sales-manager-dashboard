@@ -6,7 +6,9 @@ Day 3の採用変更：ローカルAWS環境はMiniStack 1.5.33を採用し、20
 
 Day 5の具体化：FastAPI・Uvicornでhealthと設定・共通エラー・要求IDを実装し、2026-10-30にレビュー承認済み（対象6f52323）。[API基盤の仕様](API_FOUNDATION.md)と[検証記録](DAY5_REVIEW.md)を参照する。Day 5はPR #4でマージ・day05タグ作成済み。Day 6でSDK接続境界と保存層を実装し、[保存仕様](PERSISTENCE.md)と[確認記録](DAY6_REVIEW.md)にまとめた。Day 6は2026-10-30にレビュー承認済み（対象c5d4c9d）。AWS配備方式はDay 22〜23で検証する。
 
-Day 7の具体化：商品4操作と入力検証、条件付き保存、成功応答の再送、商品一覧の署名付き継続を [PRODUCT_API.md](PRODUCT_API.md) に実装した。Day 7は2026-11-02にレビュー承認済み（対象a627210）で、PR作成・mainマージ・day07タグ作成/pushは未実施。local/test専用とし、認証導入前のawsモードでは商品APIを拒否する。Day 6はPR #5でマージ・day06タグ作成済み。
+Day 7の具体化：商品4操作と入力検証、条件付き保存、成功応答の再送、商品一覧の署名付き継続を [PRODUCT_API.md](PRODUCT_API.md) に実装した。Day 7は2026-11-02にレビュー承認済み（対象a627210）で、PR #6でマージ・day07タグ作成済み（3768214）。
+
+Day 8の具体化：売上登録・整数金額計算・JST計上日・商品スナップショット・原子的保存・再送を [SALE_REGISTRATION.md](SALE_REGISTRATION.md)に実装し、レビュー待ち。商品・売上APIはlocal/test専用とし、認証導入前のawsモードではSDK生成前に拒否する。検索/詳細・訂正/取消・認証は後続Day。
 
 ## 1. 今回決める境界
 

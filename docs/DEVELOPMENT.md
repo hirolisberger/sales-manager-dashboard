@@ -12,6 +12,8 @@ Day 4のAPI仕様・保存設計の検証は [DAY4_REVIEW.md](DAY4_REVIEW.md) �
 
 2026-10-30のDay 7更新：商品4操作を実装。初期化・API起動・curlによる登録/更新/無効化と各指定の意味は [DAY7_COMMANDS.md](DAY7_COMMANDS.md)、仕様は [PRODUCT_API.md](PRODUCT_API.md)、結果は [DAY7_REVIEW.md](DAY7_REVIEW.md) を参照する。依存とロックの更新はない。
 
+2026-11-02のDay 8更新：売上登録・整数金額計算・JST計上日・原子的保存・再送を実装。[DAY8_COMMANDS.md](DAY8_COMMANDS.md)で登録・再送・保存データの参照と全コマンドの意味を説明する。仕様は [SALE_REGISTRATION.md](SALE_REGISTRATION.md)、結果は [DAY8_REVIEW.md](DAY8_REVIEW.md)。依存・ロックは不変。
+
 ## 採用バージョン
 
 | 対象 | 固定したバージョン | 管理するファイル |
