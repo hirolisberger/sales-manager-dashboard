@@ -4,7 +4,7 @@
 
 Day 0〜7は承認・mainへのマージ済みです。Day 7は [PR #6](https://github.com/hirolisberger/sales-manager-dashboard/pull/6)でマージし、[day07タグ](https://github.com/hirolisberger/sales-manager-dashboard/tree/day07)は`3768214`を参照します。Day 2〜6も対応するPRとday02〜day06タグで共有しています。
 
-**Day 8の売上登録・整数金額計算・計上日・商品スナップショット・一括保存・再送・テストと記事は実装完了し、レビュー待ちです。** [売上登録の仕様](docs/SALE_REGISTRATION.md)、[各コマンドの解説](docs/DAY8_COMMANDS.md)、[検証・レビュー記録](docs/DAY8_REVIEW.md)、[記事](qiita/day08-sales-registration-and-amount-calculation.md)を参照してください。health・商品4操作・売上登録を実装し、商品・売上APIはlocal/test専用です。売上検索/詳細はDay 9、訂正/取消はDay 10で実装します。
+**Day 8の売上登録・整数金額計算・計上日・商品スナップショット・一括保存・再送・テストと記事は実装完了し、2026-11-04にレビュー承認済みです（対象a5b13c8）。** ブラウザーでのPR作成・mainマージ・day08タグ作成/pushが残っています。[売上登録の仕様](docs/SALE_REGISTRATION.md)、[各コマンドの解説](docs/DAY8_COMMANDS.md)、[検証・レビュー記録](docs/DAY8_REVIEW.md)、[記事](qiita/day08-sales-registration-and-amount-calculation.md)を参照してください。health・商品4操作・売上登録を実装し、商品・売上APIはlocal/test専用です。売上検索/詳細はDay 9、訂正/取消はDay 10で実装します。
 
 ## 目指す機能
 
@@ -142,7 +142,7 @@ featureブランチはpush後にGitHubから確認でき、マージ後も原則
 
 各Dayの完了報告には、実装内容、変更ファイル、テスト・動作確認結果、記事保存先、レビュー確認項目、未解決事項、次のDayへ進める状態かどうかを記載します。
 
-Gitリポジトリのルートは `sales-manager-dashboard/` です。コミットの作者名とGitHub上の紐づけ先は `hirolisberger` とし、その個人アカウントのnoreplyを使用します。現在の作業ブランチはmain/day07 `3768214`から作成した `feature/day08`です。Day 8はレビュー待ちで、PRは既定どおりブラウザーで作成し、承認後にマージします。PR・タグの実績は確認記録とローカル台帳に残します。
+Gitリポジトリのルートは `sales-manager-dashboard/` です。コミットの作者名とGitHub上の紐づけ先は `hirolisberger` とし、その個人アカウントのnoreplyを使用します。現在の作業ブランチはmain/day07 `3768214`から作成した `feature/day08`です。Day 8はレビュー承認済みで、PRは既定どおりブラウザーで作成・マージします。PR・タグの実績は確認記録とローカル台帳に残します。
 
 GitHubの接続先は [hirolisberger/sales-manager-dashboard](https://github.com/hirolisberger/sales-manager-dashboard) です。承認済みのDay 0資料・記事を含むmainの初回pushを完了し、ローカルとGitHub側のコミットID一致を確認しています。個人環境の認証・復旧記録はローカル資料で管理し、公開リポジトリには含めません。
 

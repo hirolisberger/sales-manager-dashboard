@@ -22,7 +22,7 @@
 
 確認日は2026年11月2日。macOS ARM64、Python 3.14.9、uv 0.13.6、MiniStack 1.5.33とDay 7までの固定依存を使用しました。依存やロックファイルは更新していません。日本時間の判定にはOSのIANAタイムゾーンデータを使います。
 
-リポジトリは [sales-manager-dashboard](https://github.com/hirolisberger/sales-manager-dashboard) です。Day 8はレビュー待ちで、完成版の[`day08`タグ](https://github.com/hirolisberger/sales-manager-dashboard/tree/day08)は承認・mainマージ後に作成します。以下のday08文書リンクもタグ作成後に参照可能になります。
+リポジトリは [sales-manager-dashboard](https://github.com/hirolisberger/sales-manager-dashboard) です。Day 8は2026-11-04にレビュー承認済みで、完成版の[`day08`タグ](https://github.com/hirolisberger/sales-manager-dashboard/tree/day08)はmainマージ後に作成します。以下のday08文書リンクもタグ作成後に参照可能になります。
 
 ## 1. 金額の入力と計算を分ける
 
@@ -145,4 +145,4 @@ python3 -m json.tool .cache/day08-created.json
 
 Day 8では、税込整数円と整数数量から売上を確定し、商品情報の保存と要求の再送を一つの登録処理にまとめました。金額だけでなく、本体・日付別データ・履歴・応答記録の一致も確認対象にしました。
 
-実装とこの記事をレビューしてから、Day 9で売上の検索・詳細・ページングを実装します。Day 9には承認・mainマージと別途の開始指示を受けて着手します。Qiitaへの投稿・予約・公開は別管理です。
+実装とこの記事は2026-11-04にレビュー承認済みです。mainマージ・day08タグ作成/pushと別途の開始指示を受けてから、Day 9で売上の検索・詳細・ページングを実装します。Qiitaへの投稿・予約・公開は別管理です。
