@@ -1,6 +1,6 @@
 # Day 7：商品マスタAPI
 
-2026-10-30作成。Day 6の承認・[PR #5](https://github.com/hirolisberger/sales-manager-dashboard/pull/5)マージと[day06タグ](https://github.com/hirolisberger/sales-manager-dashboard/tree/day06)を確認し、main `b92b01f`から着手した。Day 7は実装・記事・検証完了、2026-11-02にレビュー承認済み（対象a627210）。PR作成・mainマージ・day07タグ作成/pushは未実施。
+2026-10-30作成。Day 6の承認・[PR #5](https://github.com/hirolisberger/sales-manager-dashboard/pull/5)マージと[day06タグ](https://github.com/hirolisberger/sales-manager-dashboard/tree/day06)を確認し、main `b92b01f`から着手した。Day 7は2026-11-02にレビュー承認済み（対象a627210）。[PR #6](https://github.com/hirolisberger/sales-manager-dashboard/pull/6)でmainへマージし、[day07タグ](https://github.com/hirolisberger/sales-manager-dashboard/tree/day07)は3768214を参照する。
 
 ## 実装した範囲
 

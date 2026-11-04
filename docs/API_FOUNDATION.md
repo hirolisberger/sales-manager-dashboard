@@ -6,6 +6,8 @@ Day 6の追加：SDKクライアントと保存層・管理CLIを [PERSISTENCE.m
 
 Day 7の追加：商品4操作と保存エラーの503変換を [PRODUCT_API.md](PRODUCT_API.md) に実装した。以下はDay 5時点の基盤の記録。商品のETag/再送/カーソルはDay 7の確認記録へ分け、認証と売上の処理は後続Dayに残す。
 
+Day 8の追加：売上登録を [SALE_REGISTRATION.md](SALE_REGISTRATION.md)に実装した。既存の要求ID・共通エラー・SDK境界を使い、認証前はlocal/testだけで利用する。売上検索・訂正・取消は後続Day。
+
 ## 採用した構成
 
 | 役割 | 固定したバージョン・方針 |

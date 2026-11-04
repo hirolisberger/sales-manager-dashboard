@@ -2,7 +2,7 @@
 
 確認日：2026-10-30（Asia/Tokyo）。feature/day07、基点main/day06：`b92b01f71cc9125e3e7f15a4f19e6ad1b2bbc365`。Day 6の承認・[PR #5](https://github.com/hirolisberger/sales-manager-dashboard/pull/5)マージ・注釈付きday06タグとfetch後のmain一致を確認して着手。
 
-**実装・記事・必要なローカル検証が完了し、Day 7は2026-11-02にレビュー承認済み（対象a627210）。** ブラウザーでのPR作成・mainマージ・day07タグ作成/pushは未実施。Day 8はmainマージ・タグpushと別途の開始指示まで進めない。
+**Day 7は2026-11-02に承認され、PR #6でmainへマージ・day07タグ作成/push済み（3768214）。** 以下は検証・提出・承認時点の記録で、完了情報は末尾に追記する。Day 8はユーザーの開始指示を受けて着手した。
 
 ## 今回の実装と変更
 
@@ -95,3 +95,9 @@ Day 7公開予定は2026-12-07 JST、Qiita URL未取得。投稿・予約操作�
 2026-11-02（Asia/Tokyo）、ユーザーの「day7のレビュー完了とします。」をDay 7のレビュー承認として記録。ユーザーから一覧の継続取得でHTTP 200と商品1件を確認した出力も提示された。承認対象は上記a627210で、実装・API仕様・記事を含む。
 
 承認記録の更新前にfetchし、feature先端4730bb6・origin/feature/day07の一致とmain/day06 b92b01fを確認。GitHub公開APIでmain向けPRは未作成。承認・次回条件の記録だけを更新してfeature/day07へpushし、ブラウザーでのPR作成・マージ用の本文を用意する。機能変更がないため機能テストは再実行せず、文書検証と承認対象からのコード・API仕様・コマンドの不変を確認する。
+
+## 完了記録
+
+[PR #6](https://github.com/hirolisberger/sales-manager-dashboard/pull/6)は2026-11-02T16:25:01+09:00にマージ済み。マージコミット`3768214cac30e8ab1e81da7e5586959710a00f44`のツリーは提出`73e2cdd7e438105504b6859bf4e8d5d291f9c8af`と一致し、承認対象a627210から実装・API仕様・記事内コマンドが不変であることを確認した。
+
+ローカルmainをff-only同期し、同コミットへ注釈付き[day07タグ](https://github.com/hirolisberger/sales-manager-dashboard/tree/day07)を作成・pushした。タグオブジェクトは`a501dc3d9c115f3de982d0940ffaa315b6e30d4d`。feature/day07を保持し、公開リンク7件HTTP 200を確認。Qiita操作は行わず、Day 8はその後の開始指示で着手した。

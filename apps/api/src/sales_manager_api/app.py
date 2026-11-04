@@ -1,4 +1,4 @@
-"""ASGI app: liveness, shared infrastructure and local product operations."""
+"""ASGI app: liveness, local products and atomic sale registration."""
 
 from secrets import token_bytes
 
@@ -7,6 +7,7 @@ from fastapi import FastAPI
 from sales_manager_api.errors import install_error_handlers
 from sales_manager_api.middleware import RequestContextMiddleware
 from sales_manager_api.product_routes import router as product_router
+from sales_manager_api.sale_routes import router as sale_router
 from sales_manager_api.schemas import HealthResponse
 from sales_manager_api.settings import Settings, load_settings
 
@@ -25,6 +26,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     install_error_handlers(app)
     app.add_middleware(RequestContextMiddleware)
     app.include_router(product_router)
+    app.include_router(sale_router)
 
     @app.get("/health", response_model=HealthResponse, operation_id="getHealth")
     async def health() -> HealthResponse:
