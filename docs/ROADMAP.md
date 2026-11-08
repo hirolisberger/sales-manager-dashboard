@@ -5,7 +5,7 @@
 - この表は計画であり、実施・承認・公開の実績ではない。個人用台帳はローカル専用の `docs/PROGRESS.md` で管理し、共有する状態はREADME・各Dayの確認記録・PRに残す。
 - 各記事のタイトル・概要案は [ARTICLE_PLAN.md](ARTICLE_PLAN.md) にまとめる。この表では開発テーマ・成果物・確認項目を管理する。
 - 業務要件は [REQUIREMENTS.md](REQUIREMENTS.md)、概要は [README.md](../README.md) を参照する。小規模店舗・管理者のみ・税込整数円・整数数量を基本とし、日別・月別の集計切り替えと過去の売上参照を対象とする。
-- Day 0〜7は承認・mainマージ済み。Day 7はPR #6とday07タグ（3768214）で共有。Day 8の売上登録・整数金額計算・JST計上日・商品スナップショット・一括保存・再送・テストと記事は実装完了し、2026-11-04にレビュー承認済み（対象a5b13c8）。ブラウザーでのPR作成・mainマージ・day08タグ作成/pushが残っている。Day 9はmainマージ・タグpushと別途の開始指示を受けて着手する。
+- Day 0〜8は承認・mainマージ済み。Day 8はPR #7とday08タグ（7e3ccc4）で共有。Day 9の売上検索・詳細・期間/商品/状態検索・ページング・テストと記事は実装完了・レビュー待ち。Day 10は承認・mainマージと別途の開始指示を受けて着手する。
 - 開発は毎日行う必要はなく、ユーザーの都合に合わせて進める。1回の作業は原則一つのDayを対象とし、実装・設定・設計などの成果物とMarkdown記事をセットで作成する。
 - 各Dayで検証を終えたらレビュー待ちにして停止する。対象Dayへの明示的な「レビューOK」とmainへのマージを経て、次のDayへ進む。
 - 次のDayへの着手には実装完了、必要な動作確認、記事Markdownの完成、レビュー承認が必要。Qiitaへの投稿・予約登録・公開完了は条件に含めない。修正指示はコードと記事の両方に反映する。
@@ -30,6 +30,8 @@ Day 6は [保存仕様](PERSISTENCE.md)、[各コマンドの解説](DAY6_COMMAN
 Day 7は [商品API](PRODUCT_API.md)、[各コマンドの解説](DAY7_COMMANDS.md)、[確認記録](DAY7_REVIEW.md)、[記事](../qiita/day07-product-master-api.md) に記録する。商品仕様で必須の要求キー・版条件・一覧継続を今回実装し、売上側の再送・期間横断カーソルはDay 8〜10で扱う。
 
 Day 8は [売上登録仕様](SALE_REGISTRATION.md)、[各コマンドの解説](DAY8_COMMANDS.md)、[確認記録](DAY8_REVIEW.md)、[記事](../qiita/day08-sales-registration-and-amount-calculation.md)に記録する。登録時の再送は今回実装し、検索/詳細はDay 9、訂正/取消はDay 10で扱う。
+
+Day 9は [検索仕様](SALE_QUERIES.md)、[各コマンドの解説](DAY9_COMMANDS.md)、[確認記録](DAY9_REVIEW.md)、[記事](../qiita/day09-sales-search-detail-and-pagination.md)に記録する。検索・詳細は今回実装し、訂正・取消・履歴参照はDay 10で扱う。
 
 各行の実装成果物と記事の両方が完成し、確認項目の結果を記録できた時点でレビューを依頼する。
 

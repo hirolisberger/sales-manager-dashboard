@@ -381,7 +381,7 @@ def test_header_json_errors_and_storage_redaction(sales_api, contract_validator)
         assert response.headers["retry-after"] == "1"
 
 
-def test_aws_guard_runs_before_sdk_creation_and_read_api_not_yet_implemented():
+def test_aws_guard_runs_before_sdk_creation_for_sale_reads_and_writes():
     with patch("sales_manager_api.sale_routes.dynamodb_client") as sdk:
         with TestClient(
             create_app(Settings(APP_ENV="aws", AWS_REGION="ap-northeast-1"))
@@ -391,6 +391,6 @@ def test_aws_guard_runs_before_sdk_creation_and_read_api_not_yet_implemented():
                 response.status_code == 503 and response.headers["retry-after"] == "1"
             )
             assert client.get("/health").status_code == 200
-            assert client.get("/sales").status_code == 405
-            assert client.get(f"/sales/{uuid4()}").status_code == 404
+            assert client.get("/sales").status_code == 503
+            assert client.get(f"/sales/{uuid4()}").status_code == 503
         sdk.assert_not_called()

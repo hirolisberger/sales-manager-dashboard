@@ -8,6 +8,8 @@ Day 7の追加：商品4操作と保存エラーの503変換を [PRODUCT_API.md]
 
 Day 8の追加：売上登録を [SALE_REGISTRATION.md](SALE_REGISTRATION.md)に実装した。既存の要求ID・共通エラー・SDK境界を使い、認証前はlocal/testだけで利用する。売上検索・訂正・取消は後続Day。
 
+Day 9の追加：売上検索・詳細と署名付き期間横断ページングを [SALE_QUERIES.md](SALE_QUERIES.md)に実装した。認証・訂正・取消は後続Day。
+
 ## 採用した構成
 
 | 役割 | 固定したバージョン・方針 |

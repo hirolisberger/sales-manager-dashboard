@@ -3,10 +3,10 @@ openapi: 3.1.0
 info:
   title: Sales Manager API
   version: 0.1.0
-  description: 開発用のAPI仕様書。Day 8ではhealth・商品4操作・売上登録を実装。商品のETag・再送・署名付きカーソル、売上登録の整数計算・一括保存・再送に対応。売上検索・訂正・認証・CSVは後続Day。BearerAuthはDay 19の最終設計で、商品・売上APIはlocal/test専用。
+  description: 開発用のAPI仕様書。Day 9ではhealth・商品4操作・売上登録/検索/詳細を実装。売上は期間・商品・状態検索と署名付き期間横断カーソルに対応。訂正・取消・履歴参照・認証・CSVは後続Day。BearerAuthはDay 19の最終設計で、商品・売上APIはlocal/test専用。
 servers:
 - url: http://127.0.0.1:8000
-  description: Day 8のローカルAPI。health・商品4操作・POST /salesを実装。認証は未実装で、商品・売上APIはawsモードでは拒否する。
+  description: Day 9のローカルAPI。health・商品4操作・POST/GET /sales・GET /sales/{sale_id}を実装。認証は未実装で、商品・売上APIはawsモードでは拒否する。
 security:
 - BearerAuth: []
 paths:

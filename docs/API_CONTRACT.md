@@ -1,12 +1,12 @@
 # Day 4：API仕様書
 
-Day 4の設計は2026-10-30に承認済み（対象21307cc）。正本はYAML形式の[OpenAPI 3.1.0](contracts/openapi.yaml)。**Day 5でGET /healthと共通エラー基盤を実装し、要求IDヘッダーと共通500応答を仕様へ追加した。追加分も2026-10-30にDay 5でレビュー承認済み（対象6f52323）。** Day 7で商品4操作・商品のETag/再送/署名付きカーソル、Day 8で売上登録・整数計算・一括保存・再送を実装した。実装済みはhealth・商品・売上登録で、売上検索/訂正・認証・CSVは後続Day。[商品APIの仕様](PRODUCT_API.md)と[確認記録](DAY7_REVIEW.md)、[売上登録仕様](SALE_REGISTRATION.md)へ分ける。[保存設計](DATA_MODEL.md)、[架空データ](examples/day04-fixtures.json)、[API基盤の仕様](API_FOUNDATION.md)を参照する。
+Day 4の設計は2026-10-30に承認済み（対象21307cc）。正本はYAML形式の[OpenAPI 3.1.0](contracts/openapi.yaml)。**Day 5でGET /healthと共通エラー基盤を実装し、要求IDヘッダーと共通500応答を仕様へ追加した。追加分も2026-10-30にDay 5でレビュー承認済み（対象6f52323）。** Day 7で商品4操作・商品のETag/再送/署名付きカーソル、Day 8で売上登録・整数計算・一括保存・再送を実装した。Day 9で売上検索・詳細・期間横断ページングも実装済みで、訂正・取消・履歴参照・認証・CSVは後続Day。[商品APIの仕様](PRODUCT_API.md)と[確認記録](DAY7_REVIEW.md)、[売上登録仕様](SALE_REGISTRATION.md)へ分ける。[保存設計](DATA_MODEL.md)、[架空データ](examples/day04-fixtures.json)、[API基盤の仕様](API_FOUNDATION.md)を参照する。
 
 仕様の編集対象は`docs/contracts/openapi.yaml`に統一し、JSON版は置かない。検証スクリプトはPyYAML 6.0.3の`yaml.safe_load`で読み込み、同じOpenAPI・JSON Schema検証へ渡す。HTTP応答コードのキー（例`'200'`）や型名`'null'`は文字列として引用符を保つ。転記時にYAMLの数値・nullへ変換しない。[PyYAML公式資料](https://pyyaml.org/wiki/PyYAMLDocumentation)
 
 ## エンドポイント
 
-Day 8ではPOST /salesを追加し、health・商品4操作・売上登録が実装済み。[売上登録仕様](SALE_REGISTRATION.md)と[確認記録](DAY8_REVIEW.md)を参照する。以下の全15操作は最終設計で、売上検索/詳細・訂正/取消・認証・CSVはまだ実装していない。
+Day 9までにhealth・商品4操作・売上登録/検索/詳細の8操作を実装済み。[売上登録仕様](SALE_REGISTRATION.md)と[確認記録](DAY8_REVIEW.md)、[検索仕様](SALE_QUERIES.md)と[確認記録](DAY9_REVIEW.md)を参照する。以下の全15操作は最終設計で、訂正・取消・履歴参照・認証・CSVはまだ実装していない。
 
 | メソッド・パス | 用途・成功応答 |
 | --- | --- |
@@ -43,7 +43,7 @@ Day 8ではPOST /salesを追加し、health・商品4操作・売上登録が実
 
 売上一覧の`status`は`all`（既定）・`confirmed`・`cancelled`。集計とCSVはconfirmedに固定する。`product_id`指定時は対象明細だけの金額・数量を使う。一覧の`total_amount_yen`は元の売上全体、`matched_amount_yen`と`matched_quantity`は絞り込み後を示す。詳細のlinesは常に全明細。
 
-一覧・履歴の`limit`は1〜100、既定50。空のitemsとnullのnext_cursorが終端。無効・改ざん・期限切れ・他条件のカーソルは400とする。内部QueryのページングとAPIのページングは同じではない。[保存設計のページング](DATA_MODEL.md#ページング)を実装する。
+一覧・履歴の`limit`は1〜100、既定50。空のitemsとnullのnext_cursorが終端。無効・改ざん・期限切れ・他条件のカーソルは400とする。内部QueryのページングとAPIのページングは同じではない。Day 9で[保存設計のページング](DATA_MODEL.md#ページング)を売上検索に実装した。1要求は最大1,000 Queryとし、上限なら部分結果を返さず503にする。
 
 売上集計は金額・数量・重複を除いた売上件数と、日別/月別の0補完済みrowsを返す。商品別は商品IDをキーにし、複数商品の売上件数を単純合計しない。複数リクエストにまたがる同時更新時のスナップショットは保証しない。
 
@@ -95,7 +95,7 @@ detailsの各要素は`path`、`code`、`message`。内部スタック、トー�
 
 受付時は検索条件を固定し202を返す。queued → running → completed/failedを想定し、完了時だけ期限付きdownload_url/expires_atを設定する。出力内容は明細単位、対象条件・生成日時を記録する。同時更新で整合性を保てなかった場合の再試行・失敗、URL期限とジョブ保持期間はDay 17で確定する。スキーマだけでは状態とnull項目の相関を保証しないため、ワーカーの検証も追加する。
 
-Day 8時点のHTTP実装はhealth・商品4操作・売上登録。全応答のX-Request-ID、商品のETag・再送・署名付き一覧継続、売上登録の整数計算・原子的保存・再送を実装した。売上検索/詳細・訂正/取消・認証・非同期ワーカー・S3 URLは未実装。YAMLのBearerAuthは最終設計であり、現在の商品・売上APIはlocal/test専用でawsモードでは拒否する。
+Day 9時点のHTTP実装はhealth・商品4操作・売上登録/検索/詳細。全応答のX-Request-ID、商品のETag・再送・署名付き一覧継続、売上登録の整数計算・原子的保存・再送、売上詳細のETagと期間横断の署名付き継続を実装した。訂正・取消・履歴参照・認証・非同期ワーカー・S3 URLは未実装。YAMLのBearerAuthは最終設計であり、現在の商品・売上APIはlocal/test専用でawsモードでは拒否する。
 
 ## 検証資料
 

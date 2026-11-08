@@ -8,6 +8,8 @@ Day 8の追加：同じ保存層で [売上登録](SALE_REGISTRATION.md)を実�
 
 ## 実装した責務
 
+Day 9では同じQuery/GetItemを使った [売上検索・詳細](SALE_QUERIES.md)を追加した。期間横断・商品/状態フィルターと読取予算はサービス側で管理し、保存層のSDK境界・強い整合性・書込ガードは維持する。
+
 | ファイル（apps/api/src/sales_manager_api/配下） | 担当 |
 | --- | --- |
 | `aws.py` | 設定を受け取り、ローカル専用またはAWS用のDynamoDBクライアントを生成 |
