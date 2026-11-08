@@ -50,7 +50,7 @@ class SaleLine(SaleCreateLine):
     line_amount_yen: Amount
 
 
-class Sale(ApiModel):
+class SaleHead(ApiModel):
     id: str = Field(json_schema_extra={"format": "uuid"})
     sale_date: str = Field(json_schema_extra={"format": "date"})
     currency: Literal["JPY"]
@@ -59,4 +59,17 @@ class Sale(ApiModel):
     total_amount_yen: Amount
     created_at: str = Field(json_schema_extra={"format": "date-time"})
     updated_at: str = Field(json_schema_extra={"format": "date-time"})
+
+
+class Sale(SaleHead):
     lines: list[SaleLine] = Field(min_length=1, max_length=50)
+
+
+class SaleSummary(SaleHead):
+    matched_amount_yen: Amount
+    matched_quantity: int = Field(ge=1)
+
+
+class SalePage(ApiModel):
+    items: list[SaleSummary] = Field(max_length=100)
+    next_cursor: str | None = Field(default=None, max_length=4096)

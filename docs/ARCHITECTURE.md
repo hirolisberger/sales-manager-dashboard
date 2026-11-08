@@ -8,7 +8,9 @@ Day 5の具体化：FastAPI・Uvicornでhealthと設定・共通エラー・要�
 
 Day 7の具体化：商品4操作と入力検証、条件付き保存、成功応答の再送、商品一覧の署名付き継続を [PRODUCT_API.md](PRODUCT_API.md) に実装した。Day 7は2026-11-02にレビュー承認済み（対象a627210）で、PR #6でマージ・day07タグ作成済み（3768214）。
 
-Day 8の具体化：売上登録・整数金額計算・JST計上日・商品スナップショット・原子的保存・再送を [SALE_REGISTRATION.md](SALE_REGISTRATION.md)に実装し、2026-11-04にレビュー承認済み（対象a5b13c8）。PR作成・mainマージ・day08タグ作成/pushは未実施。商品・売上APIはlocal/test専用とし、認証導入前のawsモードではSDK生成前に拒否する。検索/詳細・訂正/取消・認証は後続Day。
+Day 8の具体化：売上登録・整数金額計算・JST計上日・商品スナップショット・原子的保存・再送を [SALE_REGISTRATION.md](SALE_REGISTRATION.md)に実装し、2026-11-04にレビュー承認済み（対象a5b13c8）。PR #7でマージし、day08タグは7e3ccc4を参照する。
+
+Day 9の具体化：売上検索・詳細・期間/商品/状態の絞り込み・日付横断ページングを [SALE_QUERIES.md](SALE_QUERIES.md)に実装し、レビュー待ち。商品・売上APIはlocal/test専用で、認証導入前のawsモードではSDK生成前に拒否する。訂正・取消・履歴参照・認証は後続Day。
 
 ## 1. 今回決める境界
 

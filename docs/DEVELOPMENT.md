@@ -14,6 +14,8 @@ Day 4のAPI仕様・保存設計の検証は [DAY4_REVIEW.md](DAY4_REVIEW.md) �
 
 2026-11-02のDay 8更新：売上登録・整数金額計算・JST計上日・原子的保存・再送を実装。[DAY8_COMMANDS.md](DAY8_COMMANDS.md)で登録・再送・保存データの参照と全コマンドの意味を説明する。仕様は [SALE_REGISTRATION.md](SALE_REGISTRATION.md)、結果は [DAY8_REVIEW.md](DAY8_REVIEW.md)。依存・ロックは不変。
 
+2026-11-08のDay 9更新：売上の期間・商品・状態検索、全明細の詳細、署名付き日付横断ページングを追加。[DAY9_COMMANDS.md](DAY9_COMMANDS.md)で準備・登録・検索・次ページの全コマンドを説明する。仕様は [SALE_QUERIES.md](SALE_QUERIES.md)、結果は [DAY9_REVIEW.md](DAY9_REVIEW.md)。依存・ロックは不変。
+
 ## 採用バージョン
 
 | 対象 | 固定したバージョン | 管理するファイル |

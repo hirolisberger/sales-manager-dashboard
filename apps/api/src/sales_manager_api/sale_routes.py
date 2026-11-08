@@ -1,4 +1,4 @@
-"""Local/test-only sale registration; listing and correction come in later Days."""
+"""Local/test-only sale registration, period search and current sale detail."""
 
 from typing import Annotated
 
@@ -6,10 +6,12 @@ from fastapi import APIRouter, Depends, Request
 from starlette.responses import JSONResponse
 
 from sales_manager_api.aws import dynamodb_client
+from sales_manager_api.cursors import SaleCursors
 from sales_manager_api.errors import ApplicationError
 from sales_manager_api.product_routes import single_header, uuid_text
 from sales_manager_api.repository import DynamoRepository
 from sales_manager_api.sale_models import SaleCreate
+from sales_manager_api.sale_queries import SaleReader, SaleSearch
 from sales_manager_api.sales import SaleService
 
 router = APIRouter(prefix="/sales")
@@ -31,6 +33,29 @@ def sale_service(request: Request):
 
 
 Service = Annotated[SaleService, Depends(sale_service)]
+
+
+def sale_reader(request: Request, service: Service):
+    return SaleReader(service.repo, SaleCursors(request.app.state.sale_cursor_key))
+
+
+Reader = Annotated[SaleReader, Depends(sale_reader)]
+
+
+@router.get("", operation_id="listSales")
+def list_sales(request: Request, reader: Reader):
+    query = request.query_params
+    if any(len(query.getlist(name)) != 1 for name in query):
+        raise ApplicationError(
+            422, "VALIDATION_ERROR", "同じ検索条件を複数指定できません。"
+        )
+    return reader.list(SaleSearch.parse(query), query.get("cursor"))
+
+
+@router.get("/{sale_id}", operation_id="getSale")
+def get_sale(sale_id: str, reader: Reader):
+    sale = reader.get(uuid_text(sale_id))
+    return JSONResponse(sale, headers={"ETag": f'"v{sale["version"]}"'})
 
 
 @router.post("", operation_id="createSale", status_code=201)

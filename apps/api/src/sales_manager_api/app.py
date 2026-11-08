@@ -1,4 +1,4 @@
-"""ASGI app: liveness, local products and atomic sale registration."""
+"""ASGI app: liveness, local products and sale registration/search."""
 
 from secrets import token_bytes
 
@@ -23,6 +23,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.state.settings = settings if settings is not None else load_settings()
     # Local-only cursors expire after restart; persistent secrets come with deployment.
     app.state.product_cursor_key = token_bytes(32)
+    app.state.sale_cursor_key = token_bytes(32)
     install_error_handlers(app)
     app.add_middleware(RequestContextMiddleware)
     app.include_router(product_router)

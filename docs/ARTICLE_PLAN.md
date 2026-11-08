@@ -28,7 +28,7 @@ Day 1までの準備記録は [DAY0_SETUP.md](DAY0_SETUP.md)、公開用のDay 0
 - 公開予定日：未定。記事の作成・レビューと実際の投稿は分けて管理する。
 
 
-Day 7までmainへマージ済み。Day 7はPR #6とday07タグ（3768214）で共有。Day 8本文は [day08-sales-registration-and-amount-calculation.md](../qiita/day08-sales-registration-and-amount-calculation.md)に作成し、売上登録・税込整数計算・JST計上日・商品スナップショット・一括保存・再送とともに2026-11-04にレビュー承認済み（対象a5b13c8）。ブラウザーでのPR作成・mainマージ・day08タグ作成/pushが残っている。Qiita操作とDay 9開始は別の指示を待つ。
+Day 8までmainへマージ済み。Day 8はPR #7とday08タグ（7e3ccc4）で共有。Day 9本文は [day09-sales-search-detail-and-pagination.md](../qiita/day09-sales-search-detail-and-pagination.md)に作成し、売上検索・詳細・期間/商品/状態の絞り込み・ページングとともにレビュー待ち。Qiita操作とDay 10開始は別の指示を待つ。
 
 ## 本編25記事
 

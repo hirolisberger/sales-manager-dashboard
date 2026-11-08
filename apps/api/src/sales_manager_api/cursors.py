@@ -1,4 +1,4 @@
-"""Signed, expiring product continuations. Not a cross-page snapshot."""
+"""Signed, expiring continuations with resource-specific state validation."""
 
 import base64
 import hashlib
@@ -6,11 +6,13 @@ import hmac
 import json
 import re
 import time
+from datetime import date
+from uuid import UUID
 
 from sales_manager_api.errors import ApplicationError
 
 
-class ProductCursors:
+class SignedCursors:
     def __init__(self, key: bytes, clock=time.time):
         if len(key) < 32:
             raise ValueError("A cursor key requires at least 32 bytes")
@@ -49,9 +51,7 @@ class ProductCursors:
                 or payload["scope"] != scope
                 or type(payload["exp"]) is not int
                 or not now < payload["exp"] <= now + 900
-                or type(payload["key"]) is not dict
-                or set(payload["key"]) != {"PK", "SK"}
-                or any(type(value) is not str for value in payload["key"].values())
+                or not self.valid_state(payload["key"], scope)
             ):
                 raise ValueError
             return payload["key"]
@@ -59,3 +59,38 @@ class ProductCursors:
             raise ApplicationError(
                 400, "INVALID_CURSOR", "一覧を最初から取得してください。"
             ) from None
+
+    def valid_state(self, state: dict, scope: dict) -> bool:
+        raise NotImplementedError
+
+
+class ProductCursors(SignedCursors):
+    def valid_state(self, state: dict, scope: dict) -> bool:
+        return (
+            type(state) is dict
+            and set(state) == {"PK", "SK"}
+            and all(type(value) is str for value in state.values())
+        )
+
+
+class SaleCursors(SignedCursors):
+    def valid_state(self, state: dict, scope: dict) -> bool:
+        if type(state) is not dict or set(state) != {"day", "last_key"}:
+            return False
+        day = state["day"]
+        if type(day) is not str or date.fromisoformat(day).isoformat() != day:
+            return False
+        if not scope["start_date"] <= day <= scope["end_date"]:
+            return False
+        key = state["last_key"]
+        if key is None:
+            return True
+        if (
+            type(key) is not dict
+            or set(key) != {"PK", "SK"}
+            or any(type(value) is not str for value in key.values())
+            or key["PK"] != scope["store"] + "DAY#" + day
+            or not key["SK"].startswith("SALE#")
+        ):
+            return False
+        return str(UUID(key["SK"][5:])) == key["SK"][5:]

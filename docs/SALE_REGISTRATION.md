@@ -1,6 +1,6 @@
 # Day 8：売上登録APIと金額計算
 
-2026-11-04にレビュー承認済み（対象a5b13c8）。ブラウザーでのPR作成・mainマージ・day08タグ作成/pushは未実施。
+2026-11-04にレビュー承認済み（対象a5b13c8）。[PR #7](https://github.com/hirolisberger/sales-manager-dashboard/pull/7)でmainへマージし、[day08タグ](https://github.com/hirolisberger/sales-manager-dashboard/tree/day08)は7e3ccc4を参照する。以下はDay 8時点の実装範囲。Day 9で追加した検索・詳細は [SALE_QUERIES.md](SALE_QUERIES.md)を参照。
 
 2026-11-02作成。Day 7の承認・[PR #6](https://github.com/hirolisberger/sales-manager-dashboard/pull/6)マージ・[day07タグ](https://github.com/hirolisberger/sales-manager-dashboard/tree/day07)を確認し、main `3768214`から着手。実装範囲はlocal/testの`POST /sales`。手順は [DAY8_COMMANDS.md](DAY8_COMMANDS.md)、結果は [DAY8_REVIEW.md](DAY8_REVIEW.md)。
 

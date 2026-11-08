@@ -4,7 +4,7 @@
 
 ## 1. 業務データ
 
-Day 8で以下の売上登録用キー・履歴・商品条件確認を [SALE_REGISTRATION.md](SALE_REGISTRATION.md)に実装した。売上検索・詳細はDay 9、訂正・取消はDay 10で実装する。
+Day 8で以下の売上登録用キー・履歴・商品条件確認を [SALE_REGISTRATION.md](SALE_REGISTRATION.md)、Day 9で検索・詳細・期間横断ページングを [SALE_QUERIES.md](SALE_QUERIES.md)に実装した。訂正・取消・履歴参照はDay 10で実装する。
 
 | データ | 主な項目と不変条件 |
 | --- | --- |
@@ -58,7 +58,7 @@ Day 8で以下の売上登録用キー・履歴・商品条件確認を [SALE_RE
 
 Queryの`Limit`はフィルター適用前の評価件数であり、1MiBの区切りもある。`Items=[]`でも`LastEvaluatedKey`があれば続ける。商品の絞り込みは埋め込んだ明細を調べるため、読み取り容量を節約する条件ではない。[AWS Query仕様](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Query.html)
 
-APIの`limit`は返す件数（1〜100、既定50）。内部では空ページを含めて読み進め、出力limitを超えて先読みした項目を飛ばさない位置にカーソルを置く。日付をまたぐ場合、次の日付と最後に消費したキーを保持する。カーソルは店舗・資源・期間・商品・状態・並び順・limitに結び付け、15分の期限とHMACで改ざんを拒否する方針。商品一覧に必要な部分は [Day 7](PRODUCT_API.md) で実装・試験し、売上の期間横断部分はDay 9に行う。
+APIの`limit`は返す件数（1〜100、既定50）。内部では空ページを含めて読み進め、出力limitを超えて先読みした項目を飛ばさない位置にカーソルを置く。日付をまたぐ場合、次の日付と最後に消費したキーを保持する。カーソルは店舗・資源・期間・商品・状態・並び順・limitに結び付け、15分の期限とHMACで改ざんを拒否する。商品一覧は [Day 7](PRODUCT_API.md)、売上の期間横断部分は [Day 9](SALE_QUERIES.md)で実装・試験した。Day 9の売上一覧は1要求最大1,000 Queryで、上限なら部分結果を返さず503にする。
 
 ### 整合性と性能の範囲
 
