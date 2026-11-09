@@ -28,7 +28,7 @@ Day 1までの準備記録は [DAY0_SETUP.md](DAY0_SETUP.md)、公開用のDay 0
 - 公開予定日：未定。記事の作成・レビューと実際の投稿は分けて管理する。
 
 
-Day 8までmainへマージ済み。Day 8はPR #7とday08タグ（7e3ccc4）で共有。Day 9本文は [day09-sales-search-detail-and-pagination.md](../qiita/day09-sales-search-detail-and-pagination.md)に作成し、売上検索・詳細・期間/商品/状態の絞り込み・ページングとともにレビュー待ち。Qiita操作とDay 10開始は別の指示を待つ。
+Day 9までmainへマージ済み。Day 9はPR #8とday09タグ（ee5e451）で共有。Day 10本文は[day10-sales-correction-and-cancellation.md](../qiita/day10-sales-correction-and-cancellation.md)に作成し、訂正・取消・履歴参照とともにレビュー待ち。Qiita操作とDay 11開始は別の指示を待つ。
 
 ## 本編25記事
 

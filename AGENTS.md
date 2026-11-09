@@ -28,7 +28,8 @@ Next.js、Python、ローカルAWSエミュレーター、AWSを使用した売�
 - Day 6は2026-10-30に承認され、PR #5でmainへマージ済み。main/day06は `b92b01f`、feature/day06は `fdb3fe1` を保持。承認対象は `c5d4c9d`。確認記録は `docs/DAY6_REVIEW.md`。
 - Day 7は2026-11-02にレビュー承認済み（対象 `a627210`）。PR #6でmainへマージし、main/day07は `3768214`、feature/day07は `73e2cdd`を保持。商品APIの仕様は `docs/PRODUCT_API.md`、確認記録は `docs/DAY7_REVIEW.md`。
 - Day 8は2026-11-04にレビュー承認済み（対象 `a5b13c8`）。PR #7でmainへマージし、main/day08は `7e3ccc4`、feature/day08は `b31e7e8`を保持。売上登録の仕様は `docs/SALE_REGISTRATION.md`、確認記録は `docs/DAY8_REVIEW.md`。
-- Day 9の売上検索・詳細・期間/商品/状態の絞り込み・署名付き期間横断ページング・テストと記事は実装完了・レビュー待ち。feature/day09はmain/day08 `7e3ccc4`が基点。仕様は `docs/SALE_QUERIES.md`、手順は `docs/DAY9_COMMANDS.md`、確認記録は `docs/DAY9_REVIEW.md`。商品・売上APIは認証導入前のlocal/test専用で、awsモードではSDK生成前に拒否する。訂正・取消・履歴参照はDay 10。Day 10は承認・PRマージと別途の開始指示まで着手しない。
+- Day 9は2026-11-08にレビュー承認済み（対象d57e8e6）。PR #8でmainへマージし、main/day09はee5e45188d6a5b3439bbb9c8ac29dedc06bd466c、feature/day09は4c88c98を保持。確認記録はdocs/DAY9_REVIEW.md。
+- Day 10の訂正・取消・履歴参照とテスト・記事は実装完了・レビュー待ち。feature/day10の基点はmain/day09 ee5e451。仕様はdocs/SALE_CHANGES.md、手順はdocs/DAY10_COMMANDS.md、確認記録はdocs/DAY10_REVIEW.md。商品・売上APIは認証前のlocal/test専用で、awsモードはSDK生成前に拒否する。Day 11は承認・PRマージと別途の開始指示まで着手しない。
 - 全25日分の計画は `docs/ROADMAP.md`、実際の状況は `docs/PROGRESS.md` を正とする。
 - 計画の記載や公開予定日の到来を、開発・承認・公開の完了として扱わない。
 

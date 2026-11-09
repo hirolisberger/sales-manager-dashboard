@@ -1,6 +1,6 @@
 # Day 9：売上検索・詳細・ページング
 
-2026-11-08作成。Day 8の[PR #7](https://github.com/hirolisberger/sales-manager-dashboard/pull/7)マージ・[day08タグ](https://github.com/hirolisberger/sales-manager-dashboard/tree/day08)と最新main `7e3ccc4`を確認して着手。実装・記事・検証完了、レビュー待ち。手順は [DAY9_COMMANDS.md](DAY9_COMMANDS.md)、結果は [DAY9_REVIEW.md](DAY9_REVIEW.md)。
+2026-11-08作成・レビュー承認済み。[PR #8](https://github.com/hirolisberger/sales-manager-dashboard/pull/8)でmainへマージし、day09タグはee5e451を参照する。手順は[DAY9_COMMANDS.md](DAY9_COMMANDS.md)、結果・完了情報は[DAY9_REVIEW.md](DAY9_REVIEW.md)。以下はDay 9時点の実装範囲で、Day 10の追加は[訂正・取消仕様](SALE_CHANGES.md)を参照する。
 
 ## 追加したAPI
 

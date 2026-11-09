@@ -165,3 +165,7 @@ npm --prefix apps/web run start
 - [uv：ロックと同期](https://docs.astral.sh/uv/concepts/projects/sync/)
 - [Biome：導入と静的検証](https://biomejs.dev/installation/quick-start/)
 - [Ruff：導入と実行](https://docs.astral.sh/ruff/installation/)
+
+## 2026-11-09のDay 10更新
+
+売上の訂正・取消・履歴を追加。[DAY10_COMMANDS.md](DAY10_COMMANDS.md)で登録→訂正→取消→履歴→再送と全コマンドの意味を説明する。[仕様](SALE_CHANGES.md)、[結果](DAY10_REVIEW.md)を参照する。依存・ロックは不変で、uvが既存のAPI用.venvを使う。

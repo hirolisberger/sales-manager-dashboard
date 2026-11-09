@@ -94,3 +94,16 @@ class SaleCursors(SignedCursors):
         ):
             return False
         return str(UUID(key["SK"][5:])) == key["SK"][5:]
+
+
+class RevisionCursors(SignedCursors):
+    def valid_state(self, state: dict, scope: dict) -> bool:
+        if (
+            type(state) is not dict
+            or set(state) != {"PK", "SK"}
+            or any(type(value) is not str for value in state.values())
+            or state["PK"] != scope["store"] + "SALE#" + scope["sale_id"]
+            or not re.fullmatch(r"REV#[0-9]{10}", state["SK"])
+        ):
+            return False
+        return 1 <= int(state["SK"][4:]) <= 2_147_483_647

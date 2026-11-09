@@ -65,3 +65,7 @@ seedはコーヒー550円・紅茶330円の商品2件、コード予約2件、�
 Composeは既存の名前付きボリュームを使用。restartや通常のdown / upでは保持する。resetは**指定テーブルの全項目・全店舗**を消して同じ構成の空テーブルへ戻す。--confirm-tableに正確な名前を要求し、自動seedはしない。S3・Cognito・他テーブル・ボリュームをまとめて消さない。通常の片付けに`down -v`を使わない。
 
 操作と各指定の解説は [DAY6_COMMANDS.md](DAY6_COMMANDS.md)、検証結果と制限は [DAY6_REVIEW.md](DAY6_REVIEW.md)。公式資料確認日は2026-10-30。
+
+## Day 10の追加
+
+[訂正・取消・履歴](SALE_CHANGES.md)が既存の条件付きput/delete/checkを使う。日付移動と最新版・履歴・初回応答をまとめて保存する。履歴は強い整合性のQueryと継続キーで読む。SDK・保存層・サイズ上限の実装変更はない。[検証結果](DAY10_REVIEW.md)を参照。

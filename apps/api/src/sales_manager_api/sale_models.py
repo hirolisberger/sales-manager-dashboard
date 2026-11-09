@@ -1,4 +1,4 @@
-"""Strict sale registration shapes; amounts are integer, tax-inclusive yen."""
+"""Strict sale inputs, current snapshots and revisions; integer tax-inclusive yen."""
 
 import re
 from datetime import date
@@ -13,6 +13,7 @@ from sales_manager_api.schemas import ApiModel
 MAX_AMOUNT = 9_999_999_999
 Quantity = Annotated[int, Field(ge=1, le=9_999)]
 Amount = Annotated[int, Field(ge=0, le=MAX_AMOUNT)]
+Reason = Annotated[str, Field(min_length=1, max_length=500, pattern=r"\S")]
 
 
 class SaleCreateLine(ApiModel):
@@ -50,6 +51,27 @@ class SaleLine(SaleCreateLine):
     line_amount_yen: Amount
 
 
+class SalePatchLine(SaleCreateLine):
+    line_id: str | None = Field(default=None, json_schema_extra={"format": "uuid"})
+    refresh_product_snapshot: bool = False
+
+    @field_validator("line_id")
+    @classmethod
+    def supplied_line_uuid(cls, value: str | None) -> str:
+        if value is None:
+            raise ValueError("An explicit null line ID is not allowed")
+        return cls.canonical_uuid(value)
+
+
+class SalePatch(SaleCreate):
+    lines: list[SalePatchLine] = Field(min_length=1, max_length=50)
+    reason: Reason
+
+
+class Cancellation(ApiModel):
+    reason: Reason
+
+
 class SaleHead(ApiModel):
     id: str = Field(json_schema_extra={"format": "uuid"})
     sale_date: str = Field(json_schema_extra={"format": "date"})
@@ -72,4 +94,20 @@ class SaleSummary(SaleHead):
 
 class SalePage(ApiModel):
     items: list[SaleSummary] = Field(max_length=100)
+    next_cursor: str | None = Field(default=None, max_length=4096)
+
+
+class Revision(ApiModel):
+    sale_id: str = Field(json_schema_extra={"format": "uuid"})
+    version: int = Field(ge=1, le=MAX_VERSION)
+    operation: Literal["created", "corrected", "cancelled"]
+    actor_id: str = Field(min_length=1, max_length=128)
+    occurred_at: str = Field(json_schema_extra={"format": "date-time"})
+    reason: str | None = Field(max_length=500)
+    before: Sale | None
+    after: Sale
+
+
+class RevisionPage(ApiModel):
+    items: list[Revision] = Field(max_length=100)
     next_cursor: str | None = Field(default=None, max_length=4096)
