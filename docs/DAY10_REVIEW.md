@@ -86,3 +86,7 @@ Ruff check・format --checkの対象は44ファイル。既存API仕様の6グ�
 実AWS/IAM/配備、実AWSの1MiB境界・応答サイズ、負荷/容量/応答時間、他環境、複数プロセスの鍵共有は未検証。複数ページの同一時点スナップショットは保証しない。集計・画面・認証は後続Day。認証前の商品・売上APIはlocal/test専用で、awsモードはSDK生成前に拒否する。
 
 公開予定は2026-12-10 JST。Qiita URL未取得で、投稿操作は行っていない。feature/day10をpushし、PRは既定どおりブラウザーで作成する。承認後にCreate a merge commitでmainへマージし、そのマージコミットにday10注釈付きタグを作成・pushする。feature/day10を保持する。**Day 11へはまだ進めない。**
+
+## レビュー提出対象
+
+実装・API仕様・記事のレビュー対象コミットは64b0db7bcd559fa4cbeefaf6cd515e17707131c1。この対象を記録する提出コミットは本節だけの追加とする。feature/day10をpushし、既定どおりブラウザーでmain向けPRを作成する。レビュー承認前にmainマージ・day10タグ作成・Day 11開始を行わない。
