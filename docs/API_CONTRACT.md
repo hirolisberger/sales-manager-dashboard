@@ -100,3 +100,7 @@ Day 10時点のHTTP実装はhealth・商品4操作・売上登録/検索/詳細/
 ## 検証資料
 
 [DAY4_REVIEW.md](DAY4_REVIEW.md)にコマンド・期待値・確認範囲を記録する。仕様は[OpenAPI 3.1.0仕様](https://spec.openapis.org/oas/v3.1.0.html)に従う。確認日は2026-10-30。
+
+## Day 11の参照画面
+
+[画面基盤](WEB_FOUNDATION.md)は既存のGET /health・GET /products?is_active=true&limit=3を使う。API仕様YAML・Python実装の変更はない。TypeScriptの型と表示対象フィールドの実行時検証を組み合わせ、通信失敗を画面の状態として扱う。

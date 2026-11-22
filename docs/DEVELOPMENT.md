@@ -2,7 +2,7 @@
 
 作成・公式資料確認日：2026-10-29（Asia/Tokyo）。Day 2ではNext.jsの起動とPythonパッケージの実行までを用意する。LocalStackの起動はDay 3、HTTP APIはDay 5、画面とAPIの接続はDay 11で扱う。
 
-Day 3の比較後はMiniStackでローカルAWS環境を構築した。起動・停止・検証専用の仮想環境・状態保持は [LOCAL_AWS.md](LOCAL_AWS.md)、検証結果は [DAY3_REVIEW.md](DAY3_REVIEW.md) を参照する。この手順書のNext.js・アプリPythonの採用版と依存関係はDay 2から変更しない。
+Day 3の比較後はMiniStackでローカルAWS環境を構築した。起動・停止・検証専用の仮想環境・状態保持は [LOCAL_AWS.md](LOCAL_AWS.md)、検証結果は [DAY3_REVIEW.md](DAY3_REVIEW.md) を参照する。採用版と変更履歴は以下の表と各Dayの追記を参照する。
 
 Day 4のAPI仕様・保存設計の検証は [DAY4_REVIEW.md](DAY4_REVIEW.md) を参照する。追加した任意の`contracts`依存グループはローカルAWS検証専用で、アプリの依存は変更していない。
 
@@ -22,7 +22,7 @@ Day 4のAPI仕様・保存設計の検証は [DAY4_REVIEW.md](DAY4_REVIEW.md) �
 | --- | --- | --- |
 | Node.js | 24.22.2（LTS） | ルートの `.nvmrc` |
 | npm | 11.19.1（上記Node.jsに同梱） | `apps/web/package.json` の `packageManager` |
-| Next.js | 16.4.3 | `apps/web/package.json`・`package-lock.json` |
+| Next.js | 16.4.6（Day 11更新、Day 2は16.4.3） | `apps/web/package.json`・`package-lock.json` |
 | React / React DOM | 19.3.1 | 同上 |
 | TypeScript | 6.0.3 | 同上 |
 | Biome | 2.6.4 | 同上・`apps/web/biome.json` |
@@ -169,3 +169,7 @@ npm --prefix apps/web run start
 ## 2026-11-09のDay 10更新
 
 売上の訂正・取消・履歴を追加。[DAY10_COMMANDS.md](DAY10_COMMANDS.md)で登録→訂正→取消→履歴→再送と全コマンドの意味を説明する。[仕様](SALE_CHANGES.md)、[結果](DAY10_REVIEW.md)を参照する。依存・ロックは不変で、uvが既存のAPI用.venvを使う。
+
+## 2026-11-22のDay 11更新
+
+共通レイアウトとNext.jsサーバーからPython APIへの接続を実装した。現在の画面は[DAY11_COMMANDS.md](DAY11_COMMANDS.md)で起動し、ホームの商品参照と接続確認を使う。Day 2の起動確認文言は当時の記録として保持する。[仕様](WEB_FOUNDATION.md)、[結果](DAY11_REVIEW.md)を参照。API_BASE_URLは実際に使うサーバー専用設定となった。Next.jsはnpm監査の中程度指摘を受け16.4.3から16.4.6へ更新し、対応する関連依存とロックを固定し直した。Reactなど他の直接依存は維持。ES Modules指定とNode標準テスト用scriptも追加した。

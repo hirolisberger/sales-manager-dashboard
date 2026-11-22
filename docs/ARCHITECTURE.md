@@ -12,7 +12,9 @@ Day 8の具体化：売上登録・整数金額計算・JST計上日・商品ス
 
 Day 9の具体化：売上検索・詳細・期間/商品/状態の絞り込み・日付横断ページングを[SALE_QUERIES.md](SALE_QUERIES.md)に実装し、2026-11-08にレビュー承認済み。PR #8でマージし、day09タグはee5e451を参照する。
 
-Day 10の具体化：[訂正・取消・履歴](SALE_CHANGES.md)を実装しレビュー待ち。日付コピーの移動・最新版・履歴・初回応答を一括保存する。商品・売上APIはlocal/test専用で、認証前のawsモードはSDK生成前に拒否する。集計・画面・認証は後続Day。
+Day 10の具体化：[訂正・取消・履歴](SALE_CHANGES.md)を実装し、2026-11-22に承認・PR #9でマージ済み。day10タグは6196a4eを参照する。
+
+Day 11の具体化：[共通画面・API接続](WEB_FOUNDATION.md)を実装しレビュー待ち。Next.jsのServer ComponentsからPython APIを読み、Client Componentsはナビ・再取得・例外表示を担当する。ブラウザーからPythonを直接呼ばず、API_BASE_URLはサーバー専用。SSRを使うため静的配信だけでは動かない。AWSの配置方式はDay 22〜23で検証する。認証前のAPIはlocal/test専用。
 
 ## 1. 今回決める境界
 

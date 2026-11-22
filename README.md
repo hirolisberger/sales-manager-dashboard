@@ -2,9 +2,9 @@
 
 小規模店舗の商品別売上を管理する `sales-manager-dashboard` を、Next.js、Python、ローカルAWS環境、AWSで開発します。Day 3ではMiniStackを採用する構成とし、LocalStackとの比較結果も記録します。開発過程はQiita Advent Calendar 2026向けの本編25記事と、追加のDay 0準備編として記録します。
 
-Day 0〜9は承認・mainへのマージ済みです。Day 9は[PR #8](https://github.com/hirolisberger/sales-manager-dashboard/pull/8)でマージし、[day09タグ](https://github.com/hirolisberger/sales-manager-dashboard/tree/day09)はee5e451を参照します。各featureブランチも保持しています。
+Day 0〜10は承認・mainへのマージ済みです。Day 10は[PR #9](https://github.com/hirolisberger/sales-manager-dashboard/pull/9)でマージし、[day10タグ](https://github.com/hirolisberger/sales-manager-dashboard/tree/day10)は6196a4eを参照します。各featureブランチも保持しています。
 
-**Day 10の訂正・取消・履歴参照・テストと記事は実装完了し、レビュー待ちです。** [訂正・取消仕様](docs/SALE_CHANGES.md)、[各コマンドの解説](docs/DAY10_COMMANDS.md)、[検証・レビュー記録](docs/DAY10_REVIEW.md)、[記事](qiita/day10-sales-correction-and-cancellation.md)を参照してください。health・商品4操作・売上6操作の11操作を実装し、商品・売上APIはlocal/test専用です。集計・画面・認証は後続Dayです。
+**Day 11の画面・API接続・テストと記事は実装完了し、レビュー待ちです。** 共通レイアウト・ホームの商品3件参照・接続確認と、読込中/空結果/通信失敗/更新を実装しました。[画面仕様](docs/WEB_FOUNDATION.md)、[起動・全コマンド解説](docs/DAY11_COMMANDS.md)、[検証・レビュー記録](docs/DAY11_REVIEW.md)、[記事](qiita/day11-nextjs-layout-and-api-client.md)を参照してください。商品編集・売上入力・認証は後続Dayです。
 
 ## 目指す機能
 
@@ -92,6 +92,9 @@ AdventCalendar_2026/
     │   ├── SALE_CHANGES.md # Day 10の訂正・取消・履歴仕様
     │   ├── DAY10_COMMANDS.md # Day 10の全コマンド解説
     │   ├── DAY10_REVIEW.md # Day 10の検証とレビュー項目
+    │   ├── WEB_FOUNDATION.md # Day 11の画面・通信仕様
+    │   ├── DAY11_COMMANDS.md # Day 11の起動・全コマンド解説
+    │   ├── DAY11_REVIEW.md # Day 11の検証とレビュー項目
     │   └── ROADMAP.md       # Day 1〜25の開発・記事計画
     └── qiita/
         ├── day00-project-setup-and-github.md # Qiita向けDay 0記事
@@ -104,7 +107,8 @@ AdventCalendar_2026/
         ├── day07-product-master-api.md # Qiita向けDay 7記事
         ├── day08-sales-registration-and-amount-calculation.md # Qiita向けDay 8記事
         ├── day09-sales-search-detail-and-pagination.md # Qiita向けDay 9記事
-        └── day10-sales-correction-and-cancellation.md # Qiita向けDay 10記事
+        ├── day10-sales-correction-and-cancellation.md # Qiita向けDay 10記事
+        └── day11-nextjs-layout-and-api-client.md # Qiita向けDay 11記事
 ```
 
 `AdventCalendar_2026/` の直下にある `sales-manager-dashboard/` が、プロジェクトとGitのルートです。これまでの成果物と `.git` をすべてこの中に移動しました。今後作成するソースコード、記事、設定、ドキュメントもこの中に配置します。
@@ -150,7 +154,7 @@ featureブランチはpush後にGitHubから確認でき、マージ後も原則
 
 各Dayの完了報告には、実装内容、変更ファイル、テスト・動作確認結果、記事保存先、レビュー確認項目、未解決事項、次のDayへ進める状態かどうかを記載します。
 
-Gitリポジトリのルートはsales-manager-dashboard/です。作者名・GitHub上の紐づけ先はhirolisbergerとし、この個人アカウントのnoreplyを使います。作業ブランチはmain/day09 ee5e451から作成したfeature/day10です。Day 10はレビュー待ちで、PRは既定どおりブラウザーで作成し、承認後にマージします。PR・タグの実績は確認記録とローカル台帳に残します。
+Gitリポジトリのルートはsales-manager-dashboard/です。作者名・GitHub上の紐づけ先はhirolisbergerとし、確認済みnoreplyを使います。作業ブランチはmain/day10 6196a4eから作成したfeature/day11です。Day 11はレビュー待ちで、PRは既定どおりブラウザーで作成し、承認後にマージします。
 
 GitHubの接続先は [hirolisberger/sales-manager-dashboard](https://github.com/hirolisberger/sales-manager-dashboard) です。承認済みのDay 0資料・記事を含むmainの初回pushを完了し、ローカルとGitHub側のコミットID一致を確認しています。個人環境の認証・復旧記録はローカル資料で管理し、公開リポジトリには含めません。
 
@@ -193,3 +197,5 @@ uv run --project apps/api --locked sales-manager-api
 Python側はDay 5からHTTPサーバーを起動します。別ターミナルの`curl -i http://127.0.0.1:8000/health`で確認し、停止はCtrl+Cです。詳しくは [DAY5_COMMANDS.md](docs/DAY5_COMMANDS.md) を参照してください。Day 6のMiniStackへの保存・初期データは [DAY6_COMMANDS.md](docs/DAY6_COMMANDS.md) で別に確認します。
 
 実認証情報は `.env` などのローカル設定や適切な秘密情報管理先に置き、Gitには含めません。共有する設定見本にはダミー値を使います。AWS実環境へのデプロイや課金リソースの作成は、対象と変更内容を確認してから行います。
+
+画面を開くには[Day 11の手順](docs/DAY11_COMMANDS.md)に従い、Python APIとNext.jsを別ターミナルで起動します。API_BASE_URLはNext.jsサーバーだけに渡します。

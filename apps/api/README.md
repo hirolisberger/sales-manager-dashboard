@@ -34,3 +34,5 @@ CLIは`127.0.0.1`だけで待ち受けます。`--port 8001`でポートを変�
 商品APIの仕様は [PRODUCT_API.md](../../docs/PRODUCT_API.md)、起動からcurlの各指定までの手順は [DAY7_COMMANDS.md](../../docs/DAY7_COMMANDS.md)、結果は [DAY7_REVIEW.md](../../docs/DAY7_REVIEW.md) を参照してください。
 
 訂正・取消・履歴の仕様は[SALE_CHANGES.md](../../docs/SALE_CHANGES.md)、全コマンド解説は[DAY10_COMMANDS.md](../../docs/DAY10_COMMANDS.md)、結果は[DAY10_REVIEW.md](../../docs/DAY10_REVIEW.md)を参照してください。
+
+Day 11の[Next.js画面](../../docs/WEB_FOUNDATION.md)は、このAPIのhealthと有効商品の先頭3件を参照します。[起動手順](../../docs/DAY11_COMMANDS.md)では確認専用テーブルを使い、PythonとNext.jsを別ターミナルで起動します。

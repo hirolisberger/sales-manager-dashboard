@@ -90,3 +90,7 @@ Day 5でYAMLへ追加したのは、共通500応答と`X-Request-ID`ヘッダー
 ## Day 10の追加
 
 [訂正・取消・履歴API](SALE_CHANGES.md)を追加した。現在の実装はhealth・商品4操作・売上6操作の11操作。既存の要求ID・共通エラー・SDK分離を使う。認証は後続Dayで、商品・売上APIは引き続きlocal/test専用。上記の未実装記載は各Day時点を示す。
+
+## Day 11の画面からの利用
+
+[Next.js画面](WEB_FOUNDATION.md)は既存のGET /healthとGET /productsをServer Componentsから呼ぶ。Pythonのルート・CORS・認証・保存処理は変更しない。healthの成功と保存先の利用可否を区別して表示する。

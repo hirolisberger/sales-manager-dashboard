@@ -1,6 +1,6 @@
 # Day 10：売上の訂正・取消・履歴参照
 
-実装完了・レビュー待ち。[確認コマンド](DAY10_COMMANDS.md)、[検証記録](DAY10_REVIEW.md)、[OpenAPI正本](contracts/openapi.yaml)を参照する。認証前のlocal/test専用で、awsモードはSDK生成前に503。操作者はサーバー固定のlocal-adminで、認証・権限検証はDay 19。
+2026-11-22レビュー承認・PR #9マージ済み。day10タグは6196a4e。[確認コマンド](DAY10_COMMANDS.md)、[検証・完了記録](DAY10_REVIEW.md)、[OpenAPI正本](contracts/openapi.yaml)を参照する。認証前のlocal/test専用で、awsモードはSDK生成前に503。操作者は固定local-admin、認証はDay 19。
 
 ## HTTPと入力
 

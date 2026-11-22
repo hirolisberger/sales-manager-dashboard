@@ -3,6 +3,7 @@
   "files": {
     "includes": [
       "src/**",
+      "tests/**",
       "next.config.ts",
       "package.json",
       "tsconfig.json",

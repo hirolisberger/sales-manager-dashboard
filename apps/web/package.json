@@ -2,6 +2,7 @@
   "name": "sales-manager-web",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "engines": {
     "node": "24.x",
     "npm": "11.x"
@@ -13,10 +14,11 @@
     "start": "next start --hostname 127.0.0.1",
     "lint": "biome check . --error-on-warnings",
     "format": "biome check --write .",
-    "typecheck": "next typegen && tsc --noEmit"
+    "typecheck": "next typegen && tsc --noEmit",
+    "test": "node --experimental-strip-types --test tests/*.test.ts"
   },
   "dependencies": {
-    "next": "16.4.3",
+    "next": "16.4.6",
     "react": "19.3.1",
     "react-dom": "19.3.1"
   },
