@@ -1,12 +1,12 @@
 # Day 4：API仕様書
 
-Day 4の設計は2026-10-30に承認済み（対象21307cc）。正本はYAML形式の[OpenAPI 3.1.0](contracts/openapi.yaml)。**Day 5でGET /healthと共通エラー基盤を実装し、要求IDヘッダーと共通500応答を仕様へ追加した。追加分も2026-10-30にDay 5でレビュー承認済み（対象6f52323）。** Day 7で商品4操作・商品のETag/再送/署名付きカーソル、Day 8で売上登録・整数計算・一括保存・再送を実装した。Day 9で売上検索・詳細・期間横断ページングも実装済みで、訂正・取消・履歴参照・認証・CSVは後続Day。[商品APIの仕様](PRODUCT_API.md)と[確認記録](DAY7_REVIEW.md)、[売上登録仕様](SALE_REGISTRATION.md)へ分ける。[保存設計](DATA_MODEL.md)、[架空データ](examples/day04-fixtures.json)、[API基盤の仕様](API_FOUNDATION.md)を参照する。
+Day 4の設計は2026-10-30に承認済み（対象21307cc）。正本はYAML形式の[OpenAPI 3.1.0](contracts/openapi.yaml)。Day 5でhealth・共通エラー、Day 7で商品4操作、Day 8で売上登録、Day 9で検索・詳細、Day 10で訂正・取消・履歴を実装した。操作ごとのルールは[商品](PRODUCT_API.md)・[売上登録](SALE_REGISTRATION.md)・[売上検索](SALE_QUERIES.md)・[訂正取消](SALE_CHANGES.md)を参照。[保存設計](DATA_MODEL.md)、[架空データ](examples/day04-fixtures.json)、[API基盤](API_FOUNDATION.md)も参照する。
 
 仕様の編集対象は`docs/contracts/openapi.yaml`に統一し、JSON版は置かない。検証スクリプトはPyYAML 6.0.3の`yaml.safe_load`で読み込み、同じOpenAPI・JSON Schema検証へ渡す。HTTP応答コードのキー（例`'200'`）や型名`'null'`は文字列として引用符を保つ。転記時にYAMLの数値・nullへ変換しない。[PyYAML公式資料](https://pyyaml.org/wiki/PyYAMLDocumentation)
 
 ## エンドポイント
 
-Day 9までにhealth・商品4操作・売上登録/検索/詳細の8操作を実装済み。[売上登録仕様](SALE_REGISTRATION.md)と[確認記録](DAY8_REVIEW.md)、[検索仕様](SALE_QUERIES.md)と[確認記録](DAY9_REVIEW.md)を参照する。以下の全15操作は最終設計で、訂正・取消・履歴参照・認証・CSVはまだ実装していない。
+Day 10までにhealth・商品4操作・売上6操作の11操作を実装済み。[訂正・取消仕様](SALE_CHANGES.md)と[確認記録](DAY10_REVIEW.md)を参照する。以下の全15操作は最終設計で、集計・CSVジョブ4操作と認証はまだ実装していない。
 
 | メソッド・パス | 用途・成功応答 |
 | --- | --- |
@@ -60,7 +60,7 @@ Idempotency-Key: 00000000-0000-4000-8000-000000000099
 
 成功応答には更新後のETagを返す。再送は同じ要求キー・本文・パス・メソッド・If-Matchなら、**最初に保存した成功応答**を元のステータスとETagで返し、`Idempotency-Replayed: true`を付ける。既に後から訂正されていても再送応答を現在版に差し替えない。現在状態はGETで取得する。
 
-要求内容が違うキー再利用は409、初回要求のIf-Match不一致は412、必須If-Match不足は428。認証・権限の確認は最終形で再送時も必須。商品のHTTP再送・要求の正規化・版条件はDay 7、売上登録の再送はDay 8で実装した。認証前はサーバー固定のlocal-adminを使い、local/test専用とする。売上訂正/取消の版条件はDay 10。Day 4の記録保存検証とは区別する。[RFC 9110](https://www.rfc-editor.org/rfc/rfc9110.html#name-if-match)、[RFC 6585](https://www.rfc-editor.org/rfc/rfc6585.html#section-3)
+要求内容が違うキー再利用は409、初回要求のIf-Match不一致は412、必須If-Match不足は428。商品の再送・版条件はDay 7、売上登録の再送はDay 8、訂正/取消の再送・版条件はDay 10で実装した。同じ要求の照合を現在版の検査より先に行う。認証前はサーバー固定のlocal-adminを使いlocal/test専用とする。認証・権限の確認は最終形で再送時も必須。[RFC 9110](https://www.rfc-editor.org/rfc/rfc9110.html#name-if-match)、[RFC 6585](https://www.rfc-editor.org/rfc/rfc6585.html#section-3)
 
 ## エラー形式
 
@@ -82,7 +82,7 @@ Idempotency-Key: 00000000-0000-4000-8000-000000000099
 | 403 | FORBIDDEN |
 | 404 | NOT_FOUND（Day 5の不明パス）/ PRODUCT_NOT_FOUND / SALE_NOT_FOUND / EXPORT_NOT_FOUND |
 | 405 | METHOD_NOT_ALLOWED。Allowを保持 |
-| 409 | PRODUCT_CODE_CONFLICT / IDEMPOTENCY_CONFLICT / PRODUCT_INACTIVE / PRODUCT_CHANGED（売上保存前の商品版変更） / SALE_CANCELLED / VERSION_LIMIT_EXCEEDED（商品の版上限） |
+| 409 | PRODUCT_CODE_CONFLICT / IDEMPOTENCY_CONFLICT / PRODUCT_INACTIVE / PRODUCT_CHANGED（売上保存前の商品版変更） / SALE_CANCELLED / VERSION_LIMIT_EXCEEDED（商品・売上の版上限） |
 | 412 | VERSION_CONFLICT。取得していない商品の内部版競合は再検証し、必要なら409へ変換する |
 | 422 | VALIDATION_ERROR / PERIOD_TOO_LONG / FUTURE_SALE_DATE / AMOUNT_LIMIT_EXCEEDED |
 | 428 | PRECONDITION_REQUIRED |
@@ -95,7 +95,7 @@ detailsの各要素は`path`、`code`、`message`。内部スタック、トー�
 
 受付時は検索条件を固定し202を返す。queued → running → completed/failedを想定し、完了時だけ期限付きdownload_url/expires_atを設定する。出力内容は明細単位、対象条件・生成日時を記録する。同時更新で整合性を保てなかった場合の再試行・失敗、URL期限とジョブ保持期間はDay 17で確定する。スキーマだけでは状態とnull項目の相関を保証しないため、ワーカーの検証も追加する。
 
-Day 9時点のHTTP実装はhealth・商品4操作・売上登録/検索/詳細。全応答のX-Request-ID、商品のETag・再送・署名付き一覧継続、売上登録の整数計算・原子的保存・再送、売上詳細のETagと期間横断の署名付き継続を実装した。訂正・取消・履歴参照・認証・非同期ワーカー・S3 URLは未実装。YAMLのBearerAuthは最終設計であり、現在の商品・売上APIはlocal/test専用でawsモードでは拒否する。
+Day 10時点のHTTP実装はhealth・商品4操作・売上登録/検索/詳細/訂正/取消/履歴の11操作。X-Request-ID、版条件、初回応答の再送、商品・売上・履歴の署名付き継続に対応。集計・認証・非同期ワーカー・S3 URLは未実装。YAMLのBearerAuthは最終設計で、商品・売上APIはlocal/test専用、awsモードではSDK生成前に拒否する。
 
 ## 検証資料
 

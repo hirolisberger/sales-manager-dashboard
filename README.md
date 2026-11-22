@@ -2,9 +2,9 @@
 
 小規模店舗の商品別売上を管理する `sales-manager-dashboard` を、Next.js、Python、ローカルAWS環境、AWSで開発します。Day 3ではMiniStackを採用する構成とし、LocalStackとの比較結果も記録します。開発過程はQiita Advent Calendar 2026向けの本編25記事と、追加のDay 0準備編として記録します。
 
-Day 0〜8は承認・mainへのマージ済みです。Day 8は [PR #7](https://github.com/hirolisberger/sales-manager-dashboard/pull/7)でマージし、[day08タグ](https://github.com/hirolisberger/sales-manager-dashboard/tree/day08)は`7e3ccc4`を参照します。Day 2〜7も対応するPRとday02〜day07タグで共有しています。
+Day 0〜9は承認・mainへのマージ済みです。Day 9は[PR #8](https://github.com/hirolisberger/sales-manager-dashboard/pull/8)でマージし、[day09タグ](https://github.com/hirolisberger/sales-manager-dashboard/tree/day09)はee5e451を参照します。各featureブランチも保持しています。
 
-**Day 9の売上検索・詳細・期間/商品/状態検索・ページング・テストと記事は実装完了し、レビュー待ちです。** [検索仕様](docs/SALE_QUERIES.md)、[各コマンドの解説](docs/DAY9_COMMANDS.md)、[検証・レビュー記録](docs/DAY9_REVIEW.md)、[記事](qiita/day09-sales-search-detail-and-pagination.md)を参照してください。health・商品4操作・売上登録/検索/詳細の8操作を実装し、商品・売上APIはlocal/test専用です。訂正・取消・履歴参照はDay 10で実装します。
+**Day 10の訂正・取消・履歴参照・テストと記事は実装完了し、レビュー待ちです。** [訂正・取消仕様](docs/SALE_CHANGES.md)、[各コマンドの解説](docs/DAY10_COMMANDS.md)、[検証・レビュー記録](docs/DAY10_REVIEW.md)、[記事](qiita/day10-sales-correction-and-cancellation.md)を参照してください。health・商品4操作・売上6操作の11操作を実装し、商品・売上APIはlocal/test専用です。集計・画面・認証は後続Dayです。
 
 ## 目指す機能
 
@@ -89,6 +89,9 @@ AdventCalendar_2026/
     │   ├── SALE_QUERIES.md  # Day 9の検索・詳細・ページング仕様
     │   ├── DAY9_COMMANDS.md # Day 9の全コマンドと各指定の意味
     │   ├── DAY9_REVIEW.md   # Day 9の検証とレビュー項目
+    │   ├── SALE_CHANGES.md # Day 10の訂正・取消・履歴仕様
+    │   ├── DAY10_COMMANDS.md # Day 10の全コマンド解説
+    │   ├── DAY10_REVIEW.md # Day 10の検証とレビュー項目
     │   └── ROADMAP.md       # Day 1〜25の開発・記事計画
     └── qiita/
         ├── day00-project-setup-and-github.md # Qiita向けDay 0記事
@@ -100,7 +103,8 @@ AdventCalendar_2026/
         ├── day06-ministack-persistence-and-seed-data.md # Qiita向けDay 6記事
         ├── day07-product-master-api.md # Qiita向けDay 7記事
         ├── day08-sales-registration-and-amount-calculation.md # Qiita向けDay 8記事
-        └── day09-sales-search-detail-and-pagination.md # Qiita向けDay 9記事
+        ├── day09-sales-search-detail-and-pagination.md # Qiita向けDay 9記事
+        └── day10-sales-correction-and-cancellation.md # Qiita向けDay 10記事
 ```
 
 `AdventCalendar_2026/` の直下にある `sales-manager-dashboard/` が、プロジェクトとGitのルートです。これまでの成果物と `.git` をすべてこの中に移動しました。今後作成するソースコード、記事、設定、ドキュメントもこの中に配置します。
@@ -146,7 +150,7 @@ featureブランチはpush後にGitHubから確認でき、マージ後も原則
 
 各Dayの完了報告には、実装内容、変更ファイル、テスト・動作確認結果、記事保存先、レビュー確認項目、未解決事項、次のDayへ進める状態かどうかを記載します。
 
-Gitリポジトリのルートは `sales-manager-dashboard/` です。コミットの作者名とGitHub上の紐づけ先は `hirolisberger` とし、その個人アカウントのnoreplyを使用します。現在の作業ブランチはmain/day08 `7e3ccc4`から作成した `feature/day09`です。Day 9はレビュー待ちで、PRは既定どおりブラウザーで作成し、承認後にマージします。PR・タグの実績は確認記録とローカル台帳に残します。
+Gitリポジトリのルートはsales-manager-dashboard/です。作者名・GitHub上の紐づけ先はhirolisbergerとし、この個人アカウントのnoreplyを使います。作業ブランチはmain/day09 ee5e451から作成したfeature/day10です。Day 10はレビュー待ちで、PRは既定どおりブラウザーで作成し、承認後にマージします。PR・タグの実績は確認記録とローカル台帳に残します。
 
 GitHubの接続先は [hirolisberger/sales-manager-dashboard](https://github.com/hirolisberger/sales-manager-dashboard) です。承認済みのDay 0資料・記事を含むmainの初回pushを完了し、ローカルとGitHub側のコミットID一致を確認しています。個人環境の認証・復旧記録はローカル資料で管理し、公開リポジトリには含めません。
 

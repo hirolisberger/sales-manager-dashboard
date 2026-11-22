@@ -2,7 +2,7 @@
 
 確認日：2026-11-08（Asia/Tokyo）。feature/day09、基点main/day08：`7e3ccc4a3e044aea08dca9fe72ae783441415146`。Day 8の承認・[PR #7](https://github.com/hirolisberger/sales-manager-dashboard/pull/7)マージ・注釈付きday08タグとfetch後の最新main一致を確認し、ユーザーの条件付き開始指示に従って着手した。
 
-**実装・記事・ローカル検証が完了し、Day 9はレビュー待ち。** Day 10は承認・mainマージと別途の開始指示まで着手しない。
+**Day 9は2026-11-08にレビュー承認され、PR #8でmainマージ・day09タグpush済み。** 以下の検証・レビュー依頼は提出時点の記録で、完了情報を末尾に補完する。実装・記事の承認対象は変更していない。
 
 ## 変更した内容
 
@@ -87,3 +87,9 @@ Day 9の公開予定は2026-12-09 JST、Qiita URL未取得。PRは既定どお�
 ## レビュー提出対象
 
 実装・API仕様・記事のレビュー対象コミットは`d57e8e6894fe867fe6ae13cd14954f50e80713c9`。この対象を記録する提出コミットは本節だけの追加とする。feature/day09をpushし、既定どおりブラウザーでmain向けPRを作成する。レビュー承認前にはmainマージ・day09タグ作成・Day 10開始を行わない。
+
+## レビュー承認・PR・タグの完了記録
+
+2026-11-08のユーザー指示「レビュー完了しましたのでday10に着手してください」をDay 9の承認とDay 10開始指示として記録した。[PR #8](https://github.com/hirolisberger/sales-manager-dashboard/pull/8)は同日10:06:49 JSTにマージ済み。承認対象d57e8e6894fe867fe6ae13cd14954f50e80713c9、提出先端4c88c986ab185b62472348a9da20add1b64607f3は維持した。
+
+mainをff-only同期し、マージコミットee5e45188d6a5b3439bbb9c8ac29dedc06bd466cへ注釈付き[day09タグ](https://github.com/hirolisberger/sales-manager-dashboard/tree/day09)を作成・pushした。タグオブジェクト82c5ce2bcf103b9d3f26a07dcbc4e451e6ba6a72、リモートのmain/タグ対象一致、feature/day09保持、公開リンク7件のHTTP 200を確認。個人用資料と認証ファイルは保持・Git除外を確認した。承認・PRマージ後に記録を補完したため、この完了記録はfeature/day10で追加し、承認済みfeature/day09・共有済みday09・過去記事は変更しない。Qiita操作は未実施。

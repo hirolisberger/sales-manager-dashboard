@@ -86,3 +86,7 @@ Day 5でYAMLへ追加したのは、共通500応答と`X-Request-ID`ヘッダー
 39件のテストで設定の優先順位・境界、Health/Errorスキーマ、入力・メソッド・不明パス・例外、要求ID、秘密の値を返さないこと、CLI起動条件を確認する。400/422/401/409/500の試験用ルートはテスト内だけで追加し、製品アプリへ登録しない。401の応答形式を確認しても認証そのものの実装完了とは扱わない。[FastAPIのテスト](https://fastapi.tiangolo.com/tutorial/testing/)
 
 起動手順は [DAY5_COMMANDS.md](DAY5_COMMANDS.md)、実施結果は [DAY5_REVIEW.md](DAY5_REVIEW.md)。次はDay 6でSDKクライアント境界と保存層を作る。認証・CORS・クラウド公開・負荷試験は該当Dayで行う。
+
+## Day 10の追加
+
+[訂正・取消・履歴API](SALE_CHANGES.md)を追加した。現在の実装はhealth・商品4操作・売上6操作の11操作。既存の要求ID・共通エラー・SDK分離を使う。認証は後続Dayで、商品・売上APIは引き続きlocal/test専用。上記の未実装記載は各Day時点を示す。

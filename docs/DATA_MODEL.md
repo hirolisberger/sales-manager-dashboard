@@ -4,7 +4,7 @@
 
 ## 1. 業務データ
 
-Day 8で以下の売上登録用キー・履歴・商品条件確認を [SALE_REGISTRATION.md](SALE_REGISTRATION.md)、Day 9で検索・詳細・期間横断ページングを [SALE_QUERIES.md](SALE_QUERIES.md)に実装した。訂正・取消・履歴参照はDay 10で実装する。
+Day 8で売上登録用キー・履歴・商品条件確認を[SALE_REGISTRATION.md](SALE_REGISTRATION.md)、Day 9で検索・詳細・期間横断ページングを[SALE_QUERIES.md](SALE_QUERIES.md)、Day 10で訂正・取消・履歴参照を[SALE_CHANGES.md](SALE_CHANGES.md)に実装した。
 
 | データ | 主な項目と不変条件 |
 | --- | --- |
@@ -99,3 +99,7 @@ SDKのClientRequestTokenだけに頼らず、冪等性記録を保存する。�
 [検証記録](DAY4_REVIEW.md)に手順と結果を残す。設計用スクリプトは固定した架空の時計（2027-01-05）を使い、実際の開発日やシステム時計を変更しない。MiniStack上では一意名の一時テーブルだけを作成・削除し、既存ボリューム内の他データを変更しない。
 
 HTTPでの認証・厳格な入力処理・カーソル、実製品の保存層、CSVジョブ、同時負荷、実AWSは後続Dayで検証する。MiniStackでの成功をAWSとの完全な互換性保証にはしない。
+
+## Day 10の実装記録
+
+同日訂正・取消は4+必要な商品数、計上日移動は5+必要な商品数のトランザクション。CURRENTと日付コピーの旧version条件・新履歴/要求の未存在条件を保存計画に含める。最大55アクションを実MiniStackで確認。履歴Queryは版昇順・1要求最大100 Queryで、店舗/売上ID/limit/資源に結び付けた15分カーソルを使う。[詳細仕様](SALE_CHANGES.md)と[確認結果](DAY10_REVIEW.md)を参照する。

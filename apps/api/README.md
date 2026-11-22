@@ -1,6 +1,6 @@
 # sales-manager-api
 
-Day 5でFastAPI・UvicornによるHTTP APIの土台を作りました。`GET /health`、設定読込、共通エラー、要求IDを実装しています。Day 6でDynamoDBクライアント・保存層・初期化CLI、Day 7で商品4操作、Day 8で売上登録・整数金額計算・原子的保存・再送、Day 9で売上検索・詳細・期間/商品/状態フィルター・ページングを追加しました。商品・売上APIはlocal/test専用で、訂正・取消・履歴参照・認証は後続Dayです。
+Day 5でFastAPI・Uvicornによるhealth・設定読込・共通エラー・要求ID、Day 6でDynamoDBクライアント・保存層・初期化CLI、Day 7で商品4操作、Day 8で売上登録、Day 9で検索・詳細・期間/商品/状態検索・ページング、Day 10で訂正・取消・履歴を追加しました。計11操作です。商品・売上APIはlocal/test専用で、認証・集計・CSVは後続Dayです。
 
 プロジェクトルートから実行します。Pythonの指定は [.python-version](.python-version)、依存関係は [pyproject.toml](pyproject.toml) と [uv.lock](uv.lock) で管理します。
 
@@ -32,3 +32,5 @@ CLIは`127.0.0.1`だけで待ち受けます。`--port 8001`でポートを変�
 保存層の仕様は [PERSISTENCE.md](../../docs/PERSISTENCE.md)、MiniStack起動・データ初期化・各コマンドの意味は [DAY6_COMMANDS.md](../../docs/DAY6_COMMANDS.md)、結果は [DAY6_REVIEW.md](../../docs/DAY6_REVIEW.md) を参照してください。`sales-manager-data`はlocal/test専用で、API起動時に自動で実行されません。
 
 商品APIの仕様は [PRODUCT_API.md](../../docs/PRODUCT_API.md)、起動からcurlの各指定までの手順は [DAY7_COMMANDS.md](../../docs/DAY7_COMMANDS.md)、結果は [DAY7_REVIEW.md](../../docs/DAY7_REVIEW.md) を参照してください。
+
+訂正・取消・履歴の仕様は[SALE_CHANGES.md](../../docs/SALE_CHANGES.md)、全コマンド解説は[DAY10_COMMANDS.md](../../docs/DAY10_COMMANDS.md)、結果は[DAY10_REVIEW.md](../../docs/DAY10_REVIEW.md)を参照してください。
